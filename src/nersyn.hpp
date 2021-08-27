@@ -1,0 +1,22 @@
+#ifndef NN_NERSYN
+#define NN_NERSYN
+
+#include "nerhelp.hpp"
+
+namespace nerone {
+	class NerSyn {
+		public:
+			NerSyn(shared_node_t node, value_t weight);
+			virtual ~NerSyn();
+			value_t get_weight();
+			void set_weight(value_t weight);
+			shared_node_t getNode();
+			void set_node(shared_node_t node);
+			
+		private:
+			value_t weight;
+			shared_node_t node;
+	}
+}
+
+#endif
