@@ -23,3 +23,11 @@ nerone::act_fn_t nerone::NerNode::get_act_fn() {
 void nerone::NerNode::set_act_fn(act_fn_t fn) {
 	act_fn = fn;
 }
+
+nerone::syn_list_t& nerone::NerNode::get_syns() {
+	return syns;
+}
+
+void nerone::NerNode::set_syns(syn_list_t syns) {
+	this->syns = syns;
+}

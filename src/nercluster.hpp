@@ -1,17 +1,20 @@
 #ifndef NN_NERCLUSTER
 #define NN_NERCLUSTER
 
+#include "nerhelp.hpp"
+
 namespace nerone {
 	class NerCluster {
 		
 		public:
-			//get_layers();
-			//set_layers
-			//insert_layer
-			//get_layer
-			//remove_layer
-			//layers_count()
+			NerCluster();
+			NerCluster(layer_list_t layers);
+			virtual ~NerCluster();
+			layer_list_t& get_layers();
+			void set_layers(layer_list_t layers);
 			
+		private:
+			layer_list_t layers;
 	}
 }
 

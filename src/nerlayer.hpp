@@ -6,10 +6,13 @@
 namespace nerone {
 	class NerLayer {
 		public:
+			NerLayer();
+			NerLayer(node_list_t nodes);
+			virtual ~NerLayer();
 			node_list_t& get_nodes();
 			void set_nodes(node_list_t nodes);
 			size_t size();
-			operator[]();
+			shared_node_t& operator[]();
 			
 		private:
 			node_list_t nodes;
