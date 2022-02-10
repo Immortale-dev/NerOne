@@ -1,6 +1,9 @@
-#include <iostream>
+#include "qtest.hpp"
 
-int main() {
-	std::cout << "Hello World!" << std::endl;
-	return 0;
-}
+SCENARIO_START
+
+#include "src/nernode.test.cpp"
+
+SCENARIO_END
+
+int main(){ return 0; }
