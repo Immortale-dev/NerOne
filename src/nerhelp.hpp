@@ -7,7 +7,7 @@
 
 namespace nerone {
 	using value_t = long double;
-	using values_t = std::vector<value_t>;
+	using value_list_t = std::vector<value_t>;
 	
 	// Bakc decl
 	class NerNode;

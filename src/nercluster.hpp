@@ -15,7 +15,7 @@ namespace nerone {
 			
 		private:
 			layer_list_t layers;
-	}
+	};
 }
 
 #endif // NN_NERCLUSTER

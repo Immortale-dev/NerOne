@@ -15,9 +15,9 @@ namespace nerone {
 			void set_node(shared_node_t node);
 			
 		private:
-			value_t weight;
 			shared_node_t node;
-	}
+			value_t weight;
+	};
 }
 
 #endif

@@ -12,11 +12,11 @@ namespace nerone {
 			node_list_t& get_nodes();
 			void set_nodes(node_list_t nodes);
 			size_t size();
-			shared_node_t& operator[]();
+			shared_node_t& operator[](size_t ind);
 			
 		private:
 			node_list_t nodes;
-	}
+	};
 }
 
 #endif // NN_NERLAYER

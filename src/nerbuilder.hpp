@@ -12,7 +12,7 @@ namespace nerone {
 			// setCluster()
 			// getCluster()
 			
-	}
+	};
 }
 
 #endif //NN_NERBUILDER

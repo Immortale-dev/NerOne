@@ -6,7 +6,7 @@ nerone::NerCluster::NerCluster(layer_list_t layers) : layers(layers) {}
 
 nerone::NerCluster::~NerCluster() {}
 
-nerone::layer_list_t nerone::NerCluster::get_layers() {
+nerone::layer_list_t& nerone::NerCluster::get_layers() {
 	return layers;
 }
 
