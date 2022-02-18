@@ -1,6 +1,7 @@
 #include "qtest.hpp"
 
 #include "nernode.hpp"
+#include "nersyn.hpp"
 
 SCENARIO_START
 #include "src/nernode.test.cpp"
