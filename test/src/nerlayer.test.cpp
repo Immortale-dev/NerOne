@@ -1,4 +1,4 @@
-DESCRIBE("NerSyn", {
+DESCRIBE("NerLayer", {
 	using namespace nerone;
 	
 	NerLayer* layer;
