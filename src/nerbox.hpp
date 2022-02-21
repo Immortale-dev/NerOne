@@ -16,7 +16,7 @@ namespace nerone {
 		
 		public:
 			NerBox();
-			~NerBox();
+			virtual ~NerBox();
 			NerBox(shared_cluster_t cluster);
 			
 			shared_cluster_t get_cluster();
@@ -65,6 +65,7 @@ void nerone::NerBox<M,T>::set_cluster(shared_cluster_t cluster) {
 
 template<typename M, typename T>
 nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
+	if(!cluster) throw std::invalid_argument("No cluster set");
 	layer_list_t& layers = cluster->get_layers();
 	if(!layers.size()) throw std::range_error("No Layers defined");
 	shared_layer_t first_layer = layers[0];
@@ -79,6 +80,7 @@ nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
 
 template<typename M, typename T>
 void nerone::NerBox<M,T>::correct(value_list_t answers) {
+	if(!cluster) throw std::invalid_argument("No cluster set");
 	layer_list_t& layers = cluster->get_layers();
 	if(!layers.size()) throw std::range_error("No Layers defined");
 	shared_layer_t last_layer = layers[layers.size()-1];
