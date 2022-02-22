@@ -1,3 +1,5 @@
+SCENARIO_START
+
 DESCRIBE("NerLayer", {
 	using namespace nerone;
 	
@@ -53,3 +55,5 @@ DESCRIBE("NerLayer", {
 		});
 	});
 });
+
+SCENARIO_END

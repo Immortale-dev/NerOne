@@ -76,6 +76,15 @@ nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
 	
 	// Propagate data
 	propagate(std::move(questions));
+	
+	// Return the list
+	shared_layer_t last_layer = layers[layers.size()-1];
+	value_list_t ret(last_layer->size());
+	int i=0;
+	for(shared_node_t& node : last_layer->get_nodes()) {
+		ret[i++] = node->get_value();
+	}
+	return ret;
 }
 
 template<typename M, typename T>
@@ -101,12 +110,12 @@ void nerone::NerBox<M,T>::teach(value_list_t questions, value_list_t answers) {
 
 template<typename M, typename T>
 void nerone::NerBox<M,T>::propagate(value_list_t&& questions) {
-	mul(cluster, questions);
+	mul(cluster, std::move(questions));
 }
 
 template<typename M, typename T>
 void nerone::NerBox<M,T>::back_propagate(value_list_t&& answers) {
-	tch(cluster, answers);
+	tch(cluster, std::move(answers));
 }
 
 #endif // NN_NERBOX

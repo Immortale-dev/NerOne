@@ -1,3 +1,5 @@
+SCENARIO_START
+
 DESCRIBE("NerNode", {
 	nerone::NerNode* node;
 	
@@ -61,5 +63,6 @@ DESCRIBE("NerNode", {
 			EXPECT(node->get_act_fn()(1.1)).toBe(2.2);
 		});
 	});
-	
 });
+
+SCENARIO_END

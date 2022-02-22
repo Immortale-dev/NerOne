@@ -1,3 +1,5 @@
+SCENARIO_START
+
 DESCRIBE("NerCluster", {
 	using namespace nerone;
 	
@@ -41,3 +43,5 @@ DESCRIBE("NerCluster", {
 		});
 	});
 });
+
+SCENARIO_END

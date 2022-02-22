@@ -1,3 +1,5 @@
+SCENARIO_START
+
 DESCRIBE("NerSyn", {
 	using namespace nerone;
 	
@@ -46,3 +48,5 @@ DESCRIBE("NerSyn", {
 		});
 	});
 });
+
+SCENARIO_END

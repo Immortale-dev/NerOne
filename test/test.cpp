@@ -4,12 +4,12 @@
 #include "nersyn.hpp"
 #include "nerlayer.hpp"
 #include "nercluster.hpp"
+#include "nerbox.hpp"
 
-SCENARIO_START
 #include "src/nernode.test.cpp"
 #include "src/nersyn.test.cpp"
 #include "src/nerlayer.test.cpp"
 #include "src/nercluster.test.cpp"
-SCENARIO_END
+#include "src/nerbox.test.cpp"
 
 int main(){ return 0; }
