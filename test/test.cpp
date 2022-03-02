@@ -5,11 +5,13 @@
 #include "nerlayer.hpp"
 #include "nercluster.hpp"
 #include "nerbox.hpp"
+#include "matrix.hpp"
 
 #include "src/nernode.test.cpp"
 #include "src/nersyn.test.cpp"
 #include "src/nerlayer.test.cpp"
 #include "src/nercluster.test.cpp"
 #include "src/nerbox.test.cpp"
+#include "src/matrix.test.cpp"
 
 int main(){ return 0; }

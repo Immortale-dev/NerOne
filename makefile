@@ -2,7 +2,7 @@
 
 CC=g++
 OPT=-g
-CFLAGS=-c -Wall -std=c++17 
+CFLAGS=-c -Wall -std=c++14 
 LDFLAGS=
 SRCPATH:=src/
 SRCS:=$(wildcard $(SRCPATH)*.cpp)
