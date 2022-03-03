@@ -13,5 +13,6 @@
 #include "src/nercluster.test.cpp"
 #include "src/nerbox.test.cpp"
 #include "src/matrix.test.cpp"
+#include "src/base_multiplier.test.cpp"
 
 int main(){ return 0; }
