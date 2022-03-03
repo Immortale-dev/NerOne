@@ -95,8 +95,8 @@ const size_t nerone::Matrix<T,M>::get_cols() {
 
 NN_MATRIX_TEMPLATE
 nerone::Matrix<T,M> nerone::Matrix<T,M>::operator * (Matrix<T,M>& mul) {
-	if(this->get_rows() != mul.get_cols()) {
-		throw std::logic_error("number of rows of the first Matrix != number of cols of the second Matrix");
+	if(this->get_cols() != mul.get_rows()) {
+		throw std::logic_error("number of cols of the first Matrix != number of rows of the second Matrix");
 	}
 	return Matrix<T>(multiply(this->mat, mul.mat));
 }
