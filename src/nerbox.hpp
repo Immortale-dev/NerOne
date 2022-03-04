@@ -10,7 +10,6 @@ namespace nerone {
 	
 	template<typename M, typename T>
 	class NerBox {
-		// TODO
 		// M - mutliplier class
 		// T - teacher class
 		
@@ -26,10 +25,13 @@ namespace nerone {
 			void correct(value_list_t answers); // - back propagate all the vertices with current sums
 			void teach(value_list_t questions, value_list_t answers); // question and correct
 			
+			M& get_multiplier();
+			T& get_teacher();
+			
 		protected:
 			virtual void propagate(value_list_t&& questions);
 			virtual void back_propagate(value_list_t&& answers);
-		
+			
 		private:
 			shared_cluster_t cluster;
 			M mul;
@@ -116,6 +118,16 @@ void nerone::NerBox<M,T>::propagate(value_list_t&& questions) {
 template<typename M, typename T>
 void nerone::NerBox<M,T>::back_propagate(value_list_t&& answers) {
 	tch(cluster, std::move(answers));
+}
+
+template<typename M, typename T>
+M& nerone::NerBox<M,T>::get_multiplier() {
+	return mul;
+}
+
+template<typename M, typename T>
+T& nerone::NerBox<M,T>::get_teacher() {
+	return tch;
 }
 
 #endif // NN_NERBOX
