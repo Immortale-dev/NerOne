@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void nerone::BaseMultiplier::operator () (shared_cluster_t& cluster, value_list_t&& values) {
+void nerone::multipliers::BaseMultiplier::operator () (shared_cluster_t& cluster, value_list_t&& values) {
 	layer_list_t& layers = cluster->get_layers();
 	
 	value_list_t vals = std::move(values);

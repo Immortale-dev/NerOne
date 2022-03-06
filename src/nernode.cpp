@@ -16,7 +16,7 @@ void nerone::NerNode::set_value(value_t val) {
 	value = val;
 }
 
-nerone::act_fn_t nerone::NerNode::get_act_fn() {
+nerone::act_fn_t& nerone::NerNode::get_act_fn() {
 	return act_fn;
 }
 

@@ -6,7 +6,7 @@ SCENARIO_START
 DESCRIBE("BaseMultiplier", {
 	using namespace nerone;
 	
-	BaseMultiplier multiplier;
+	multipliers::BaseMultiplier multiplier;
 	
 	DESCRIBE("Create a cluster 3N->4N->2N", {
 		shared_cluster_t cluster;

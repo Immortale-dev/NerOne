@@ -9,10 +9,14 @@
 
 namespace nerone {
 	
-	class BaseMultiplier {
-		public:
-			void operator () (shared_cluster_t& cluster, value_list_t&& values);
-	};
+	namespace multipliers {
+	
+		class BaseMultiplier {
+			public:
+				void operator () (shared_cluster_t& cluster, value_list_t&& values);
+		};
+		
+	}
 	
 }
 

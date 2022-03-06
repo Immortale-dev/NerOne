@@ -15,7 +15,7 @@ namespace nerone{
 			virtual ~NerNode();
 			value_t get_value();
 			void set_value(value_t val);
-			act_fn_t get_act_fn();
+			act_fn_t& get_act_fn();
 			void set_act_fn(act_fn_t fn);
 			syn_list_t& get_syns();
 			void set_syns(syn_list_t syns);
