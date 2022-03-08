@@ -21,3 +21,11 @@ size_t nerone::NerLayer::size() {
 nerone::shared_node_t& nerone::NerLayer::operator[](size_t ind) {
 	return nodes[ind];
 }
+
+nerone::shared_node_t& nerone::NerLayer::get_bias() {
+	return bias;
+}
+
+void nerone::NerLayer::set_bias(shared_node_t bias) {
+	this->bias = bias;
+}

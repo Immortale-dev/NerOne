@@ -19,6 +19,7 @@ namespace nerone{
 			void set_act_fn(act_fn_t fn);
 			syn_list_t& get_syns();
 			void set_syns(syn_list_t syns);
+			value_t get_output();
 			
 		private:
 			syn_list_t syns;

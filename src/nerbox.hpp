@@ -4,6 +4,8 @@
 #include <stdexcept>
 
 #include "nerhelp.hpp"
+#include "nernode.hpp"
+#include "nerlayer.hpp"
 #include "nercluster.hpp"
 
 namespace nerone {
@@ -84,7 +86,7 @@ nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
 	value_list_t ret(last_layer->size());
 	int i=0;
 	for(shared_node_t& node : last_layer->get_nodes()) {
-		ret[i++] = node->get_value();
+		ret[i++] = node->get_output();
 	}
 	return ret;
 }

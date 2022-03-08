@@ -31,3 +31,7 @@ nerone::syn_list_t& nerone::NerNode::get_syns() {
 void nerone::NerNode::set_syns(syn_list_t syns) {
 	this->syns = syns;
 }
+
+nerone::value_t nerone::NerNode::get_output() {
+	return act_fn ? act_fn(value) : value;
+}

@@ -14,9 +14,15 @@ void nerone::multipliers::BaseMultiplier::operator () (shared_cluster_t& cluster
 		node_list_t& prev_nodes = layers[ind-1]->get_nodes();
 		for(size_t i=0;i<vals.size();i++){
 			prev_nodes[i]->set_value(vals[i]);
+			vals[i] = prev_nodes[i]->get_output();
 		}
 
 		if(ind >= layers.size()) break;
+		
+		// Add bias to the list of values
+		if(layers[ind-1]->get_bias()){
+			vals.push_back(layers[ind-1]->get_bias()->get_value());
+		}
 		
 		Matrix<value_t> b_vals({vals});
 		
@@ -45,7 +51,7 @@ void nerone::multipliers::BaseMultiplier::operator () (shared_cluster_t& cluster
 
 		vals.resize(res.get_cols());
 		for(size_t i=0;i<res.get_cols();i++){
-			vals[i] = nodes[i]->get_act_fn()(res.get(0,i));
+			vals[i] = res.get(0,i);
 		}
 	}while(ind++<layers.size());
 }

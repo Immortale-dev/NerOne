@@ -13,9 +13,12 @@ namespace nerone {
 			void set_nodes(node_list_t nodes);
 			size_t size();
 			shared_node_t& operator[](size_t ind);
+			shared_node_t& get_bias();
+			void set_bias(shared_node_t bias);
 			
 		private:
 			node_list_t nodes;
+			shared_node_t bias;
 	};
 }
 
