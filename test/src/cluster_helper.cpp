@@ -1,5 +1,6 @@
 #include <vector>
 #include <utility>
+#include <cmath>
 
 #include "nercluster.hpp"
 #include "nerlayer.hpp"
@@ -12,20 +13,22 @@
 //using namespace std;
 
 using std::vector;
+using std::pair;
 using std::make_shared;
 
-nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>> vec, bool has_biases=false) {
+nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>> vec, bool has_biases=false, vector<pair<nerone::act_fn_t, nerone::act_fn_t>> act_fns = {}) {
 	vector<nerone::shared_layer_t> layers;
 	
 	bool first_layer = true;
 	
+	int lind = 0;
 	for(auto& l : vec) {
 		
 		vector<nerone::shared_node_t> nodes;
 		
 		nerone::shared_node_t bias = nullptr;
 		if(has_biases) {
-			bias = make_shared<nerone::NerNode>(1);
+			bias = make_shared<nerone::NerGNode>(1);
 		}
 		
 		for(auto& n : l) {
@@ -45,11 +48,17 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 			}
 			
 			nerone::act_fn_t fn = nullptr;
+			nerone::act_fn_t grad_fn = nullptr;
 			if(!first_layer){
 				fn = [](nerone::value_t val){return val*2;};
 			}
 			
-			auto node = make_shared<nerone::NerNode>(0, fn);
+			if(act_fns.size()) {
+				fn = act_fns[lind].first;
+				grad_fn = act_fns[lind].second;
+			}
+			
+			auto node = make_shared<nerone::NerGNode>(0, fn, grad_fn);
 			node->set_syns(syns);
 			
 			nodes.push_back(node);
@@ -60,6 +69,7 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 			layers[layers.size()-1]->set_bias(bias);
 		}
 		first_layer = false;
+		lind++;
 	}
 	
 	return make_shared<nerone::NerCluster>(layers);
@@ -103,6 +113,37 @@ nerone::shared_cluster_t generate_cluster_342B() {
 			{-0.5, 0.1, 0.2, 0.3, 0.5}
 		}
 	}, true);
+}
+
+nerone::shared_cluster_t generate_cluster_322B() {
+	return generate_cluster({
+		{
+			{},
+			{},
+			{}
+		},
+		{
+			{0.1, 0.3, 0.5, 0.5},
+			{0.2, 0.4, 0.6, 0.5}
+		},
+		{
+			{0.7, 0.9, 0.5},
+			{0.8, 0.1, 0.5}
+		}
+	}, true, {
+		{ 
+			[](nerone::value_t a){ return a;},
+			[](nerone::value_t a){ return a;} 
+		},
+		{ 
+			[](nerone::value_t a){ return (nerone::value_t)1 / ((nerone::value_t)1 + exp(-a)); },
+			[](nerone::value_t a){ return a * ((nerone::value_t)1-a); }
+		},
+		{ 
+			[](nerone::value_t a){ return (nerone::value_t)1 / ((nerone::value_t)1 + exp(-a)); },
+			[](nerone::value_t a){ return a * ((nerone::value_t)1-a); }
+		},
+	});
 }
 
 nerone::value_list_t get_last_layer_values(nerone::shared_cluster_t cluster) {
