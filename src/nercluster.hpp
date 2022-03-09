@@ -2,6 +2,7 @@
 #define NN_NERCLUSTER
 
 #include "nerhelp.hpp"
+#include "nerlayer.hpp"
 
 namespace nerone {
 	class NerCluster {
@@ -12,6 +13,8 @@ namespace nerone {
 			virtual ~NerCluster();
 			layer_list_t& get_layers();
 			void set_layers(layer_list_t layers);
+			shared_layer_t& first_layer();
+			shared_layer_t& last_layer();
 			
 		private:
 			layer_list_t layers;
