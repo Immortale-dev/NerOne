@@ -30,6 +30,8 @@ namespace nerone {
 			M& get_multiplier();
 			T& get_teacher();
 			
+			value_list_t get_errors(value_list_t expected);
+			
 		protected:
 			virtual void propagate(value_list_t&& questions);
 			virtual void back_propagate(value_list_t&& answers);
@@ -130,6 +132,11 @@ M& nerone::NerBox<M,T>::get_multiplier() {
 template<typename M, typename T>
 T& nerone::NerBox<M,T>::get_teacher() {
 	return tch;
+}
+
+template<typename M, typename T>
+nerone::value_list_t nerone::NerBox<M,T>::get_errors(value_list_t expected) {
+	return tch.get_errors(cluster, expected);
 }
 
 #endif // NN_NERBOX
