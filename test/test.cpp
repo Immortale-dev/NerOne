@@ -16,6 +16,7 @@
 #include "src/nerbox.test.cpp"
 #include "src/matrix.test.cpp"
 #include "src/base_multiplier.test.cpp"
+#include "src/mean_square_error_loss.test.cpp"
 #include "src/gradient_descent_teacher.test.cpp"
 
 int main(){ return 0; }
