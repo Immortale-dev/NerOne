@@ -7,6 +7,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "base_calculator.hpp"
+
 namespace nerone {
 	
 	template<typename T>
@@ -15,12 +17,7 @@ namespace nerone {
 	template<typename T>
 	using mat_vec_t = vector<vector<T>>;
 	
-	template<typename T>
-	struct simple_matrix_multiplier {
-		mat_vec_t<T> operator () (mat_vec_t<T>& m1, mat_vec_t<T>& m2);
-	};
-	
-	template<typename T, typename M = nerone::simple_matrix_multiplier<T>>
+	template<typename T, typename M = nerone::BaseCalculator::vector_matrix_multiplication<T>>
 	class Matrix {
 		public:
 			Matrix();
@@ -42,24 +39,6 @@ namespace nerone {
 	};
 	
 }
-
-template<typename T>
-nerone::mat_vec_t<T> nerone::simple_matrix_multiplier<T>::operator () (mat_vec_t<T>& m1, mat_vec_t<T>& m2) {
-	const size_t r = m1.size();
-	const size_t c = m2[0].size();
-	
-	mat_vec_t<T> res(r, vector<T>(c, 0));
-	
-	for(size_t i=0;i<r;i++){
-		for(size_t j=0;j<c;j++){
-			for(size_t k=0;k<m1[i].size();k++) {
-				res[i][j] += m1[i][k] * m2[k][j];
-			}
-		}
-	}
-	
-	return res;
-} 
 
 NN_MATRIX_TEMPLATE
 nerone::Matrix<T,M>::Matrix() : rows(0), cols(0) {}
