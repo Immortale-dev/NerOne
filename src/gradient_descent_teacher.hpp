@@ -6,12 +6,13 @@
 #include "nernode.hpp"
 #include "nerlayer.hpp"
 #include "nercluster.hpp"
+#include "base_calculator.hpp"
 
 namespace nerone {
 	
 	namespace teachers {
 		
-		template<typename N, typename L>
+		template<typename N, typename L, typename O = BaseCalculator>
 		class GradientDescent {
 			public:
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
@@ -19,14 +20,16 @@ namespace nerone {
 				value_list_t get_errors(shared_cluster_t& cluster, value_list_t expected);
 				
 			private:
+				using v_mat_mul_t = typename BaseCalculator::vector_matrix_multiplication<value_t>;
+			
 				L loss_f;
 				long double learning_rate = 0.01;
 		};
 	}
 }
 
-template<typename N, typename L>
-void nerone::teachers::GradientDescent<N, L>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
+template<typename N, typename L, typename O>
+void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
 	size_t values_size = values.size();
 	
 	value_list_t actual_vals(values_size);
@@ -105,10 +108,10 @@ void nerone::teachers::GradientDescent<N, L>::operator () (shared_cluster_t& clu
 				return;
 			}
 			
-			Matrix<value_t> prev_chain_grad_mat(std::move(prev_chain_grad_values));
-			Matrix<value_t> part_grad_mul_mat(std::move(part_grad_mul_values));
+			Matrix<value_t, v_mat_mul_t> prev_chain_grad_mat(std::move(prev_chain_grad_values));
+			Matrix<value_t, v_mat_mul_t> part_grad_mul_mat(std::move(part_grad_mul_values));
 			
-			Matrix<value_t> part_grad_mat = prev_chain_grad_mat * part_grad_mul_mat;
+			Matrix<value_t, v_mat_mul_t> part_grad_mat = prev_chain_grad_mat * part_grad_mul_mat;
 			
 			gradients.resize(nodes.size());
 			for(size_t j=0;j<gradients.size();j++){
@@ -140,13 +143,13 @@ void nerone::teachers::GradientDescent<N, L>::operator () (shared_cluster_t& clu
 	}
 }
 
-template<typename N, typename L>
-void nerone::teachers::GradientDescent<N, L>::set_learning_rate(long double rate) {
+template<typename N, typename L, typename O>
+void nerone::teachers::GradientDescent<N, L, O>::set_learning_rate(long double rate) {
 	this->learning_rate = rate;
 }
 
-template<typename N, typename L>
-nerone::value_list_t nerone::teachers::GradientDescent<N, L>::get_errors(shared_cluster_t& cluster, value_list_t expected) {
+template<typename N, typename L, typename O>
+nerone::value_list_t nerone::teachers::GradientDescent<N, L, O>::get_errors(shared_cluster_t& cluster, value_list_t expected) {
 	node_list_t& nodes = cluster->last_layer()->get_nodes();
 	value_list_t errors(expected.size());
 	for(size_t i=0;i<expected.size();i++){

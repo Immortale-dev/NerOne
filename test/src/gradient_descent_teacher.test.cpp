@@ -8,7 +8,7 @@ DESCRIBE("GradientDescent", {
 	using namespace nerone;
 	
 	teachers::GradientDescent<NerGNode, loss::MeanSquareError> gd;
-	multipliers::BaseMultiplier mul;
+	multipliers::BaseMultiplier<> mul;
 	
 	DESCRIBE("create cluster 3N->2N->2N with biases and question cluster with {1, 4, 5}", {
 		shared_cluster_t cluster;
