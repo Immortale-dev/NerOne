@@ -15,8 +15,9 @@
 #include "src/nercluster.test.cpp"
 #include "src/nerbox.test.cpp"
 #include "src/matrix.test.cpp"
-#include "src/multipliers_base_multiplier.test.cpp"
 #include "src/loss_mean_square_error.test.cpp"
+#include "src/loss_cross_entropy.test.cpp"
+#include "src/multipliers_base_multiplier.test.cpp"
 #include "src/teachers_gradient_descent.test.cpp"
 
 int main(){ return 0; }
