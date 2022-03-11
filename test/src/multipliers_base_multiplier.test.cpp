@@ -1,5 +1,5 @@
 #include "cluster_helper.cpp"
-#include "base_multiplier.hpp"
+#include "multipliers_base_multiplier.hpp"
 
 SCENARIO_START
 

@@ -1,5 +1,5 @@
-#include "gradient_descent_teacher.hpp"
-#include "mean_square_error_loss.hpp"
+#include "teachers_gradient_descent.hpp"
+#include "loss_mean_square_error.hpp"
 #include "nergnode.hpp"
 
 SCENARIO_START

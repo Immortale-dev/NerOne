@@ -1,4 +1,4 @@
-#include "mean_square_error_loss.hpp"
+#include "loss_mean_square_error.hpp"
 
 SCENARIO_START
 

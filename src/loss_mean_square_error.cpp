@@ -1,4 +1,4 @@
-#include "mean_square_error_loss.hpp"
+#include "loss_mean_square_error.hpp"
 
 nerone::value_t nerone::loss::MeanSquareError::fun(value_t actual, value_t expected) {
 	return (value_t)0.5 * (actual - expected) * (actual - expected);
