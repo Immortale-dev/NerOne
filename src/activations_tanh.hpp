@@ -15,7 +15,8 @@ namespace nerone {
 					return (std::exp(val) - std::exp(-val)) / (std::exp(val) + std::exp(-val));
 				}
 				inline static value_t grad(value_t val) {
-					return (value_t)1 - val*val;
+					value_t o_val = TanH::fun(val);
+					return (value_t)1 - o_val*o_val;
 				}
 		};
 	}

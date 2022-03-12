@@ -21,9 +21,11 @@ namespace nerone{
 			void set_syns(syn_list_t syns);
 			value_t get_output();
 			
+		protected:
+			value_t value;
+			
 		private:
 			syn_list_t syns;
-			value_t value;
 			act_fn_t act_fn;
 	};
 }

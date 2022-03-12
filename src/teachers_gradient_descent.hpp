@@ -70,7 +70,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 				// * E = error
 				// * O = output layer's node output
 				// * Oz = output layer's node value
-				gradients[j] = loss_f.grad(actual_vals[j], values[j]) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient_fn()(nodes[j]->get_output());
+				gradients[j] = loss_f.grad(actual_vals[j], values[j]) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient();
 			}
 		} else {
 			// partial chain rule derivatives: dE/dHz
@@ -118,7 +118,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 				// partial chain rule derivatives: dE/dHz
 				// * E = error
 				// * Hz = current layer's node value
-				gradients[j] = part_grad_mat.get(0,j) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient_fn()(nodes[j]->get_output());
+				gradients[j] = part_grad_mat.get(0,j) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient();
 			}
 		}
 		
