@@ -7,10 +7,7 @@
 #include "nerhelp.hpp"
 #include "nernode.hpp"
 #include "nersyn.hpp"
-
-
-//using namespace nerone;
-//using namespace std;
+#include "activations_sigmoid.hpp"
 
 using std::vector;
 using std::pair;
@@ -136,12 +133,12 @@ nerone::shared_cluster_t generate_cluster_322B() {
 			[](nerone::value_t a){ return a;} 
 		},
 		{ 
-			[](nerone::value_t a){ return (nerone::value_t)1 / ((nerone::value_t)1 + exp(-a)); },
-			[](nerone::value_t a){ return a * ((nerone::value_t)1-a); }
+			nerone::activations::Sigmoid::fun,
+			nerone::activations::Sigmoid::grad
 		},
 		{ 
-			[](nerone::value_t a){ return (nerone::value_t)1 / ((nerone::value_t)1 + exp(-a)); },
-			[](nerone::value_t a){ return a * ((nerone::value_t)1-a); }
+			nerone::activations::Sigmoid::fun,
+			nerone::activations::Sigmoid::grad
 		},
 	});
 }
