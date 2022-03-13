@@ -1,6 +1,7 @@
 #include "activations_sigmoid.hpp"
 #include "activations_tanh.hpp"
 #include "activations_relu.hpp"
+#include "activations_elu.hpp"
 
 SCENARIO_START
 
@@ -66,6 +67,26 @@ DESCRIBE("Activation Functions", {
 		});
 		IT("should return `0.1` when `ReLU<ratio<1,10>>::grad(-10)` is called", {
 			EXPECT((ReLU<std::ratio<1,10>>::grad(-10))).toBeCloseTo(0.1, 0.000001);
+		});
+	});
+	
+	DESCRIBE("ELU", {
+		IT("should return `0.5` when `ELU<ratio<1,10>>::fun(0.5)` is called", {
+			EXPECT((ELU<std::ratio<1,10>>::fun(0.5))).toBeCloseTo(0.5,0.00001);
+		});
+		IT("should return `-0.0393469` when `ELU<ratio<1,10>>::fun(-0.5)` is called", {
+			EXPECT((ELU<std::ratio<1,10>>::fun(-0.5))).toBeCloseTo(-0.0393469,0.00001);
+		});
+		
+		IT("should return `1` when `ELU<ratio<1,10>>::grad(0.5)` is called", {
+			EXPECT((ELU<std::ratio<1,10>>::grad(0.5))).toBe(1);
+		});
+		IT("should return `1` when `ELU<ratio<1,10>>::grad(0)` is called", {
+			EXPECT((ELU<std::ratio<1,10>>::grad(0))).toBe(1);
+		});
+		IT("should return `` when `ELU<ratio<1,10>>::grad(-0.5)` is called", {
+			std::cout << ELU<std::ratio<1,10>>::grad(-0.5) << std::endl;
+			EXPECT((ELU<std::ratio<1,10>>::grad(-0.5))).toBeCloseTo(0.0606531, 0.00001);
 		});
 	});
 });
