@@ -4,6 +4,7 @@
 #include "activations_elu.hpp"
 #include "activations_swish.hpp"
 #include "activations_gelu.hpp"
+#include "activations_selu.hpp"
 
 SCENARIO_START
 
@@ -156,6 +157,40 @@ DESCRIBE("Activation Functions", {
 		});
 		IT("should return `0` when `GELU::fun(-15)` is called", {
 			EXPECT(GELU::grad(-15)).toBeCloseTo(0, 0.00001);
+		});
+	});
+	
+	DESCRIBE("SELU", {
+		IT("should return `1.0507` when `GELU::fun(1)` is called", {
+			EXPECT(SELU::fun(1)).toBeCloseTo(1.0507, 0.00001);
+		});
+		IT("should return `15.7605` when `GELU::fun(15)` is called", {
+			EXPECT(SELU::fun(15)).toBeCloseTo(15.760515, 0.00001);
+		});
+		IT("should return `0` when `GELU::fun(0)` is called", {
+			EXPECT(SELU::fun(0)).toBeCloseTo(0, 0.00001);
+		});
+		IT("should return `-1.11133` when `GELU::fun(-1)` is called", {
+			EXPECT(SELU::fun(-1)).toBeCloseTo(-1.11133, 0.00001);
+		});
+		IT("should return `-1.7581` when `GELU::fun(-15)` is called", {
+			EXPECT(SELU::fun(-15)).toBeCloseTo(-1.7581, 0.00001);
+		});
+		
+		IT("should return `1.0507` when `GELU::grad(1)` is called", {
+			EXPECT(SELU::grad(1)).toBeCloseTo(1.0507, 0.00001);
+		});
+		IT("should return `1.0507` when `GELU::fun(15)` is called", {
+			EXPECT(SELU::grad(15)).toBeCloseTo(1.0507, 0.00001);
+		});
+		IT("should return `1.7581` when `GELU::fun(0)` is called", {
+			EXPECT(SELU::grad(0)).toBeCloseTo(1.7581, 0.00001);
+		});
+		IT("should return `0.646769` when `GELU::fun(-1)` is called", {
+			EXPECT(SELU::grad(-1)).toBeCloseTo(0.646769, 0.00001);
+		});
+		IT("should return `0` when `GELU::fun(-15)` is called", {
+			EXPECT(SELU::grad(-15)).toBeCloseTo(0, 0.00001);
 		});
 	});
 });
