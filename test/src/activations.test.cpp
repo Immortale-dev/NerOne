@@ -2,6 +2,7 @@
 #include "activations_tanh.hpp"
 #include "activations_relu.hpp"
 #include "activations_elu.hpp"
+#include "activations_swish.hpp"
 
 SCENARIO_START
 
@@ -86,6 +87,40 @@ DESCRIBE("Activation Functions", {
 		});
 		IT("should return `` when `ELU<ratio<1,10>>::grad(-0.5)` is called", {
 			EXPECT((ELU<std::ratio<1,10>>::grad(-0.5))).toBeCloseTo(0.0606531, 0.00001);
+		});
+	});
+	
+	DESCRIBE("Swish", {
+		IT("should return `0.731059` when `Swish::fun(1)` is called", {
+			EXPECT(Swish::fun(1)).toBeCloseTo(0.731059,0.00001);
+		});
+		IT("should return `15` when `Swish::fun(15)` is called", {
+			EXPECT(Swish::fun(15)).toBeCloseTo(15, 0.00001);
+		});
+		IT("should return `0` when `Swish::fun(0)` is called", {
+			EXPECT(Swish::fun(0)).toBe(0);
+		});
+		IT("should return `-0.268941` when `Swish::fun(-1)` is called", {
+			EXPECT(Swish::fun(-1)).toBeCloseTo(-0.268941, 0.00001);
+		});
+		IT("should return `0` when `Swish::fun(-15)` is called", {
+			EXPECT(Swish::fun(-15)).toBeCloseTo(0, 0.00001);
+		});
+		
+		IT("should return `0.927671` when `Swish::grad(1)` is called", {
+			EXPECT(Swish::grad(1)).toBeCloseTo(0.927671,0.00001);
+		});
+		IT("should return `1` when `Swish::grad(15)` is called", {
+			EXPECT(Swish::grad(15)).toBeCloseTo(1,0.00001);
+		});
+		IT("should return `0.5` when `Swish::grad(0)` is called", {
+			EXPECT(Swish::grad(0)).toBeCloseTo(0.5,0.00001);
+		});
+		IT("should return `0.0723295` when `Swish::grad(-1)` is called", {
+			EXPECT(Swish::grad(-1)).toBeCloseTo(0.0723295,0.00001);
+		});
+		IT("should return `0` when `Swish::grad(-15)` is called", {
+			EXPECT(Swish::grad(-15)).toBeCloseTo(0,0.00001);
 		});
 	});
 });
