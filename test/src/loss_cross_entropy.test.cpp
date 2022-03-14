@@ -7,8 +7,8 @@ DESCRIBE("CrossEntropy", {
 	
 	loss::CrossEntropy loss_fn;
 	
-	IT("should return `1.73697` when `fun` is called with `0.9` and `0.5` parameters", {
-		EXPECT(loss_fn.fun(0.9,0.5)).toBeCloseTo(1.73697, 0.00001);
+	IT("should return `1.20397` when `fun` is called with `0.9` and `0.5` parameters", {
+		EXPECT(loss_fn.fun(0.9,0.5)).toBeCloseTo(1.20397, 0.00001);
 	});
 	
 	IT("should return `4.44444` when `grad` is called with `0.9` and `0.5` parameters", {

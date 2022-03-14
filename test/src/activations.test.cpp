@@ -85,7 +85,6 @@ DESCRIBE("Activation Functions", {
 			EXPECT((ELU<std::ratio<1,10>>::grad(0))).toBe(1);
 		});
 		IT("should return `` when `ELU<ratio<1,10>>::grad(-0.5)` is called", {
-			std::cout << ELU<std::ratio<1,10>>::grad(-0.5) << std::endl;
 			EXPECT((ELU<std::ratio<1,10>>::grad(-0.5))).toBeCloseTo(0.0606531, 0.00001);
 		});
 	});

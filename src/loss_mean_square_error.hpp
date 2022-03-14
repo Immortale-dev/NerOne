@@ -9,8 +9,12 @@ namespace nerone {
 		
 		class MeanSquareError {
 			public:
-				value_t fun(value_t actual, value_t expected);
-				value_t grad(value_t actual, value_t expected);
+				inline static value_t fun(value_t actual, value_t expected) {
+					return (value_t)0.5 * (actual - expected) * (actual - expected);
+				}
+				inline static value_t grad(value_t actual, value_t expected) {
+					return actual - expected;
+				}
 		};
 	}
 }

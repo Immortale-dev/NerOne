@@ -11,8 +11,12 @@ namespace nerone {
 		
 		class CrossEntropy {
 			public:
-				value_t fun(value_t actual, value_t expected);
-				value_t grad(value_t actual, value_t expected);
+				inline static value_t fun(value_t actual, value_t expected) {
+					return -(expected * std::log(actual) + ((value_t)1 - expected) * std::log((value_t)1 - actual));
+				}
+				inline static value_t grad(value_t actual, value_t expected) {
+					return (actual - expected) / (actual * ((value_t)1 - actual));
+				}
 		};
 	}
 }
