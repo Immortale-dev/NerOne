@@ -33,8 +33,6 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 	
 	size_t ind=1;
 	do{
-		node_list_t& nodes = layers[ind]->get_nodes();
-		
 		node_list_t& prev_nodes = layers[ind-1]->get_nodes();
 		for(size_t i=0;i<vals.size();i++){
 			prev_nodes[i]->set_value(vals[i]);
@@ -48,35 +46,18 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 			vals.push_back(layers[ind-1]->get_bias()->get_value());
 		}
 		
-		Matrix<value_t, v_mat_mul_t> b_vals({vals});
+		typename O::Matrix b_vals = O::matrix_create(vals);
 		
-		vector<vector<value_t>> m_t_vals(nodes.size());
-
-		int j=0;
-		for(auto& node : nodes) {
-			syn_list_t& syns = node->get_syns();
-			vector<value_t> l_vals(syns.size());
-			
-			int i=0;
-			for(auto& syn : syns) {
-				l_vals[i++] = syn->get_weight();
-			}
-			
-			m_t_vals[j++] = std::move(l_vals);
-		}
-
-		Matrix<value_t, v_mat_mul_t> m_vals(std::move(m_t_vals));
+		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1], true);
 		
 		// Transpose for correct matrix multiplication
 		m_vals.transpose();
 
 		// Result of matrix multiplication should be [[x,x,x,x,x,x,...]]
-		Matrix<value_t, v_mat_mul_t> res = b_vals * m_vals;
+		typename O::Matrix res = b_vals * m_vals;
 
 		vals.resize(res.get_cols());
-		for(size_t i=0;i<res.get_cols();i++){
-			vals[i] = res.get(0,i);
-		}
+		O::matrix_copy(res, vals, 0);
 	}while(ind++<layers.size());
 }
 

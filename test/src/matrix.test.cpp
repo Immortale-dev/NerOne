@@ -1,13 +1,35 @@
+template<typename T>
+struct test_matrix_multiplier {
+	std::vector<std::vector<T>> operator () (std::vector<std::vector<T>>& m1, std::vector<std::vector<T>>& m2) {
+		const size_t r = m1.size();
+		const size_t c = m2[0].size();
+		
+		std::vector<std::vector<T>> res(r, std::vector<T>(c, 0));
+		
+		for(size_t i=0;i<r;i++){
+			for(size_t j=0;j<c;j++){
+				for(size_t k=0;k<m1[i].size();k++) {
+					res[i][j] += m1[i][k] * m2[k][j];
+				}
+			}
+		}
+		
+		return res;
+	}
+};
+
 SCENARIO_START
 
 DESCRIBE("Matrix", {
 	using namespace nerone;
 	
-	Matrix<int>* mat;
+	using TMat = Matrix<int, test_matrix_multiplier<int>>;
+	
+	TMat* mat;
 	
 	DESCRIBE("Initialize 3x2 Matrix by cols and rows", {
 		BEFORE_EACH({
-			mat = new Matrix<int>(2,3);
+			mat = new TMat(2,3);
 		});
 		AFTER_EACH({
 			delete mat;
@@ -57,9 +79,9 @@ DESCRIBE("Matrix", {
 			});
 			
 			DESCRIBE("Create another matrix from vector<vector<T>>{{7,8},{9,10},{11,12}}", {
-				Matrix<int>* mat2;
+				TMat* mat2;
 				BEFORE_EACH({
-					mat2 = new Matrix<int>({{7,8},{9,10},{11,12}});
+					mat2 = new TMat({{7,8},{9,10},{11,12}});
 				});
 				
 				IT("should return 3 when `mat2.get_rows` is called", {
@@ -75,7 +97,7 @@ DESCRIBE("Matrix", {
 				});
 				
 				DESCRIBE("Multiply matrxes", {
-					Matrix<int> res_mat;
+					TMat res_mat;
 					BEFORE_EACH({
 						res_mat = (*mat) * (*mat2);
 					});

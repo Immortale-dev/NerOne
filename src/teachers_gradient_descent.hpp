@@ -30,22 +30,7 @@ namespace nerone {
 
 template<typename N, typename L, typename O>
 void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
-	size_t values_size = values.size();
-	
-	value_list_t actual_vals(values_size);
-	
 	node_list_t last_layer_nodes = cluster->last_layer()->get_nodes();
-	
-	// get actual output values
-	for(size_t i=0;i<values_size;i++){
-		actual_vals[i] = last_layer_nodes[i]->get_output();
-	}
-	
-	// calculate errors
-	value_list_t loss_values(values_size);
-	for(size_t i=0;i<values_size;i++){
-		loss_values[i] = loss_f.fun(actual_vals[i], values[i]); // actual, expected
-	}
 	
 	// store derivatives
 	value_list_t gradients;
@@ -54,7 +39,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 	const size_t layers_size = layers.size();
 	
 	// Stores weight differences of the previously processed layer
-	vector<value_list_t> prev_layer_diff_weights;
+	typename O::Matrix prev_layer_diff_weights;
 	
 	// Process all weights of all layers
 	for(size_t i=layers_size-1;i>=0;i--){ // since first layer is the input layer
@@ -70,76 +55,67 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 				// * E = error
 				// * O = output layer's node output
 				// * Oz = output layer's node value
-				gradients[j] = loss_f.grad(actual_vals[j], values[j]) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient();
+				gradients[j] = loss_f.grad(last_layer_nodes[j]->get_output(), values[j]) * std::static_pointer_cast<N>(nodes[j])->get_gradient();
 			}
 		} else {
 			// partial chain rule derivatives: dE/dHz
 			// * E = error
 			// * Hz = prev processed layer's node value
-			vector<value_list_t> prev_chain_grad_values = {gradients}; 
-			vector<value_list_t> part_grad_mul_values(gradients.size(), value_list_t(nodes.size(),0));
+			typename O::Matrix m1 = O::matrix_create(gradients);
 			
-			shared_layer_t prev_layer = layers[i+1]; // means previous processed layer
-			node_list_t& prev_nodes = prev_layer->get_nodes();
-			for(size_t j=0;j<prev_nodes.size();j++){
-				syn_list_t& syns = prev_nodes[j]->get_syns();
-				for(size_t k=0;k<nodes.size();k++){
-					part_grad_mul_values[j][k] = syns[k]->get_weight();
-				}
-			}
+			// create syns matrix from previous processed layer
+			typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i]);
 			
 			// weights taken here, we can update previous layer's node weights
-			for(size_t j=0;j<prev_nodes.size();j++){
-				syn_list_t& syns = prev_nodes[j]->get_syns();
-				for(size_t k=0;k<nodes.size();k++){
-					// update syn's weights with respect of learning rate
-					syns[k]->set_weight(syns[k]->get_weight() - prev_layer_diff_weights[j][k] * learning_rate);
-				}
-				
-				// Update bias
-				if(prev_layer->get_bias()){
-					shared_syn_t bias_syn = syns[syns.size()-1];
-					bias_syn->set_weight(bias_syn->get_weight() - gradients[j] * learning_rate);
-				}
-			}
+			O::update_layer_weights(layers[i+1], layers[i], prev_layer_diff_weights, learning_rate);
+			// Biases updated with respect of gradients
+			O::update_layer_biases(layers[i+1], layers[i], m1, learning_rate);
 			
 			// No syns go to input layer
 			if(is_input_layer){
 				return;
 			}
 			
-			Matrix<value_t, v_mat_mul_t> prev_chain_grad_mat(std::move(prev_chain_grad_values));
-			Matrix<value_t, v_mat_mul_t> part_grad_mul_mat(std::move(part_grad_mul_values));
+			// partial chain rule derivatives: dE/dHo
+			// * E = error
+			// * Hz = current layer's node output
+			typename O::Matrix m_res = m1 * m2;
 			
-			Matrix<value_t, v_mat_mul_t> part_grad_mat = prev_chain_grad_mat * part_grad_mul_mat;
-			
+			// Copy data from matrix back to vector
 			gradients.resize(nodes.size());
+			O::matrix_copy(m_res, gradients, 0);
+			
 			for(size_t j=0;j<gradients.size();j++){
 				// partial chain rule derivatives: dE/dHz
 				// * E = error
 				// * Hz = current layer's node value
-				gradients[j] = part_grad_mat.get(0,j) * std::static_pointer_cast<NerGNode>(nodes[j])->get_gradient();
+				gradients[j] *= std::static_pointer_cast<N>(nodes[j])->get_gradient();
 			}
 		}
 		
-		// fill weights differences
-		prev_layer_diff_weights.resize(nodes.size());
-		for(size_t j=0;j<nodes.size();j++){
-			shared_node_t node = nodes[j];
-			syn_list_t& syns = node->get_syns();
-			
-			size_t syns_size = layers[i-1]->get_nodes().size();
-			
-			value_list_t node_weights(syns_size);
-			
-			for(size_t k=0;k<syns_size;k++){
-				// weight differences: dE/dW
-				// * E - error
-				// * W - syn's weight
-				node_weights[k] = gradients[j] * syns[k]->get_node()->get_output();
-			}
-			prev_layer_diff_weights[j] = std::move(node_weights);
+		// Next processed layer
+		shared_layer_t next_layer = layers[i-1];
+		size_t syns_size = next_layer->get_nodes().size();
+		value_list_t next_layer_node_outputs(syns_size);
+		node_list_t& next_layer_nodes = next_layer->get_nodes();
+		for(size_t j=0;j<syns_size;j++){
+			next_layer_node_outputs[j] = next_layer_nodes[j]->get_output();
 		}
+		
+		// partial chain rule derivatives: dE/dHz
+		// * E = error
+		// * Hz = current layer's node value
+		typename O::Matrix m1 = O::matrix_create(gradients);
+		
+		// Node outputs
+		typename O::Matrix m2 = O::matrix_create(next_layer_node_outputs);
+		
+		m1.transpose();
+		
+		// weight differences: dE/dW
+		// * E - error
+		// * W - syn's weight
+		prev_layer_diff_weights = m1 * m2;
 	}
 }
 

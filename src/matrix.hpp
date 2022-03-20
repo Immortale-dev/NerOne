@@ -7,8 +7,6 @@
 #include <stdexcept>
 #include <vector>
 
-#include "base_calculator.hpp"
-
 namespace nerone {
 	
 	template<typename T>
@@ -17,7 +15,7 @@ namespace nerone {
 	template<typename T>
 	using mat_vec_t = vector<vector<T>>;
 	
-	template<typename T, typename M = nerone::BaseCalculator::vector_matrix_multiplication<T>>
+	template<typename T, typename M>
 	class Matrix {
 		public:
 			Matrix();
@@ -77,7 +75,7 @@ nerone::Matrix<T,M> nerone::Matrix<T,M>::operator * (Matrix<T,M>& mul) {
 	if(this->get_cols() != mul.get_rows()) {
 		throw std::logic_error("number of cols of the first Matrix != number of rows of the second Matrix");
 	}
-	return Matrix<T>(multiply(this->mat, mul.mat));
+	return Matrix<T,M>(multiply(this->mat, mul.mat));
 }
 
 NN_MATRIX_TEMPLATE
