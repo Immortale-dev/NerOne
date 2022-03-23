@@ -1,5 +1,7 @@
 #include "qtest.hpp"
 
+#include "nerone.hpp"
+
 #include "nernode.hpp"
 #include "nergnode.hpp"
 #include "nersyn.hpp"
