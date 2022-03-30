@@ -4,9 +4,12 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
-	
 	namespace loss {
-		
+		/**
+		 * Mean squared error (MSE) is the most commonly used loss
+		 * function for regression. The loss is the mean overseen data
+		 * of the squared differences between true and predicted values.
+		 */
 		class MeanSquareError {
 			public:
 				inline static value_t fun(value_t actual, value_t expected) {

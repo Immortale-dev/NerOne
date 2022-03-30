@@ -6,9 +6,13 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
-	
 	namespace loss {
-		
+		/**
+		 * Cross-entropy loss, or log loss, measures the performance of
+		 * a classification model whose output is a probability value
+		 * between 0 and 1. Cross-entropy loss increases as the
+		 * predicted probability diverges from the actual label.
+		 */
 		class CrossEntropy {
 			public:
 				inline static value_t fun(value_t actual, value_t expected) {

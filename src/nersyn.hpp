@@ -4,6 +4,11 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
+	/**
+	 * It's not exactly a synops, but connection object containing a
+	 * node of current layer with a node of previous layer and defines
+	 * specific weight.
+	 */
 	class NerSyn {
 		public:
 			NerSyn();

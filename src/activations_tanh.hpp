@@ -6,9 +6,13 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
-	
 	namespace activations {
-		
+		/**
+		 * The output of the tanh activation function is Zero centered;
+		 * hence we can easily map the output values as strongly
+		 * negative, neutral, or strongly positive. Usually used in
+		 * hidden layers of a neural network.
+		 */
 		class TanH {
 			public:
 				inline static value_t fun(value_t val) {

@@ -8,13 +8,17 @@
 #include <vector>
 
 namespace nerone {
-	
 	template<typename T>
 	using vector = std::vector<T>;
-	
+
 	template<typename T>
 	using mat_vec_t = vector<vector<T>>;
-	
+
+	/**
+	 * Base Matrix class implements matrix multiplication and matrix
+	 * transposure operations. Provides ability for multiplication
+	 * optimisations.
+	 */
 	template<typename T, typename M>
 	class Matrix {
 		public:
@@ -29,13 +33,13 @@ namespace nerone {
 			Matrix<T,M> operator * (Matrix<T,M>& mul);
 			void transpose();
 			mat_vec_t<T>& get_vector();
+
 		private:
 			size_t rows;
 			size_t cols;
 			vector<vector<T>> mat;
 			M multiply;
 	};
-	
 }
 
 NN_MATRIX_TEMPLATE
@@ -81,13 +85,13 @@ nerone::Matrix<T,M> nerone::Matrix<T,M>::operator * (Matrix<T,M>& mul) {
 NN_MATRIX_TEMPLATE
 void nerone::Matrix<T,M>::transpose() {
 	mat_vec_t<T> res(cols, vector<T>(rows));
-	
+
 	for(size_t i=0;i<rows;i++){
 		for(size_t j=0;j<cols;j++){
 			res[j][i] = mat[i][j];
 		}
 	}
-	
+
 	mat = res;
 	std::swap(rows,cols);
 }
@@ -96,6 +100,5 @@ NN_MATRIX_TEMPLATE
 nerone::mat_vec_t<T>& nerone::Matrix<T,M>::get_vector() {
 	return mat;
 }
-
 
 #endif // NN_MATRIX

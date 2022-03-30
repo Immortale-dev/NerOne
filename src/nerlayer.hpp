@@ -4,6 +4,10 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
+	/**
+	 * Instance of NerLayer class contain list of nodes defined by this
+	 * layer. Each layer may or may not define bias node.
+	 */
 	class NerLayer {
 		public:
 			NerLayer();

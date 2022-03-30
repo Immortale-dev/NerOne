@@ -5,32 +5,33 @@
 #include "nernode.hpp"
 #include "nerlayer.hpp"
 #include "nercluster.hpp"
-#include "matrix.hpp"
 #include "base_calculator.hpp"
 
 namespace nerone {
-	
 	namespace multipliers {
-	
+		/**
+		 * Class implements neuron network propagation algorithm.
+		 * Accepts template parameter O that allow to provide
+		 * multiplication optimisations. O class should implement
+		 * BaseCalculator interface.
+		 */
 		template<typename O = BaseCalculator>
 		class BaseMultiplier {
 			public:
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
-			
+
 			private:
 				using v_mat_mul_t = typename O::vector_matrix_multiplication<value_t>;
 		};
-		
 	}
-	
 }
 
 template<typename O>
 void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
 	layer_list_t& layers = cluster->get_layers();
-	
+
 	value_list_t vals = std::move(values);
-	
+
 	size_t ind=1;
 	do{
 		node_list_t& prev_nodes = layers[ind-1]->get_nodes();
@@ -40,16 +41,16 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 		}
 
 		if(ind >= layers.size()) break;
-		
+
 		// Add bias to the list of values
 		if(layers[ind-1]->get_bias()){
 			vals.push_back(layers[ind-1]->get_bias()->get_value());
 		}
-		
+
 		typename O::Matrix b_vals = O::matrix_create(vals);
-		
+
 		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1], true);
-		
+
 		// Transpose for correct matrix multiplication
 		m_vals.transpose();
 

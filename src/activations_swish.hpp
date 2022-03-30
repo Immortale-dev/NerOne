@@ -7,9 +7,13 @@
 #include "activations_sigmoid.hpp"
 
 namespace nerone {
-	
 	namespace activations {
-		
+		/**
+		 * Swish is a smooth, non-monotonic function that consistently
+		 * matches or outperforms ReLU on deep networks applied to a
+		 * variety of challenging domains such as Image classification
+		 * and Machine translation.
+		 */
 		class Swish {
 			public:
 				inline static value_t fun(value_t val) {

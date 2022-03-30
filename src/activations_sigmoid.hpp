@@ -6,9 +6,12 @@
 #include "nerhelp.hpp"
 
 namespace nerone {
-	
 	namespace activations {
-		
+		/**
+		 * The sigmoid function is a logistic function, which means
+		 * that, whatever you input, you get an output ranging between
+		 * 0 and 1.
+		 */
 		class Sigmoid {
 			public:
 				inline static value_t fun(value_t val){
