@@ -223,6 +223,54 @@ Swish is a smooth, non-monotonic function that consistently matches or outperfor
 ### Loss functions
 There is a **nerone::loss** namespace with **2** loss functions already defined. Each of them consist of a class with 2 *public* *static* members **fun** and **grad** - *activation function* itself and a *derivative* of the activation function.
 
+All loss functions described below live under the **nerone::loss** namespace.
+
+### class MeanSquareError
+Mean squared error (MSE) is the most commonly used loss function for regression. The loss is the mean overseen data of the squared differences between true and predicted values.
+
+### class CrossEntropy
+Cross-entropy loss, or log loss, measures the performance of a classification model whose output is a probability value between 0 and 1. Cross-entropy loss increases as the predicted probability diverges from the actual label.
+
+### Multipliers
+There is a **nerone::multipliers** namespace defining multiplier classes.
+Each such class should implement **()** operator function accepting **shared_cluster_t& cluster** as the first argument, and **value_list_t&& values** as the second argument, and should propagate values through the layers of the **cluster**.
+
+There is one multiplier class already defined under **nerone::multipliers** namespace.
+
+### BaseMultiplier\<O\>
+Class implements neuron network propagation algorithm. Accepts template parameter O that allow to provide multiplication optimisations. **O** class should implement **nerone::BaseCalculator** interface.
+
+By default **nerone::BaseCalculator** used as a template parameter.
+
+### Teachers
+There is a **nerone::teachers** namespace defining teachers classes.
+Each such class should implement **()** operator function accepting **shared_cluster_t& cluster** as the first argument, and **value_list_t&& values** as the second argument, and should back propagate values through the layers of the **cluster** adjusting weights of the **syns** to reduce the *error* of the neural network.
+
+Each teacher class *must* also implement **get_errors** function returning **value_list_t**, and accepting **shared_cluster_t& cluster** as the first argument, and **value_list_t expected** as the second argument.
+This function should calculate error of each output node and return this list of errors.
+
+There is one teacher class already defined under **nerone::teachers** namespace.
+
+### GradientDescent<N, L, O>
+Class implements the most common **Gradient Descent** neural network back propagation algorithm. It accepts **3** template parameters:
+* **N** corresponds to the *Node* type used in the neural network. **N** should extend **NerNode** class and additionally it should implement **get_gradient** method returning gradient of the *value* node's property.
+	There is **NerGNode** already defined that meets this requirement.
+* **L** corresponds to the *loss function* type. See the [section]() above.
+* **O** corresponds to the *optimisation* class. It should implement **nerone::BaseCalculator** interface.
+	By default **nerone::BaseCalculator** class used as **O** template parameter.
+
+***Example:***
+```c++
+auto cluster = generate_cluster(); // generates cluster, lol
+auto box = new nerone::NerBox<nerone::multipliers::BaseMultiplier<>, nerone::teachers::GradientDescent<nerone::NerGNode, nerone::loss::MeanSquareErrors>>(cluster);
+```
+
+### BaseCalculator
+
+
+## Usage example
+
+
 ## Tests
 
 
