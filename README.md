@@ -486,37 +486,61 @@ Using the example I build above, with logging of additional useful data such as 
 
 * training step: **20** | error: **0.470739** 
 
-  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_20.png?raw=true)
+  ![20 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_20.png?raw=true)
 * training step: **40** | error: **0.0616046**
 
-  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_40.png?raw=true)
+  ![40 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_40.png?raw=true)
 * training step: **80** | error: **0.0130729**
 
-  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_80.png?raw=true)
+  ![80 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_80.png?raw=true)
 * training step: **100** | error: **0.00906824**
 
-  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_100.png?raw=true)
+  ![100 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_100.png?raw=true)
 
 ### 4 Zones problem
 
 * training step: **30** | error: **0.626602**
+
+  ![30 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_4_step_30.png?raw=true)
 * training step: **120** | error: **0.114609**
+
+  ![120 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_4_step_120.png?raw=true)
 * training step: **240** | error: **0.029581**
+
+  ![240 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_4_step_240.png?raw=true)
 * training step: **300** | error: **0.0197742**
+
+  ![300 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_4_step_300.png?raw=true)
 
 ### Circle problem
 
 * training step: **80** | error: **0.678708**
+
+  ![80 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/circle_step_80.png?raw=true)
 * training step: **160** | error: **0.617172**
+
+  ![160 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/circle_step_160.png?raw=true)
 * training step: **280** | error: **0.371635**
+
+  ![280 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/circle_step_280.png?raw=true)
 * training step: **400** | error: **0.0287993**
+
+  ![400 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/circle_step_400.png?raw=true)
 
 ### Spiral problem
 
 * training step: **1000** | error: **0.662982**
+
+  ![1000 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/spiral_step_1000.png?raw=true)
 * training step: **4000** | error: **0.479241**
+
+  ![4000 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/spiral_step_4000.png?raw=true)
 * training step: **7000** | error: **0.133034**
+
+  ![7000 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/spiral_step_7000.png?raw=true)
 * training step: **10000** | error: **0.0362706**
+
+  ![10000 steps](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/spiral_step_10000.png?raw=true)
 
 As we can see, the neural network is able to be trained to solve these classification problems.
 
