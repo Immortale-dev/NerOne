@@ -485,13 +485,17 @@ Using the example I build above, with logging of additional useful data such as 
 ### 2 Zones problem (from the example in previous section)
 
 * training step: **20** | error: **0.470739** 
-![](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/nn_class_results/zones_2_step_20.png?raw=true)
+
+  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_20.png?raw=true)
 * training step: **40** | error: **0.0616046**
-![](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/nn_class_results/zones_2_step_40.png?raw=true)
+
+  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_40.png?raw=true)
 * training step: **80** | error: **0.0130729**
-![](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/nn_class_results/zones_2_step_80.png?raw=true)
+
+  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_80.png?raw=true)
 * training step: **100** | error: **0.00906824**
-![](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/nn_class_results/zones_2_step_100.png?raw=true)
+
+  ![](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/nn_class_results/zones_2_step_100.png?raw=true)
 
 ### 4 Zones problem
 
