@@ -1,6 +1,6 @@
 # NerOne
 
-Low level **C++** neural network engine. The engine provides a huge flexibility in creating neural networks. It also gives an ability for performance optimisations. Details in the [optimisation]() section of documentation.
+Low level **C++** neural network engine. The engine provides a huge flexibility in creating neural networks. It also gives an ability for performance optimisations. Details in the [optimisation](#neronebasecalculator) section of documentation.
 
 ## Table of Contest
 * [NerOne](#nerone)
@@ -81,8 +81,8 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 		* [Matrix::transpose()](#matrixtranspose)
 * [Usage example](#usage-example)
 * [Tests](#tests)
-	* [2 Zones problem (from the example in previous section)](#zones-problem-from-the-example-in-previous-section)
-	* [4 Zones problem](#zones-problem)
+	* [2 Zones problem (from the example in previous section)](#2-zones-problem-from-the-example-in-previous-section)
+	* [4 Zones problem](#4-zones-problem)
 	* [Circle problem](#circle-problem)
 	* [Spiral problem](#spiral-problem)
 * [Additional information](#additional-information)
@@ -352,7 +352,7 @@ There is one teacher class already defined under **nerone::teachers** namespace.
 Class implements the most common **Gradient Descent** neural network back propagation algorithm. It accepts **3** template parameters:
 * **N** corresponds to the *Node* type used in the neural network. **N** should extend **NerNode** class and additionally it should implement **get_gradient** method returning gradient of the *value* node's property.
 	There is **NerGNode** already defined that meets this requirement.
-* **L** corresponds to the *loss function* type. See the [section]() above.
+* **L** corresponds to the *loss function* type. See the [section](#loss-functions) above.
 * **O** corresponds to the *optimisation* class. It should implement **nerone::BaseCalculator** interface.
 	By default **nerone::BaseCalculator** class used as **O** template parameter.
 
@@ -368,7 +368,7 @@ Takes care about all the calculations needed to perform **GradientDescent** and 
 
 It is not optimised to use *multi cores* or *kernel* and it is here to provide simple one core multiplication examples.
 
-Your **Calculator** class *must* define **Matrix** public type (see [details]() below)
+Your **Calculator** class *must* define **Matrix** public type (see [details](#calculatormatrix) below)
 
 Also it must define next public methods:
 
@@ -560,7 +560,7 @@ int main() {
 }
 ```
 
-Besides that you can also log the error of the neural network. In this example I didn't log *error* of the network, but in the [tests]() section I show up more useful data, and illustrations of neural network trainings.
+Besides that you can also log the error of the neural network. In this example I didn't log *error* of the network, but in the [tests](tests) section I show up more useful data, and illustrations of neural network trainings.
 
 ## Tests
 
@@ -632,7 +632,7 @@ As we can see, the neural network is able to be trained to solve these classific
 
 ## Additional information
 
-This project is a **low level** neural network engine. It is not a complete neural network framework you can use for real world tasks. To be so, additional wrapper required to be built on top of this engine providing methods to easier build of neural network, and even more important, reliable **optimisation algorithms** needs to be implemented to improve neural network training performance. More details read in [BasicCalculator]() section.
+This project is a **low level** neural network engine. It is not a complete neural network framework you can use for real world tasks. To be so, additional wrapper required to be built on top of this engine providing methods to easier build of neural network, and even more important, reliable **optimisation algorithms** needs to be implemented to improve neural network training performance. More details read in [BasicCalculator](#neronebasecalculator) section.
 
 ## License
 MIT
