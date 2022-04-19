@@ -1,5 +1,6 @@
-# NerOne
+![NerOne](https://github.com/Immortale-dev/nerone/blob/main/res/imgs/logo.svg?raw=true)
 
+___
 Low level **C++** neural network engine. The engine provides a huge flexibility in creating neural networks. It also gives an ability for performance optimisations. Details in the [optimisation](#neronebasecalculator) section of documentation.
 
 ## Table of Contest
