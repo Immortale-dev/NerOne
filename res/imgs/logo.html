@@ -1,0 +1,124 @@
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="550" height="160" viewbox="5 5 545 155">
+    <style>
+        #s {
+            color: #454a60;
+        }
+        .n-node {
+            fill: transparent;
+        }
+        .main-line, .regular-line, .n-node, txt {
+            stroke: currentColor;
+        }
+        .txt {
+            font-weight: 300;
+            font-family: sans-serif;
+            font-size: 150px;
+            fill: currentColor;
+        }
+    </style>
+    <text x="130" y="145" class="txt">erOne</text>
+</svg>
+
+<script>
+    const svg = document.querySelector('#s');
+
+    const nLeftDots = [
+        {x: 20, y: 20},
+        {x: 20, y: 60},
+        {x: 20, y: 100},
+        {x: 20, y: 140}
+    ];
+
+    const nRightDots = [
+        {x: 110, y: 20},
+        {x: 110, y: 60},
+        {x: 110, y: 100},
+        {x: 110, y: 140}
+    ];
+
+    const nodeRadius = 6;
+    const lineWidth = 8;
+    
+    renderN();
+
+
+    function renderN() {
+        const gNodes = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const gLines = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        for(const pt of nLeftDots) {
+            gNodes.appendChild(renderDot(pt));
+        }
+        for(const pt of nRightDots) {
+            gNodes.appendChild(renderDot(pt));
+        }
+
+        for(let i=0;i<4;i++) {
+            for(let j=0;j<4;j++){
+                if(i == 0 && j == 3) continue;
+                gLines.appendChild(renderRegularLine(nLeftDots[i], nRightDots[j]));
+            }
+        }
+
+        gLines.appendChild(renderMainLine(nLeftDots[0], nRightDots[3]));
+        
+        for(let i=1;i<nLeftDots.length;i++) {
+            gLines.appendChild(renderMainLine(nLeftDots[i-1], nLeftDots[i]));
+        }
+        
+        for(let i=1;i<nRightDots.length;i++) {
+            gLines.appendChild(renderMainLine(nRightDots[i-1], nRightDots[i]));
+        }
+
+        svg.appendChild(gLines);
+        svg.appendChild(gNodes);
+    }
+
+    function renderMainLine(ptLeft, ptRight) {
+        return renderLine(ptLeft, ptRight, 'main-line', lineWidth+2);
+    }
+
+    function renderSecondaryLine(ptLeft, ptRight) {
+        return renderLine(ptLeft, ptRight, 'secondary-line');
+    }
+
+    function renderRegularLine(ptLeft, ptRight) {
+        return renderLine(ptLeft, ptRight, 'regular-line', Math.random() * (lineWidth-4) + 2);
+    }
+
+    function renderLine(ptLeft, ptRight, className, lw) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttributeNS(null, 'class', className);
+
+        const dX = (ptRight.x-ptLeft.x);
+        const dY = (ptRight.y-ptLeft.y);
+        const coof = dX / dY;
+        const length = Math.sqrt(dX*dX + dY*dY);
+        const cosA = dX/length;
+        const sinA = dY/length;
+
+        const x1 = (nodeRadius + 1) * cosA;
+        const y1 = (nodeRadius + 1) * sinA;
+
+        const x2 = (length-nodeRadius-1) * cosA;
+        const y2 = (length-nodeRadius-1) * sinA;
+
+        const str = `m${ptLeft.x + x1} ${ptLeft.y + y1} l${x2-x1} ${y2-y1}`;
+
+        path.setAttributeNS(null, 'd', str);
+        path.setAttributeNS(null, 'stroke-width', lw);
+        path.setAttributeNS(null, 'stroke-opacity', (lw-1)/lineWidth);
+
+        return path;
+    }
+
+    function renderDot(pt) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        path.setAttributeNS(null, 'class', 'n-node');
+        path.setAttributeNS(null, 'cx', pt.x);
+        path.setAttributeNS(null, 'cy', pt.y);
+        path.setAttributeNS(null, 'r', nodeRadius);
+        path.setAttributeNS(null, 'stroke-width', lineWidth-2);
+        return path;
+    }
+</script>
