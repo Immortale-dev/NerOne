@@ -1,11 +1,11 @@
 SCENARIO_START
 
-DESCRIBE("NerNode", {
-	nerone::NerNode* node;
+DESCRIBE("Node", {
+	nerone::Node* node;
 	
 	DESCRIBE("initialize default constructor instance", {
 		BEFORE_EACH({
-			node = new nerone::NerNode();
+			node = new nerone::Node();
 		});
 		AFTER_EACH({
 			delete node;
@@ -22,7 +22,7 @@ DESCRIBE("NerNode", {
 		});
 		
 		IT("setting syns with `set_syns` should return this list with `get_syns`", {
-			node->set_syns({ std::make_shared<nerone::NerSyn>() });
+			node->set_syns({ std::make_shared<nerone::Syn>() });
 			
 			EXPECT(node->get_syns().size()).toBe(1);
 		});
@@ -36,7 +36,7 @@ DESCRIBE("NerNode", {
 	
 	DESCRIBE("initialize instance with value=5.5", {
 		BEFORE_EACH({
-			node = new nerone::NerNode(5.5);
+			node = new nerone::Node(5.5);
 		});
 		AFTER_EACH({
 			delete node;
@@ -49,7 +49,7 @@ DESCRIBE("NerNode", {
 	
 	DESCRIBE("initialize instance with value=8.9 and act_fn", {
 		BEFORE_EACH({
-			node = new nerone::NerNode(8.9, [](nerone::value_t a){ return a*2; });
+			node = new nerone::Node(8.9, [](nerone::value_t a){ return a*2; });
 		});
 		AFTER_EACH({
 			delete node;

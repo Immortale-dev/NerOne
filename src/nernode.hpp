@@ -10,15 +10,15 @@ namespace nerone{
 	 * layer `outputs` multiplied with specific `weights`.
 	 * `output` defined `value` processed by activation function of the
 	 * node.
-	 * Each node contains a list of `NerSyn` elements defining weights
+	 * Each node contains a list of `Syn` elements defining weights
 	 * for previous layer nodes outputs.
 	 */
-	class NerNode {
+	class Node {
 		public:
-			NerNode();
-			NerNode(value_t val);
-			NerNode(value_t val, act_fn_t fn);
-			virtual ~NerNode();
+			Node();
+			Node(value_t val);
+			Node(value_t val, act_fn_t fn);
+			virtual ~Node();
 			value_t get_value();
 			void set_value(value_t val);
 			act_fn_t& get_act_fn();

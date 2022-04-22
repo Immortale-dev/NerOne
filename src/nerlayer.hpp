@@ -5,14 +5,14 @@
 
 namespace nerone {
 	/**
-	 * Instance of NerLayer class contain list of nodes defined by this
+	 * Instance of Layer class contain list of nodes defined by this
 	 * layer. Each layer may or may not define bias node.
 	 */
-	class NerLayer {
+	class Layer {
 		public:
-			NerLayer();
-			NerLayer(node_list_t nodes);
-			virtual ~NerLayer();
+			Layer();
+			Layer(node_list_t nodes);
+			virtual ~Layer();
 			node_list_t& get_nodes();
 			void set_nodes(node_list_t nodes);
 			size_t size();

@@ -20,19 +20,19 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 		* [nerone::syn_list_t& get_syns()](#neronesyn_list_t-get_syns)
 		* [void set_syns(syn_list_t syns)](#void--set_synssyn_list_t-syns)
 		* [nerone::value_t get_output()](#neronevalue_t--get_output)
-	* [class nerone::NerGNode : public nerone::NerNode](#class-neronenergnode--public-neronenernode)
+	* [class nerone::GNode : public nerone::Node](#class-neronegnode--public-neronenode)
 		* [constructor(value_t val)](#constructorvalue_t-val)
 		* [constructor(value_t val, act_fn_t act_fn, act_fn_t grad_fn)](#constructorvalue_t-val-act_fn_t-act_fn-act_fn_t-grad_fn)
 		* [nerone::act_fn_t& get_gradient_fn()](#neroneact_fn_t-get_gradient_fn)
 		* [void set_gradient_fn(act_fn_t fn)](#void--set_gradient_fnact_fn_t-fn)
 		* [nerone::value_t get_gradient()](#neronevalue_t--get_gradient)
-	* [class nerone::NerSyn](#class-neronenersyn)
+	* [class nerone::Syn](#class-neronesyn)
 		* [constructor(shared_node_t node, value_t weight)](#constructorshared_node_t-node-value_t-weight)
 		* [nerone::value_t get_weight()](#neronevalue_t--get_weight)
 		* [void set_weight(value_t weight)](#void-set_weightvalue_t-weight)
 		* [nerone::shared_node_t get_node()](#neroneshared_node_t--get_node)
 		* [void set_node(shared_node_t node)](#void--set_nodeshared_node_t-node)
-	* [class nerone::NerLayer](#class-neronenerlayer)
+	* [class nerone::Layer](#class-neronelayer)
 		* [constructor(node_list_t nodes)](#constructornode_list_t-nodes)
 		* [node_list_t& get_nodes()](#node_list_t-get_nodes)
 		* [void set_nodes(node_list_t nodes)](#void--set_nodesnode_list_t-nodes)
@@ -40,13 +40,13 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 		* [nerone::shared_node_t& operator[](size_t ind)](#neroneshared_node_t-operatorsize_t-ind)
 		* [nerone::shared_node_t& get_bias()](#neroneshared_node_t-get_bias)
 		* [void set_bias(shared_node_t bias)](#void--set_biasshared_node_t-bias)
-	* [class nerone::NerCluster](#class-neronenercluster)
+	* [class nerone::Cluster](#class-neronecluster)
 		* [constructor(layer_list_t layers)](#constructorlayer_list_t-layers)
 		* [nerone::layer_list_t& get_layers()](#neronelayer_list_t-get_layers)
 		* [void set_layers(layer_list_t layers)](#void-set_layerslayer_list_t-layers)
 		* [shared_layer_t& first_layer()](#shared_layer_t-first_layer)
 		* [shared_layer_t& last_layer()](#shared_layer_t-last_layer)
-	* [class nerone::NerBox<M, T>](#class-neronenerboxm-t)
+	* [class nerone::Box<M, T>](#class-neroneboxm-t)
 		* [constructor(shared_cluster_t cluster)](#constructorshared_cluster_t-cluster)
 		* [nerone::shared_cluster_t get_cluster()](#neroneshared_cluster_t-get_cluster)
 		* [void set_cluster(shared_cluster_t cluster)](#void-set_clustershared_cluster_t-cluster)
@@ -112,10 +112,10 @@ ___
 ### Types and aliases
 * **value_t** - alias for **double** type.
 * **value_list_t** - alias for **std::vector\<value_t\>** type.
-* **shared_node_t** - alias for **std::shared_ptr\<NerNode\>** type.
-* **shared_syn_t** - alias for **std::shared_ptr\<NerSyn\>** type.
-* **shared_layer_t** - alias for **std::shared_ptr\<NerLayer\>** type.
-* **shared_cluster_t** - alias for **std::shared_ptr\<NerCluster\>** type.
+* **shared_node_t** - alias for **std::shared_ptr\<Node\>** type.
+* **shared_syn_t** - alias for **std::shared_ptr\<Syn\>** type.
+* **shared_layer_t** - alias for **std::shared_ptr\<Layer\>** type.
+* **shared_cluster_t** - alias for **std::shared_ptr\<Cluster\>** type.
 * **syn_list_t** - alias for **std::vector\<shared_syn_t\>**
 * **node_list_t** - alias for **std::vector\<shared_node_t\>** type.
 * **layer_list_t** - alias for **std::vector\<shared_layer_t\>** type.
@@ -144,7 +144,7 @@ Returns node's activation function.
 Defines node's activation function.
 
 #### nerone::syn_list_t& get_syns()
-Returns list of connections to the previous layer (including **NerSyn** to the bias if exists)
+Returns list of connections to the previous layer (including **Syn** to the bias if exists)
 
 #### void  set_syns(syn_list_t syns)
 Defines list of connections to the previous layer of the neural network.
@@ -153,14 +153,14 @@ Defines list of connections to the previous layer of the neural network.
 Applies activation function to the node's *value* and returns the result.
 
 ___
-### class nerone::NerGNode : public nerone::NerNode
+### class nerone::GNode : public nerone::Node
 Additionally declares methods to define and use gradient functions. Defines 
 
 #### constructor(value_t val)
-Creates instance of **NerGNode** class, and defines *value* property.
+Creates instance of **GNode** class, and defines *value* property.
 
 #### constructor(value_t val, act_fn_t act_fn, act_fn_t grad_fn)
-Creates instance of **NerGNode** class and defines *value*, activation function and gradient function.
+Creates instance of **GNode** class and defines *value*, activation function and gradient function.
 
 #### nerone::act_fn_t& get_gradient_fn()
 Returns node's gradient function.
@@ -172,17 +172,17 @@ Defines gradient function of the node.
 applies gradient function to the node's value, and returns the result.
 
 ___
-### class nerone::NerSyn
+### class nerone::Syn
 Defines neural network connection between nodes from different neighbour layers (from current to previous layer). Class defines default copy and move constructors.
 
 #### constructor(shared_node_t node, value_t weight)
-Creates instance of **NerSyn** class and defines *node* and *weight* properties.
+Creates instance of **Syn** class and defines *node* and *weight* properties.
 
 #### nerone::value_t  get_weight()
 Returns syn's weight.
 
 #### void set_weight(value_t weight)
-Defines weight of the **NerSyn**
+Defines weight of the **Syn**
 
 #### nerone::shared_node_t  get_node()
 Returns smart pointer to the node from the previous layer connected to current **node**.
@@ -191,12 +191,12 @@ Returns smart pointer to the node from the previous layer connected to current *
 Connects node from previous layer to current node. 
 
 ___
-### class nerone::NerLayer
+### class nerone::Layer
 Defines neural network layer containing list of nodes included into the layer. Defines default copy and move constructors.
 
 #### constructor(node_list_t nodes)
-Creates instance of **NerLayer** class and defines list of layer's nodes.
-***Note:*** node_list_t = vector\<std::shared_ptr\<NerNode\>\>
+Creates instance of **Layer** class and defines list of layer's nodes.
+***Note:*** node_list_t = vector\<std::shared_ptr\<Node\>\>
 
 #### node_list_t& get_nodes()
 Returns list of nodes of the current layer, or **nullptr** if it's not defined.
@@ -217,11 +217,11 @@ Returns layer's **bias** node or null if doesn't exist.
 Defines **bias** node of the layer.
 
 ___
-### class nerone::NerCluster
+### class nerone::Cluster
 Defines neural network structure. It collects all the layers but not defines any training or propagation algorithms. Defines default copy and move constructors.
 
 #### constructor(layer_list_t layers)
-Accepts list of layers, creates instance of NerCluster class, defines list of layers of neural network.
+Accepts list of layers, creates instance of Cluster class, defines list of layers of neural network.
 
 #### nerone::layer_list_t& get_layers()
 Returns a list of layers of neural network.
@@ -236,7 +236,7 @@ Returns first layer from neural network (input layer), or throws if there are no
 Returns last layer from neural network (output layer), or throws if there are no layers.
 
 ___
-### class nerone::NerBox<M, T>
+### class nerone::Box<M, T>
 Constructor of the class accepts cluster and defines basic interface for propagation and back propagation algorithms as well as finding errors.
 
 It accepts 2 template parameters: 
@@ -282,7 +282,7 @@ All activation functions described below live under the **nerone::activations** 
 
 ***Usage example:***
 ```c++
-auto* node = new nerone::NerGNode(0, nerone::activations::Sigmoid::fun, nerone::activations::Sigmoid::grad);
+auto* node = new nerone::GNode(0, nerone::activations::Sigmoid::fun, nerone::activations::Sigmoid::grad);
 ```
 
 ### class nerone::activations::Sigmoid
@@ -351,8 +351,8 @@ There is one teacher class already defined under **nerone::teachers** namespace.
 
 ### nerone::teachers::GradientDescent<N, L, O>
 Class implements the most common **Gradient Descent** neural network back propagation algorithm. It accepts **3** template parameters:
-* **N** corresponds to the *Node* type used in the neural network. **N** should extend **NerNode** class and additionally it should implement **get_gradient** method returning gradient of the *value* node's property.
-	There is **NerGNode** already defined that meets this requirement.
+* **N** corresponds to the *Node* type used in the neural network. **N** should extend **Node** class and additionally it should implement **get_gradient** method returning gradient of the *value* node's property.
+	There is **GNode** already defined that meets this requirement.
 * **L** corresponds to the *loss function* type. See the [section](#loss-functions) above.
 * **O** corresponds to the *optimisation* class. It should implement **nerone::BaseCalculator** interface.
 	By default **nerone::BaseCalculator** class used as **O** template parameter.
@@ -360,7 +360,7 @@ Class implements the most common **Gradient Descent** neural network back propag
 ***Example:***
 ```c++
 auto cluster = generate_cluster(); // generates cluster, lol
-auto box = new nerone::NerBox<nerone::multipliers::BaseMultiplier<>, nerone::teachers::GradientDescent<nerone::NerGNode, nerone::loss::MeanSquareErrors>>(cluster);
+auto box = new nerone::Box<nerone::multipliers::BaseMultiplier<>, nerone::teachers::GradientDescent<nerone::GNode, nerone::loss::MeanSquareErrors>>(cluster);
 ```
 
 ___
@@ -454,7 +454,7 @@ double rand_double() {
 	return (rand() % 1000000) / (double)1000000;
 }
 
-// Creates neural network NerBox with BaseMultiplier and GradientDescent template parameters.
+// Creates neural network Box with BaseMultiplier and GradientDescent template parameters.
 // GradientDescent uses CrossEntropy loss function.
 // input 2N -> hidden 6N -> hidden 6N -> output 2N with biases
 // Weights assigned randomly from -1 to 1.
@@ -475,33 +475,33 @@ auto create_box() {
 				grad = nerone::activations::Sigmoid::grad;
 			}
 			
-			auto node = std::make_shared<nerone::NerGNode>(0, act, grad);
+			auto node = std::make_shared<nerone::GNode>(0, act, grad);
 			
 			if(j) {
 				nerone::syn_list_t syns;
 				auto& prev_layer = *layers[layers.size()-1];
 				for(size_t k=0;k<prev_layer.size();k++){
-					syns.push_back(std::make_shared<nerone::NerSyn>(prev_layer[k], rand_double()*2-1));
+					syns.push_back(std::make_shared<nerone::Syn>(prev_layer[k], rand_double()*2-1));
 				}
-				syns.push_back(std::make_shared<nerone::NerSyn>(prev_layer.get_bias(), rand_double()*2-1));
+				syns.push_back(std::make_shared<nerone::Syn>(prev_layer.get_bias(), rand_double()*2-1));
 				node->set_syns(syns);
 			}
 			node_list.push_back(node);
 		}
 		
-		auto layer = std::make_shared<nerone::NerLayer>(node_list);
-		layer->set_bias(std::make_shared<nerone::NerGNode>(1));
+		auto layer = std::make_shared<nerone::Layer>(node_list);
+		layer->set_bias(std::make_shared<nerone::GNode>(1));
 		
 		layers.push_back(layer);
 		
 		j++;
 	}
 	
-	auto cluster = std::make_shared<nerone::NerCluster>(layers);
+	auto cluster = std::make_shared<nerone::Cluster>(layers);
 	
-	auto b = nerone::NerBox<
+	auto b = nerone::Box<
 		nerone::multipliers::BaseMultiplier<>,
-		nerone::teachers::GradientDescent<nerone::NerGNode, nerone::loss::CrossEntropy>
+		nerone::teachers::GradientDescent<nerone::GNode, nerone::loss::CrossEntropy>
 	>(cluster);
 	
 	return b;

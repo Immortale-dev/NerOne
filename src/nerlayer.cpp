@@ -1,31 +1,31 @@
 #include "nerlayer.hpp"
 
-nerone::NerLayer::NerLayer(){}
+nerone::Layer::Layer(){}
 
-nerone::NerLayer::NerLayer(node_list_t nodes) : nodes(nodes) {}
+nerone::Layer::Layer(node_list_t nodes) : nodes(nodes) {}
 
-nerone::NerLayer::~NerLayer() {}
+nerone::Layer::~Layer() {}
 
-nerone::node_list_t& nerone::NerLayer::get_nodes() {
+nerone::node_list_t& nerone::Layer::get_nodes() {
 	return nodes;
 }
 
-void nerone::NerLayer::set_nodes(node_list_t nodes) {
+void nerone::Layer::set_nodes(node_list_t nodes) {
 	this->nodes = nodes;
 }
 
-size_t nerone::NerLayer::size() {
+size_t nerone::Layer::size() {
 	return nodes.size();
 }
 
-nerone::shared_node_t& nerone::NerLayer::operator[](size_t ind) {
+nerone::shared_node_t& nerone::Layer::operator[](size_t ind) {
 	return nodes[ind];
 }
 
-nerone::shared_node_t& nerone::NerLayer::get_bias() {
+nerone::shared_node_t& nerone::Layer::get_bias() {
 	return bias;
 }
 
-void nerone::NerLayer::set_bias(shared_node_t bias) {
+void nerone::Layer::set_bias(shared_node_t bias) {
 	this->bias = bias;
 }

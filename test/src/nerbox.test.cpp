@@ -24,14 +24,14 @@ int TTec::test_val = 0;
 
 SCENARIO_START
 
-DESCRIBE("NerBox", {
+DESCRIBE("Box", {
 	using namespace nerone;
 	
-	NerBox<TMul, TTec>* nb;
+	Box<TMul, TTec>* nb;
 	
 	DESCRIBE("initialize with default constructor", {
 		BEFORE_EACH({
-			nb = new NerBox<TMul, TTec>();
+			nb = new Box<TMul, TTec>();
 		});
 		AFTER_EACH({
 			delete nb;
@@ -42,7 +42,7 @@ DESCRIBE("NerBox", {
 		});
 		
 		IT("should return cluster when it is set by `set_cluster` method", {
-			nb->set_cluster(std::make_shared<NerCluster>());
+			nb->set_cluster(std::make_shared<Cluster>());
 			
 			EXPECT(nb->get_cluster()).NOT().toBeNullPtr();
 		});
@@ -62,13 +62,13 @@ DESCRIBE("NerBox", {
 	
 	DESCRIBE("initialize with cluster set containing of one layer with 2 nodes", {
 		BEFORE_EACH({
-			nb = new NerBox<TMul, TTec>(
-				std::make_shared<NerCluster>(
+			nb = new Box<TMul, TTec>(
+				std::make_shared<Cluster>(
 					layer_list_t{
-						std::make_shared<NerLayer>(
+						std::make_shared<Layer>(
 							node_list_t{
-								std::make_shared<NerNode>(1.1),
-								std::make_shared<NerNode>(2.2)
+								std::make_shared<Node>(1.1),
+								std::make_shared<Node>(2.2)
 							}
 						)
 					}

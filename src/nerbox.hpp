@@ -20,11 +20,11 @@ namespace nerone {
 	 *   interface.
 	 */
 	template<typename M, typename T>
-	class NerBox {
+	class Box {
 		public:
-			NerBox();
-			virtual ~NerBox();
-			NerBox(shared_cluster_t cluster);
+			Box();
+			virtual ~Box();
+			Box(shared_cluster_t cluster);
 
 			shared_cluster_t get_cluster();
 			void set_cluster(shared_cluster_t cluster);
@@ -50,32 +50,32 @@ namespace nerone {
 }
 
 template<typename M, typename T>
-nerone::NerBox<M,T>::NerBox() {
+nerone::Box<M,T>::Box() {
 	// ctor
 }
 
 template<typename M, typename T>
-nerone::NerBox<M,T>::~NerBox() {
+nerone::Box<M,T>::~Box() {
 	// dtor
 }
 
 template<typename M, typename T>
-nerone::NerBox<M,T>::NerBox(shared_cluster_t cluster) : cluster(cluster) {
+nerone::Box<M,T>::Box(shared_cluster_t cluster) : cluster(cluster) {
 	// ctor
 }
 
 template<typename M, typename T>
-nerone::shared_cluster_t nerone::NerBox<M,T>::get_cluster() {
+nerone::shared_cluster_t nerone::Box<M,T>::get_cluster() {
 	return cluster;
 }
 
 template<typename M, typename T>
-void nerone::NerBox<M,T>::set_cluster(shared_cluster_t cluster) {
+void nerone::Box<M,T>::set_cluster(shared_cluster_t cluster) {
 	this->cluster = cluster;
 }
 
 template<typename M, typename T>
-nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
+nerone::value_list_t nerone::Box<M,T>::question(value_list_t questions) {
 	if(!cluster) throw std::invalid_argument("No cluster set");
 	layer_list_t& layers = cluster->get_layers();
 	if(!layers.size()) throw std::range_error("No Layers defined");
@@ -99,7 +99,7 @@ nerone::value_list_t nerone::NerBox<M,T>::question(value_list_t questions) {
 }
 
 template<typename M, typename T>
-void nerone::NerBox<M,T>::correct(value_list_t answers) {
+void nerone::Box<M,T>::correct(value_list_t answers) {
 	if(!cluster) throw std::invalid_argument("No cluster set");
 	layer_list_t& layers = cluster->get_layers();
 	if(!layers.size()) throw std::range_error("No Layers defined");
@@ -114,33 +114,33 @@ void nerone::NerBox<M,T>::correct(value_list_t answers) {
 }
 
 template<typename M, typename T>
-void nerone::NerBox<M,T>::teach(value_list_t questions, value_list_t answers) {
+void nerone::Box<M,T>::teach(value_list_t questions, value_list_t answers) {
 	question(questions);
 	correct(answers);
 }
 
 template<typename M, typename T>
-void nerone::NerBox<M,T>::propagate(value_list_t&& questions) {
+void nerone::Box<M,T>::propagate(value_list_t&& questions) {
 	mul(cluster, std::move(questions));
 }
 
 template<typename M, typename T>
-void nerone::NerBox<M,T>::back_propagate(value_list_t&& answers) {
+void nerone::Box<M,T>::back_propagate(value_list_t&& answers) {
 	tch(cluster, std::move(answers));
 }
 
 template<typename M, typename T>
-M& nerone::NerBox<M,T>::get_multiplier() {
+M& nerone::Box<M,T>::get_multiplier() {
 	return mul;
 }
 
 template<typename M, typename T>
-T& nerone::NerBox<M,T>::get_teacher() {
+T& nerone::Box<M,T>::get_teacher() {
 	return tch;
 }
 
 template<typename M, typename T>
-nerone::value_list_t nerone::NerBox<M,T>::get_errors(value_list_t expected) {
+nerone::value_list_t nerone::Box<M,T>::get_errors(value_list_t expected) {
 	return tch.get_errors(cluster, expected);
 }
 

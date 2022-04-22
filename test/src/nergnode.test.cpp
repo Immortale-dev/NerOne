@@ -1,11 +1,11 @@
 SCENARIO_START
 
-DESCRIBE("NerGNode", {
-	nerone::NerGNode* node;
+DESCRIBE("GNode", {
+	nerone::GNode* node;
 	
 	DESCRIBE("Initialize instance with acnt and gradient functions", {
 		BEFORE_EACH({
-			node = new nerone::NerGNode(0.3, [](auto val){return val*2;}, [](auto val){return val*3;});
+			node = new nerone::GNode(0.3, [](auto val){return val*2;}, [](auto val){return val*3;});
 		});
 		AFTER_EACH({
 			delete node;
@@ -22,7 +22,7 @@ DESCRIBE("NerGNode", {
 	
 	DESCRIBE("Initialize default constructor instance", {
 		BEFORE_EACH({
-			node = new nerone::NerGNode();
+			node = new nerone::GNode();
 		});
 		AFTER_EACH({
 			delete node;

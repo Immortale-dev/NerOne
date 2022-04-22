@@ -1,13 +1,13 @@
 SCENARIO_START
 
-DESCRIBE("NerLayer", {
+DESCRIBE("Layer", {
 	using namespace nerone;
 	
-	NerLayer* layer;
+	Layer* layer;
 	
 	DESCRIBE("initialize layer with default constructor", {
 		BEFORE_EACH({
-			layer = new NerLayer();
+			layer = new Layer();
 		});
 		AFTER_EACH({
 			delete layer;
@@ -18,13 +18,13 @@ DESCRIBE("NerLayer", {
 		});
 		
 		IT("should return 1 for the `size` when the list of nodes is set by calling `set_nodes`", {
-			layer->set_nodes({std::make_shared<NerNode>()});
+			layer->set_nodes({std::make_shared<Node>()});
 			
 			EXPECT(layer->size()).toBe(1);
 		});
 		
 		IT("should return 1 for the `size` when the list of nodes is set by equasion operator", {
-			layer->get_nodes() = {std::make_shared<NerNode>()};
+			layer->get_nodes() = {std::make_shared<Node>()};
 			
 			EXPECT(layer->size()).toBe(1);
 		});
@@ -33,8 +33,8 @@ DESCRIBE("NerLayer", {
 	DESCRIBE("initialize layer with the list of nodes", {
 		shared_node_t node;
 		BEFORE_EACH({
-			node = std::make_shared<NerNode>();
-			layer = new NerLayer({node});
+			node = std::make_shared<Node>();
+			layer = new Layer({node});
 		});
 		AFTER_EACH({
 			delete layer;
@@ -49,7 +49,7 @@ DESCRIBE("NerLayer", {
 		});
 		
 		IT("should set new node when equasion operator is used with [] operator", {
-			(*layer)[0] = std::make_shared<NerNode>();
+			(*layer)[0] = std::make_shared<Node>();
 			
 			EXPECT((*layer)[0]).NOT().toBe(node);
 		});

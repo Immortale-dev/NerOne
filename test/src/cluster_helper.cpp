@@ -25,7 +25,7 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 		
 		nerone::shared_node_t bias = nullptr;
 		if(has_biases) {
-			bias = make_shared<nerone::NerGNode>(1);
+			bias = make_shared<nerone::GNode>(1);
 		}
 		
 		for(auto& n : l) {
@@ -41,7 +41,7 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 						prev = layers[layers.size()-1]->get_bias();
 					}
 				}
-				syns.push_back(make_shared<nerone::NerSyn>(prev, s));
+				syns.push_back(make_shared<nerone::Syn>(prev, s));
 			}
 			
 			nerone::act_fn_t fn = nullptr;
@@ -55,13 +55,13 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 				grad_fn = act_fns[lind].second;
 			}
 			
-			auto node = make_shared<nerone::NerGNode>(0, fn, grad_fn);
+			auto node = make_shared<nerone::GNode>(0, fn, grad_fn);
 			node->set_syns(syns);
 			
 			nodes.push_back(node);
 		}
 		
-		layers.push_back(make_shared<nerone::NerLayer>(nodes));
+		layers.push_back(make_shared<nerone::Layer>(nodes));
 		if(has_biases) {
 			layers[layers.size()-1]->set_bias(bias);
 		}
@@ -69,7 +69,7 @@ nerone::shared_cluster_t generate_cluster(vector<vector<vector<nerone::value_t>>
 		lind++;
 	}
 	
-	return make_shared<nerone::NerCluster>(layers);
+	return make_shared<nerone::Cluster>(layers);
 }
 
 nerone::shared_cluster_t generate_cluster_342() {

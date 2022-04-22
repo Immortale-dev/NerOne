@@ -9,11 +9,11 @@ namespace nerone {
 	 * node of current layer with a node of previous layer and defines
 	 * specific weight.
 	 */
-	class NerSyn {
+	class Syn {
 		public:
-			NerSyn();
-			NerSyn(shared_node_t node, value_t weight);
-			virtual ~NerSyn();
+			Syn();
+			Syn(shared_node_t node, value_t weight);
+			virtual ~Syn();
 			value_t get_weight();
 			void set_weight(value_t weight);
 			shared_node_t get_node();

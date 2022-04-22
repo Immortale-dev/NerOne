@@ -10,15 +10,15 @@ namespace nerone {
 	using value_list_t = std::vector<value_t>;
 
 	// Bakc decl
-	class NerNode;
-	class NerSyn;
-	class NerLayer;
-	class NerCluster;
+	class Node;
+	class Syn;
+	class Layer;
+	class Cluster;
 
-	using shared_node_t = std::shared_ptr<NerNode>;
-	using shared_syn_t = std::shared_ptr<NerSyn>;
-	using shared_layer_t = std::shared_ptr<NerLayer>;
-	using shared_cluster_t = std::shared_ptr<NerCluster>;
+	using shared_node_t = std::shared_ptr<Node>;
+	using shared_syn_t = std::shared_ptr<Syn>;
+	using shared_layer_t = std::shared_ptr<Layer>;
+	using shared_cluster_t = std::shared_ptr<Cluster>;
 
 	using syn_list_t = std::vector<shared_syn_t>;
 	using node_list_t = std::vector<shared_node_t>;

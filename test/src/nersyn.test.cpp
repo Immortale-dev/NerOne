@@ -1,13 +1,13 @@
 SCENARIO_START
 
-DESCRIBE("NerSyn", {
+DESCRIBE("Syn", {
 	using namespace nerone;
 	
-	NerSyn* syn;
+	Syn* syn;
 	
 	DESCRIBE("initialize default constructor instance", {
 		BEFORE_EACH({
-			syn = new NerSyn();
+			syn = new Syn();
 		});
 		AFTER_EACH({
 			delete syn;
@@ -24,7 +24,7 @@ DESCRIBE("NerSyn", {
 		});
 		
 		IT("setting the note, should return this node with `get_node`", {
-			auto node = std::make_shared<NerNode>();
+			auto node = std::make_shared<Node>();
 			syn->set_node(node);
 			
 			EXPECT(syn->get_node()).toBe(node);
@@ -33,7 +33,7 @@ DESCRIBE("NerSyn", {
 	
 	DESCRIBE("initialize constructor with weight and node", {
 		BEFORE_EACH({
-			syn = new NerSyn(std::make_shared<NerNode>(), 43.21);
+			syn = new Syn(std::make_shared<Node>(), 43.21);
 		});
 		AFTER_EACH({
 			delete syn;

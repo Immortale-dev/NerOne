@@ -6,15 +6,15 @@
 
 namespace nerone {
 	/**
-	 * Instance of NerCluster class contains list of layers connected in
+	 * Instance of Cluster class contains list of layers connected in
 	 * a single cluster to be processed by the propagation and back
 	 * propagation algorithms.
 	 */
-	class NerCluster {
+	class Cluster {
 		public:
-			NerCluster();
-			NerCluster(layer_list_t layers);
-			virtual ~NerCluster();
+			Cluster();
+			Cluster(layer_list_t layers);
+			virtual ~Cluster();
 			layer_list_t& get_layers();
 			void set_layers(layer_list_t layers);
 			shared_layer_t& first_layer();

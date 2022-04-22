@@ -6,15 +6,15 @@
 
 namespace nerone {
 	/**
-	 * Class extends basic NerNode class and additionally defines
+	 * Class extends basic Node class and additionally defines
 	 * gradient functions that can be used in Gradient Descent back
 	 * propagation algorithm.
 	 */
-	class NerGNode : public NerNode {
+	class GNode : public Node {
 		public:
-			NerGNode();
-			NerGNode(value_t val);
-			NerGNode(value_t val, act_fn_t fn, act_fn_t grad);
+			GNode();
+			GNode(value_t val);
+			GNode(value_t val, act_fn_t fn, act_fn_t grad);
 			void set_gradient_fn(act_fn_t fn);
 			act_fn_t& get_gradient_fn();
 			value_t get_gradient();
