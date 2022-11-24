@@ -23,8 +23,6 @@ namespace nerone {
 		 */
 		template<typename N, typename L, typename O = BaseCalculator>
 		class GradientDescent {
-			using v_mat_mul_t = typename O::vector_matrix_multiplication<value_t>;
-
 			public:
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
 				void set_learning_rate(long double rate);
@@ -92,7 +90,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 
 			// Copy data from matrix back to vector
 			gradients.resize(nodes.size());
-			O::matrix_copy(m_res, gradients, 0);
+			O::matrix_copy(m_res, gradients);
 
 			for(size_t j=0;j<gradients.size();j++){
 				// partial chain rule derivatives: dE/dHz

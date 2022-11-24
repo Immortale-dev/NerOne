@@ -20,7 +20,7 @@ namespace nerone {
 		
 		static Matrix matrix_create(value_list_t list);
 		static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer, bool with_biases = false);
-		static void matrix_copy(Matrix& mat, value_list_t& list, size_t row);
+		static void matrix_copy(Matrix& mat, value_list_t& list);
 		static void update_layer_weights(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate);
 		static void update_layer_biases(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate);
 	};

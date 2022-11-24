@@ -19,9 +19,6 @@ namespace nerone {
 		class BaseMultiplier {
 			public:
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
-
-			private:
-				using v_mat_mul_t = typename O::vector_matrix_multiplication<value_t>;
 		};
 	}
 }
@@ -58,7 +55,7 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 		typename O::Matrix res = b_vals * m_vals;
 
 		vals.resize(res.get_cols());
-		O::matrix_copy(res, vals, 0);
+		O::matrix_copy(res, vals);
 	}while(ind++<layers.size());
 }
 

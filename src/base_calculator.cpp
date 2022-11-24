@@ -20,9 +20,9 @@ nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_from_layer_syns(sh
 	return Matrix(std::move(part_grad_mul_values));
 }
 
-void nerone::BaseCalculator::matrix_copy(Matrix& mat, value_list_t& list, size_t row) {
+void nerone::BaseCalculator::matrix_copy(Matrix& mat, value_list_t& list) {
 	for(size_t j=0;j<list.size();j++){
-		list[j] = mat.get(row, j);
+		list[j] = mat.get(0, j);
 	}
 }
 

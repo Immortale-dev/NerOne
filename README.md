@@ -74,7 +74,7 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 	* [nerone::BaseCalculator](#neronebasecalculator)
 		* [static Matrix matrix_create(value_list_t list);](#static-matrix-matrix_createvalue_list_t-list)
 		* [static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer, bool with_biases = false)](#static-matrix-matrix_from_layer_synsshared_layer_t-prev_layer-shared_layer_t-layer-bool-with_biases--false)
-		* [static void matrix_copy(Matrix& mat, value_list_t& list, size_t row)](#static--void--matrix_copymatrix-mat-value_list_t-list-size_t-row)
+		* [static void matrix_copy(Matrix& mat, value_list_t& list)](#static--void--matrix_copymatrix-mat-value_list_t-list-size_t)
 		* [static void update_layer_weights(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate)](#static--void--update_layer_weightsshared_layer_t-prev_layer-shared_layer_t-layer-matrix-mat-value_t-rate)
 		* [static void update_layer_biases(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate)](#static--void--update_layer_biasesshared_layer_t-prev_layer-shared_layer_t-layer-matrix-mat-value_t-rate)
 	* [Calculator::Matrix](#calculatormatrix)
@@ -419,8 +419,8 @@ And if to the third argument of **matrix_from_layer_syns** method passed **true*
 ]
 ```
 
-#### static  void  matrix_copy(Matrix& mat, value_list_t& list, size_t row)
-Copies row with index **row** from the matrix **mat** to the list of values **list**.
+#### static  void  matrix_copy(Matrix& mat, value_list_t& list)
+Copies values from the matrix **mat** to the list **list**.
 
 #### static  void  update_layer_weights(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate)
 Updates each of the **layer** node's syn's weight. Basically it copies all the values from matrix **mat** multiplied by the **rate** back to the layer node's weights.
