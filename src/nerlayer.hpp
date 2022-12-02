@@ -2,6 +2,7 @@
 #define NN_NERLAYER
 
 #include "nerhelp.hpp"
+#include "nernode.hpp"
 
 namespace nerone {
 	/**
