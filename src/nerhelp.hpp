@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace nerone {
-	using value_t = double;
+	using value_t = float;
 	using value_list_t = std::vector<value_t>;
 
 	// Bakc decl

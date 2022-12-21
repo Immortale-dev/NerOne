@@ -49,10 +49,14 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1], true);
 
 		// Transpose for correct matrix multiplication
-		m_vals.transpose();
+		b_vals.transpose();
 
-		// Result of matrix multiplication should be [[x,x,x,x,x,x,...]]
-		typename O::Matrix res = b_vals * m_vals;
+		// Result of matrix multiplication is Nx1 matrix [[x],[x],[x],[x],[x],[x],...]
+		typename O::Matrix res = m_vals * b_vals;
+
+		// Transpose so the result is 1xN matrix [[x,x,x,x,x,x,x,x,...]]
+		// Note, it's better for performance to transpose 1xN matrix twice than NxN matrix once.
+		res.transpose();
 
 		vals.resize(res.get_cols());
 		O::matrix_copy(res, vals);

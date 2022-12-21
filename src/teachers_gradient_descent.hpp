@@ -70,34 +70,41 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 			// * Hz = prev processed layer's node value
 			typename O::Matrix m1 = O::matrix_create(gradients);
 
-			// create syns matrix from previous processed layer
-			typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i]);
+			if (!is_input_layer) {
+				// create syns matrix from previous processed layer
+				typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i], true);
 
-			// weights taken here, we can update previous layer's node weights
+				// partial chain rule derivatives: dE/dHo
+				// * E = error
+				// * Hz = current layer's node output
+				typename O::Matrix m_res = m1 * m2;
+
+				// Copy data from matrix back to vector
+				gradients.resize(nodes.size()+1);
+				O::matrix_copy(m_res, gradients);
+
+				// Since the m2 matrix contains also biases that shoudn't be included
+				// to the gradients list, just pop the last element out.
+				gradients.pop_back();
+
+				for(size_t j=0;j<gradients.size();j++){
+					// partial chain rule derivatives: dE/dHz
+					// * E = error
+					// * Hz = current layer's node value
+					gradients[j] *= std::static_pointer_cast<N>(nodes[j])->get_gradient();
+				}
+			}
+
+			// weights are taken here and multiplication is done, we can update previous layer's node weights
 			O::update_layer_weights(layers[i+1], layers[i], prev_layer_diff_weights, learning_rate);
+
 			// Biases updated with respect of gradients
 			O::update_layer_biases(layers[i+1], layers[i], m1, learning_rate);
+		}
 
-			// No syns go to input layer
-			if(is_input_layer){
-				return;
-			}
-
-			// partial chain rule derivatives: dE/dHo
-			// * E = error
-			// * Hz = current layer's node output
-			typename O::Matrix m_res = m1 * m2;
-
-			// Copy data from matrix back to vector
-			gradients.resize(nodes.size());
-			O::matrix_copy(m_res, gradients);
-
-			for(size_t j=0;j<gradients.size();j++){
-				// partial chain rule derivatives: dE/dHz
-				// * E = error
-				// * Hz = current layer's node value
-				gradients[j] *= std::static_pointer_cast<N>(nodes[j])->get_gradient();
-			}
+		// No syns go to input layer
+		if(is_input_layer){
+			return;
 		}
 
 		// Next processed layer
@@ -117,6 +124,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 		// Node outputs
 		typename O::Matrix m2 = O::matrix_create(next_layer_node_outputs);
 
+		// Transpose so the matrix is Nx1 [[x],[x],[x],[x],[x],...]
 		m1.transpose();
 
 		// weight differences: dE/dW
