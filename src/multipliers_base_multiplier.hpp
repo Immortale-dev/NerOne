@@ -46,7 +46,7 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 
 		typename O::Matrix b_vals = O::matrix_create(vals);
 
-		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1], true);
+		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1]);
 
 		// Transpose for correct matrix multiplication
 		b_vals.transpose();

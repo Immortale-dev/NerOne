@@ -73,7 +73,7 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 		* [nerone::teachers::GradientDescent<N, L, O>](#neroneteachersgradientdescentn-l-o)
 	* [nerone::BaseCalculator](#neronebasecalculator)
 		* [static Matrix matrix_create(value_list_t list);](#static-matrix-matrix_createvalue_list_t-list)
-		* [static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer, bool with_biases = false)](#static-matrix-matrix_from_layer_synsshared_layer_t-prev_layer-shared_layer_t-layer-bool-with_biases--false)
+		* [static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer)](#static-matrix-matrix_from_layer_synsshared_layer_t-prev_layer-shared_layer_t-layer)
 		* [static void matrix_copy(Matrix& mat, value_list_t& list)](#static--void--matrix_copymatrix-mat-value_list_t-list-size_t)
 		* [static void update_layer_weights(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate)](#static--void--update_layer_weightsshared_layer_t-prev_layer-shared_layer_t-layer-matrix-mat-value_t-rate)
 		* [static void update_layer_biases(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate)](#static--void--update_layer_biasesshared_layer_t-prev_layer-shared_layer_t-layer-matrix-mat-value_t-rate)
@@ -211,7 +211,7 @@ returns the size of the layer's nodes list.
 Returns node from the list of nodes with index = **ind**.
 
 #### nerone::shared_node_t& get_bias()
-Returns layer's **bias** node or null if doesn't exist.
+Returns layer's **bias** node. ***Note:*** it should always be defined, otherwise the behaviour is undefined.
 
 #### void  set_bias(shared_node_t bias)
 Defines **bias** node of the layer.
@@ -349,10 +349,9 @@ This function should calculate error of each output node and return this list of
 
 There is one teacher class already defined under **nerone::teachers** namespace.
 
-### nerone::teachers::GradientDescent<N, L, O>
-Class implements the most common **Gradient Descent** neural network back propagation algorithm. It accepts **3** template parameters:
-* **N** corresponds to the *Node* type used in the neural network. **N** should extend **Node** class and additionally it should implement **get_gradient** method returning gradient of the *value* node's property.
-	There is **GNode** already defined that meets this requirement.
+### nerone::teachers::GradientDescent<L, O>
+Class implements the most common **Gradient Descent** neural network back propagation algorithm. It accepts **2** template parameters:
+***Note:*** Additionally, nodes that are used in the cluster should implement **GNode** interface. It adds a single **get_gradient** method to the base **Node** returning gradient of the *value* node's property.
 * **L** corresponds to the *loss function* type. See the [section](#loss-functions) above.
 * **O** corresponds to the *optimisation* class. It should implement **nerone::BaseCalculator** interface.
 	By default **nerone::BaseCalculator** class used as **O** template parameter.
@@ -376,8 +375,8 @@ Also it must define next public methods:
 #### static Matrix matrix_create(value_list_t list);
 This method should create and return *1xN* **Matrix** instance from the list of values sent as the first parameter.
 
-#### static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer, bool with_biases = false)
-This method is a bit tricky, but it is very important. This method should create matrix of **layer** node's syns. So first row of the matrix should contain all weights from the layer's first node, second row should contain all weights from the second node, etc. **with_biases** argument decides if biases should be included to rows or not. Default value is **false**.
+#### static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer)
+This method is a bit tricky, but it is very important. This method should create matrix of **layer** node's syns. So first row of the matrix should contain all weights from the layer's first node, second row should contain all weights from the second node, etc. ***Note:*** Biases are always included to rows.
 
 It's a bit tricky, so see the example below:
 
@@ -400,16 +399,6 @@ b -->|0.13| h3
 
 Having a part of neural network as showed above, and considering 
 **h1**, **h2**, **h3** nodes belongs to **layer**, and **i1**, **i2**, **i3**, and **b** as bias, belongs to **prev_layer**, the result of **matrix_from_layer_syns** call with arguments **prev_layer**, **layer** would be next *matrix*:
-
-```json
-[
-	[0.1, 0.2, 0.3],
-	[0.4, 0.5, 0.6],
-	[0.7, 0.8, 0.9]
-]
-```
-
-And if to the third argument of **matrix_from_layer_syns** method passed **true**, the result *matrix* would be:
 
 ```json
 [

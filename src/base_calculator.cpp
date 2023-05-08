@@ -4,8 +4,8 @@ nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_create(value_list_
 	return Matrix(std::vector<value_list_t>{list});
 }
 
-nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer, bool with_biases) {
-	size_t syns_size = with_biases ? prev_layer->get_nodes()[0]->get_syns().size() : layer->size();
+nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer) {
+	size_t syns_size = prev_layer->get_nodes()[0]->get_syns().size();
 	vector<value_list_t> part_grad_mul_values(prev_layer->size(), value_list_t(syns_size,0));
 	
 	//shared_layer_t prev_layer = layers[i+1]; // means previous processed layer

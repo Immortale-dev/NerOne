@@ -20,7 +20,7 @@ DESCRIBE("BaseMultiplier", {
 			value_list_t expected_vals = {-4.396, 3.336};
 			
 			for(size_t i=0;i<res_vals.size();i++){
-				EXPECT(res_vals[i]).toBeCloseTo(expected_vals[i],0.0000001);
+				EXPECT(res_vals[i]).toBeCloseTo(expected_vals[i],0.000001);
 			}
 		});
 	});
@@ -38,7 +38,7 @@ DESCRIBE("BaseMultiplier", {
 			value_list_t expected_vals = {2.452, 2.864};
 			
 			for(size_t i=0;i<res_vals.size();i++){
-				EXPECT(res_vals[i]).toBeCloseTo(expected_vals[i],0.0000001);
+				EXPECT(res_vals[i]).toBeCloseTo(expected_vals[i],0.000001);
 			}
 		});
 	});

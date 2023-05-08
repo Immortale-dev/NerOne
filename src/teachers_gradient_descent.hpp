@@ -3,7 +3,7 @@
 
 #include "nerhelp.hpp"
 #include "nersyn.hpp"
-#include "nernode.hpp"
+#include "nergnode.hpp"
 #include "nerlayer.hpp"
 #include "nercluster.hpp"
 #include "base_calculator.hpp"
@@ -12,16 +12,15 @@ namespace nerone {
 	namespace teachers {
 		/**
 		 * Gradient Descent back propagation algorithm. Accepts template
-		 * parameter N representing Node class that needs to be used,
-		 * and needs to implement `get_gradient()` public function that
-		 * returns gradient of current node value.
+		 * Note, nodes should implement NerGNode interface and `get_gradient()`
+		 * public function that returns gradient of current node value.
 		 * Accepts template parameter L representing loss function
 		 * class.
 		 * Accepts template parameter O that allow to provide
 		 * multiplication optimisations. O class should implement
 		 * BaseCalculator interface.
 		 */
-		template<typename N, typename L, typename O = BaseCalculator>
+		template<typename L, typename O = BaseCalculator>
 		class GradientDescent {
 			public:
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
@@ -35,8 +34,8 @@ namespace nerone {
 	}
 }
 
-template<typename N, typename L, typename O>
-void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
+template<typename L, typename O>
+void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
 	node_list_t last_layer_nodes = cluster->last_layer()->get_nodes();
 
 	// store derivatives
@@ -62,7 +61,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 				// * E = error
 				// * O = output layer's node output
 				// * Oz = output layer's node value
-				gradients[j] = loss_f.grad(last_layer_nodes[j]->get_output(), values[j]) * std::static_pointer_cast<N>(nodes[j])->get_gradient();
+				gradients[j] = loss_f.grad(last_layer_nodes[j]->get_output(), values[j]) * std::static_pointer_cast<GNode>(nodes[j])->get_gradient();
 			}
 		} else {
 			// partial chain rule derivatives: dE/dHz
@@ -72,7 +71,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 
 			if (!is_input_layer) {
 				// create syns matrix from previous processed layer
-				typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i], true);
+				typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i]);
 
 				// partial chain rule derivatives: dE/dHo
 				// * E = error
@@ -91,7 +90,7 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 					// partial chain rule derivatives: dE/dHz
 					// * E = error
 					// * Hz = current layer's node value
-					gradients[j] *= std::static_pointer_cast<N>(nodes[j])->get_gradient();
+					gradients[j] *= std::static_pointer_cast<GNode>(nodes[j])->get_gradient();
 				}
 			}
 
@@ -134,13 +133,13 @@ void nerone::teachers::GradientDescent<N, L, O>::operator () (shared_cluster_t& 
 	}
 }
 
-template<typename N, typename L, typename O>
-void nerone::teachers::GradientDescent<N, L, O>::set_learning_rate(long double rate) {
+template<typename L, typename O>
+void nerone::teachers::GradientDescent<L, O>::set_learning_rate(long double rate) {
 	this->learning_rate = rate;
 }
 
-template<typename N, typename L, typename O>
-nerone::value_list_t nerone::teachers::GradientDescent<N, L, O>::get_errors(shared_cluster_t& cluster, value_list_t expected) {
+template<typename L, typename O>
+nerone::value_list_t nerone::teachers::GradientDescent<L, O>::get_errors(shared_cluster_t& cluster, value_list_t expected) {
 	node_list_t& nodes = cluster->last_layer()->get_nodes();
 	value_list_t errors(expected.size());
 	for(size_t i=0;i<expected.size();i++){
