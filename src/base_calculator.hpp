@@ -8,6 +8,7 @@
 #include "nersyn.hpp"
 #include "nernode.hpp"
 #include "nerlayer.hpp"
+#include "nercluster.hpp"
 
 namespace nerone {
 	struct BaseCalculator {
@@ -18,11 +19,13 @@ namespace nerone {
 		
 		using Matrix = nerone::Matrix<value_t, vector_matrix_multiplication<value_t>>;
 		
-		static Matrix matrix_create(value_list_t list);
-		static Matrix matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer);
+		static Matrix matrix_create(shared_cluster_t cluster, value_list_t list);
+		static Matrix matrix_from_layer_syns(shared_cluster_t cluster, shared_layer_t prev_layer, shared_layer_t layer);
 		static void matrix_copy(Matrix& mat, value_list_t& list);
 		static void update_layer_weights(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate);
 		static void update_layer_biases(shared_layer_t prev_layer, shared_layer_t layer, Matrix& mat, value_t rate);
+		static void start(shared_cluster_t clustr);
+		static void finish(shared_cluster_t cluster);
 	};
 }
 

@@ -36,6 +36,8 @@ namespace nerone {
 
 template<typename L, typename O>
 void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
+	O::start(cluster);
+	
 	node_list_t last_layer_nodes = cluster->last_layer()->get_nodes();
 
 	// store derivatives
@@ -67,11 +69,11 @@ void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& clu
 			// partial chain rule derivatives: dE/dHz
 			// * E = error
 			// * Hz = prev processed layer's node value
-			typename O::Matrix m1 = O::matrix_create(gradients);
+			typename O::Matrix m1 = O::matrix_create(cluster, gradients);
 
 			if (!is_input_layer) {
 				// create syns matrix from previous processed layer
-				typename O::Matrix m2 = O::matrix_from_layer_syns(layers[i+1], layers[i]);
+				typename O::Matrix m2 = O::matrix_from_layer_syns(cluster, layers[i+1], layers[i]);
 
 				// partial chain rule derivatives: dE/dHo
 				// * E = error
@@ -103,7 +105,7 @@ void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& clu
 
 		// No syns go to input layer
 		if(is_input_layer){
-			return;
+			break;
 		}
 
 		// Next processed layer
@@ -118,10 +120,10 @@ void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& clu
 		// partial chain rule derivatives: dE/dHz
 		// * E = error
 		// * Hz = current layer's node value
-		typename O::Matrix m1 = O::matrix_create(gradients);
+		typename O::Matrix m1 = O::matrix_create(cluster, gradients);
 
 		// Node outputs
-		typename O::Matrix m2 = O::matrix_create(next_layer_node_outputs);
+		typename O::Matrix m2 = O::matrix_create(cluster, next_layer_node_outputs);
 
 		// Transpose so the matrix is Nx1 [[x],[x],[x],[x],[x],...]
 		m1.transpose();
@@ -131,6 +133,8 @@ void nerone::teachers::GradientDescent<L, O>::operator () (shared_cluster_t& clu
 		// * W - syn's weight
 		prev_layer_diff_weights = m1 * m2;
 	}
+	
+	O::finish(cluster);
 }
 
 template<typename L, typename O>

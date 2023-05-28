@@ -1,10 +1,10 @@
 #include "base_calculator.hpp"
 
-nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_create(value_list_t list) {
+nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_create(shared_cluster_t cluster, value_list_t list) {
 	return Matrix(std::vector<value_list_t>{list});
 }
 
-nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_from_layer_syns(shared_layer_t prev_layer, shared_layer_t layer) {
+nerone::BaseCalculator::Matrix nerone::BaseCalculator::matrix_from_layer_syns(shared_cluster_t cluster, shared_layer_t prev_layer, shared_layer_t layer) {
 	size_t syns_size = prev_layer->get_nodes()[0]->get_syns().size();
 	vector<value_list_t> part_grad_mul_values(prev_layer->size(), value_list_t(syns_size,0));
 	
@@ -46,3 +46,7 @@ void nerone::BaseCalculator::update_layer_biases(shared_layer_t prev_layer, shar
 		bias_syn->set_weight(bias_syn->get_weight() - mat.get(0,j) * rate);
 	}
 }
+
+// The methods are empty as this simple calculator doesn't need to do anything with the cluster.
+void nerone::BaseCalculator::start(shared_cluster_t cluster) {}
+void nerone::BaseCalculator::finish(shared_cluster_t cluster) {}

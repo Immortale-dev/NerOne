@@ -25,6 +25,8 @@ namespace nerone {
 
 template<typename O>
 void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& cluster, value_list_t&& values) {
+	O::start(cluster);
+	
 	layer_list_t& layers = cluster->get_layers();
 
 	value_list_t vals = std::move(values);
@@ -44,9 +46,9 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 			vals.push_back(layers[ind-1]->get_bias()->get_value());
 		}
 
-		typename O::Matrix b_vals = O::matrix_create(vals);
+		typename O::Matrix b_vals = O::matrix_create(cluster, vals);
 
-		typename O::Matrix m_vals = O::matrix_from_layer_syns(layers[ind], layers[ind-1]);
+		typename O::Matrix m_vals = O::matrix_from_layer_syns(cluster, layers[ind], layers[ind-1]);
 
 		// Transpose for correct matrix multiplication
 		b_vals.transpose();
@@ -61,6 +63,8 @@ void nerone::multipliers::BaseMultiplier<O>::operator () (shared_cluster_t& clus
 		vals.resize(res.get_cols());
 		O::matrix_copy(res, vals);
 	}while(ind++<layers.size());
+	
+	O::finish(cluster);
 }
 
 #endif // NN_BASE_MULTIPLIER
