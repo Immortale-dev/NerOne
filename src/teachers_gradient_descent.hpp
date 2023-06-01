@@ -26,6 +26,7 @@ namespace nerone {
 				void operator () (shared_cluster_t& cluster, value_list_t&& values);
 				void set_learning_rate(long double rate);
 				value_list_t get_errors(shared_cluster_t& cluster, value_list_t expected);
+				using calc_type = O;
 
 			private:
 				L loss_f;
