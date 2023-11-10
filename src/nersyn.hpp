@@ -16,8 +16,8 @@ namespace nerone {
 			virtual ~Syn();
 			value_t get_weight();
 			void set_weight(value_t weight);
-			shared_node_t get_node();
-			void set_node(shared_node_t node);
+			shared_node_t get_value();
+			void set_value(shared_node_t node);
 			
 		private:
 			shared_node_t node;

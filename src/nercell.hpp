@@ -13,8 +13,8 @@ namespace nerone {
 		public:
 			Cell() = default;
 			virtual ~Cell() = default;
-			virtual value_list_t& inputs();
-			virtual value_list_t& outputs();
+			virtual value_list_t& inputs() = 0;
+			virtual value_list_t& outputs() = 0;
 			CellType::Type type();
 			
 		protected:

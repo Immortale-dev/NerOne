@@ -22,13 +22,14 @@ namespace nerone {
 			void set_value(shared_value_t value);
 			value_t get_bias();
 			void set_bias(value_t bias);
+			value_list_t& inputs();
+			value_list_t& outputs();
 			
 		protected:
 			auto type = CellType::CONV;
 			shared_value_t _value;
 			value_t _bias;
-			value_list_t _inputs;
-			value_list_t _outputs;
+			value_list_t _value_list;
 	};
 
 }

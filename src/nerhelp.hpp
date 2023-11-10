@@ -6,8 +6,8 @@
 #include <vector>
 
 namespace nerone {
-	using value_t = float;
-	using value_list_t = std::vector<value_t>;
+	using data_t = float;
+	using data_list_t = std::vector<value_t>;
 
 	// Bakc decl
 	class Value;
@@ -21,11 +21,13 @@ namespace nerone {
 	using shared_syn_t = std::shared_ptr<Syn>;
 	using shared_layer_t = std::shared_ptr<Layer>;
 	using shared_cluster_t = std::shared_ptr<Cluster>;
-
-	using vlaue_list_t = std::vector<shared_value_t>;
+	using shared_cell_t = std::shared_ptr<Cell>;
+	
+	using value_list_t = std::vector<shared_value_t>;
 	using syn_list_t = std::vector<shared_syn_t>;
 	using node_list_t = std::vector<shared_node_t>;
 	using layer_list_t = std::vector<shared_layer_t>;
+	using cell_list_t = std::vector<shared_cell_t>;
 
 	using act_fn_t = std::function<value_t(value_t)>;
 }
