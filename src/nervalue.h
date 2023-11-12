@@ -13,12 +13,6 @@ namespace nerone {
 		public:
 			Value() = default;
 			virtual ~Value() = default;
-			Value(data_t val);
-			virtual data_t get();
-			virtual void set(data_t val);
-
-		protected:
-			data_t val;
 	};
 }
 

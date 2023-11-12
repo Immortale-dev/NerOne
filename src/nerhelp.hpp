@@ -6,6 +6,8 @@
 #include <vector>
 
 namespace nerone {
+	class TrainData {};
+	
 	using data_t = float;
 	using data_list_t = std::vector<value_t>;
 
@@ -22,6 +24,7 @@ namespace nerone {
 	using shared_layer_t = std::shared_ptr<Layer>;
 	using shared_cluster_t = std::shared_ptr<Cluster>;
 	using shared_cell_t = std::shared_ptr<Cell>;
+	using shared_train_data_t = std::shared_ptr<TrainData>;
 	
 	using value_list_t = std::vector<shared_value_t>;
 	using syn_list_t = std::vector<shared_syn_t>;
