@@ -1,6 +1,8 @@
 #ifndef NN_NERTCELL
 #define NN_NERTCELL
 
+#include <vector>
+
 #include "nerhelp.hpp"
 #include "nercelltype.hpp"
 #include "nerocell.h"
@@ -11,12 +13,14 @@ namespace nerone {
 	}
 	
 	template<typename VT>
-	class TCell : public OCell {
+	class TCell : public OCell<VT> {
 		public:
 			using value_type = VT;
-			virtual void start() = 0;
-			virtual void finish() = 0;
-			virtual void train(shared_train_data_t data) = 0;
+			using weight_list_t = std::vector<f_type>;
+			
+			virtual const weight_list_t& get_weights() = 0;
+			virtual void set_weights(weight_list_t weights) = 0;
+			virtual void update(shared_train_data_t data) = 0;
 			
 		protected:
 			CellType::Type _type = CellType::TRAINABLE;

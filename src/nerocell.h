@@ -16,6 +16,8 @@ namespace nerone {
 			using value_type = VT;
 			virtual void calc_value() = 0;
 			virtual void calc_grad() = 0;
+			virtual void start() {}
+			virtual void finish() {}
 			
 		protected:
 			CellType::Type _type = CellType::OPERATIONAL;

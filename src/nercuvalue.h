@@ -10,6 +10,8 @@ namespace nerone {
 	template<typename T>
 	class CuValue : public GValue<T> {
 		public:
+			using f_type = T;
+			
 			T get();
 			void set(T val);
 			T get_grad();
@@ -20,6 +22,8 @@ namespace nerone {
 			bool empty();
 			
 		private:
+			bool _active = false;
+			T _val;
 			std::stack<T> _stack;
 			T _grad;
 	}

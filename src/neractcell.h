@@ -16,7 +16,7 @@ namespace nerone {
 	 * Main purpose of this cell is to Apply activation function.
 	 */
 	template<typename VT>
-	class ActCell : public OCell {
+	class ActCell : public OCell<VT> {
 		public:
 			using value_type = VT;
 			
@@ -33,6 +33,7 @@ namespace nerone {
 			const value_list_t& get_outputs();
 			void set_inputs(value_list_t vals);
 			void set_outputs(value_list_t vals);
+			void start();
 			void calc_value();
 			void calc_grad();
 			void set_input(shared_value_t value);

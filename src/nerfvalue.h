@@ -11,6 +11,8 @@ namespace nerone {
 	template<typename T>
 	class FValue : public Value {
 		public:
+			using f_type = T;
+			
 			virtual T get() = 0;
 			virtual void set(T value) = 0;
 	};
