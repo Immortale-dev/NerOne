@@ -7,6 +7,7 @@
 
 namespace nerone {
 	class TrainData {};
+	class CellCommand {};
 	class GDTrainData : public TrainData {
 		public:
 			float ratio;
@@ -29,6 +30,7 @@ namespace nerone {
 	using shared_cluster_t = std::shared_ptr<Cluster>;
 	using shared_cell_t = std::shared_ptr<Cell>;
 	using shared_train_data_t = std::shared_ptr<TrainData>;
+	using shared_cell_command_t = std::shared_ptr<CellCommand>;
 	
 	using value_list_t = std::vector<shared_value_t>;
 	using syn_list_t = std::vector<shared_syn_t>;

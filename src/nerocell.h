@@ -16,6 +16,8 @@ namespace nerone {
 			using value_type = VT;
 			virtual void calc_value() = 0;
 			virtual void calc_grad() = 0;
+			virtual void clean() = 0;
+			virtual void command(shared_cell_command_t command) {}
 			virtual void start() {}
 			virtual void finish() {}
 			

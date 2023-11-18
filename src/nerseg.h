@@ -36,8 +36,7 @@ namespace nerone {
 			
 			void calc_values();
 			void calc_grads();
-			void start();
-			void finish();
+			void clean();
 			
 			const weight_list_t& get_weights();
 			void set_weights(weight_list_t weights);

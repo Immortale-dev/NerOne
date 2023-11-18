@@ -57,12 +57,9 @@ void nerone::SegmentCell<VT>::calc_grads() {
 }
 
 template<typename VT>
-void nerone::SegmentCell<VT>::start() {
+void nerone::SegmentCell<VT>::clean() {
 	std::memset(_grad.data(), 0, sizeof(VT::f_type) * _input_values.size() * _output_values.size());
 }
-
-template<typename VT>
-void nerone::SegmentCell<VT>::finish() {}
 
 template<typename VT>
 void nerone::SegmentCell<VT>::update(shared_train_data_t data) {
