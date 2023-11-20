@@ -9,7 +9,7 @@ namespace nerone {
 	class Producer {
 		public:
 			using body_cell_t = std::shared_ptr<ClusterCell>;
-			using loss_cell_t = std::shared_ptr<LossCell>;
+			using loss_cell_t = std::shared_ptr<LossClusterCell>;
 		
 			Producer() = default;
 			Producer(body_cell_t body, loss_cell_t loss) : _body(body), _loss(loss) {}

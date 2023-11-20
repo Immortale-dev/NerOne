@@ -6,12 +6,16 @@
 #include <vector>
 
 namespace nerone {
-	class TrainData {};
-	class CellCommand {};
+	class TrainData {
+		virtual ~TrainData() {}
+	};
 	class GDTrainData : public TrainData {
 		public:
+			GDTrainData(float ratio) : ratio(ratio) {};
 			float ratio;
 	}
+	
+	class CellCommand {};
 	
 	using data_t = float;
 	using data_list_t = std::vector<value_t>;
