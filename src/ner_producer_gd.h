@@ -13,20 +13,20 @@ namespace nerone {
 	 * The Gradient Descent Producer drive all of the procesess related
 	 * to training the neural network, and executing queries.
 	 */
-	class GDProducer : public Producer {
+	template<typename VT>
+	class GDProducer : public Producer<VT> {
+		using f_type = typename VT::f_type;
 		public:
-			template<typename FT>
 			struct ExecutionCase {
-				using list_t = std::vector<FT>;
+				using list_t = std::vector<f_type>;
 				list_t values;
 				list_t expected;
 			};
-			template<typename FT>
 			struct ExecutionResult {
-				using list_t = std::vector<FT>;
+				using list_t = std::vector<f_type>;
 				list_t values;
 				list_t errors;
-			}
+			};
 			
 			struct GDSettings {
 				float learning_rate;
@@ -37,22 +37,16 @@ namespace nerone {
 			void start_training();
 			void finish_training();
 			
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> train_partial(std::vector<ExecutionCase<FT>> list, GDSettings);
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> train(std::vector<ExecutionCase<FT>> list, GDSettings);
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> train_partial(std::vector<ExecutionCase<FT>> list);
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> train(std::vector<ExecutionCase<FT>> list);
+			std::vector<ExecutionResult> train_partial(std::vector<ExecutionCase> list, GDSettings);
+			std::vector<ExecutionResult> train(std::vector<ExecutionCase> list, GDSettings);
+			std::vector<ExecutionResult> train_partial(std::vector<ExecutionCase> list);
+			std::vector<ExecutionResult> train(std::vector<ExecutionCase> list);
 			
 			void start_executing();
 			void finish_executing();
 			
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> execute_partial(std::vector<ExecutionCase<FT>> list);
-			template<typename FT>
-			std::vector<ExecutionResult<FT>> execute(std::vector<ExecutionCase<FT>> list);
+			std::vector<ExecutionResult> execute_partial(std::vector<ExecutionCase> list);
+			std::vector<ExecutionResult> execute(std::vector<ExecutionCase> list);
 			
 			void set_learning_rate(float rate);
 			void set_batch_size(size_t batch_size);
@@ -64,12 +58,10 @@ namespace nerone {
 			void consume();
 			void clean();
 			
-			template<typename FT>
-			ExecutionResult<FT> train_partial(ExecutionCase<FT>& cs);
-			template<typename FT>
-			ExecutionResult<FT> execute_partial(ExecutionCase<FT>& cs);
+			ExecutionResult train_partial(ExecutionCase& cs);
+			ExecutionResult execute_partial(ExecutionCase& cs);
 		
-			bool _execiting = false;
+			bool _executing = false;
 			bool _training = false;
 			
 			float _rate = 0.01;

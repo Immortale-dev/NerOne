@@ -5,6 +5,7 @@
 
 #include "ner_help.h"
 #include "ner_cell_o.h"
+#include "ner_activation_linear.h"
 
 namespace nerone {
 	namespace cell {

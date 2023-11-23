@@ -15,7 +15,7 @@ namespace nerone {
 		class TCell : public OCell<VT> {
 			public:
 				using value_type = VT;
-				using weight_list_t = std::vector<f_type>;
+				using weight_list_t = std::vector<typename VT::f_type>;
 				
 				virtual const weight_list_t& get_weights() = 0;
 				virtual void set_weights(weight_list_t weights) = 0;

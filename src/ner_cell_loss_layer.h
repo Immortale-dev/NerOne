@@ -2,6 +2,7 @@
 #define _NN_NER_CELL_LOSS_LAYER
 
 #include "ner_help.h"
+#include "ner_cell_loss.h"
 #include "ner_cell_loss_cluster.h"
 #include "ner_cell_layer.h"
 

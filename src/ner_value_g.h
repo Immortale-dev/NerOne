@@ -1,8 +1,8 @@
 #ifndef _NN_NER_VALUE_G
 #define _NN_NER_VALUE_G
 
-#include "nerhelp.hpp"
-#include "nerfvalue.hpp"
+#include "ner_help.h"
+#include "ner_value_f.h"
 
 namespace nerone {
 	namespace value {

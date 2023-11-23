@@ -8,7 +8,8 @@
 namespace nerone {
 	// Cell training data.
 	class TrainData {
-		virtual ~TrainData() {}
+		public:
+			virtual ~TrainData() {}
 	};
 	class GDTrainData : public TrainData {
 		public:

@@ -1,7 +1,7 @@
 #ifndef _NN_NER_LOSS_MEAN_SQUARE_ERROR
 #define _NN_NER_LOSS_MEAN_SQUARE_ERROR
 
-#include "nerhelp.hpp"
+#include "ner_help.h"
 
 namespace nerone {
 	namespace loss {
@@ -12,9 +12,11 @@ namespace nerone {
 		 */
 		class MeanSquareError {
 			public:
+				template<typename value_t>
 				inline static value_t fun(value_t actual, value_t expected) {
 					return (value_t)0.5 * (actual - expected) * (actual - expected);
 				}
+				template<typename value_t>
 				inline static value_t grad(value_t actual, value_t expected) {
 					return actual - expected;
 				}

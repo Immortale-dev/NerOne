@@ -2,7 +2,7 @@
 #define _NN_NER_CELL_LAYER
 
 #include "ner_help.h"
-#include "nerclustercell.h"
+#include "ner_cell_cluster.h"
 
 namespace nerone {
 	namespace cell {

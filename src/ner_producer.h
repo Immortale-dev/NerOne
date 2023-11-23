@@ -8,10 +8,11 @@
 #include "ner_cell_loss_layer.h"
 
 namespace nerone {
+	template<typename VT>
 	class Producer {
 		public:
-			using body_cell_t = std::shared_ptr<cell::Cluster>;
-			using loss_cell_t = std::shared_ptr<cell::LossLayer>;
+			using body_cell_t = std::shared_ptr<cell::Cluster<VT>>;
+			using loss_cell_t = std::shared_ptr<cell::LossLayer<VT>>;
 		
 			Producer() = default;
 			Producer(body_cell_t body, loss_cell_t loss) : _body(body), _loss(loss) {}
@@ -27,4 +28,4 @@ namespace nerone {
 	};
 }
 
-#endif _NN_NER_PRODUCER
+#endif // _NN_NER_PRODUCER

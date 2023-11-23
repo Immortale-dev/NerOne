@@ -1,17 +1,17 @@
 template<typename VT, typename FN>
-nerone::cell::Functional<VT>::Functional() : Functional(std::make_shared<VT>(), std::make_shared<VT>(), activation::linear::fun, activation::linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional() : Functional(std::make_shared<VT>(), std::make_shared<VT>(), activation::Linear::fun, activation::Linear::grad) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT>::Functional(shared_value_t input, shared_value_t output) : Functional(input, output, activation::linear::fun, activation::linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, shared_value_t output) : Functional(input, output, activation::Linear::fun, activation::Linear::grad) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT>::Functional(FN act, FN grad) : Functional(std::make_shared<VT>(), std::make_shared<VT>(), act, grad) {}
+nerone::cell::Functional<VT,FN>::Functional(FN act, FN grad) : Functional(std::make_shared<VT>(), std::make_shared<VT>(), act, grad) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT>::Functional(shared_value_t input, FN act, FN grad) : Functional(input, std::make_shared<VT>(), activation::linear::fun, activation::linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, FN act, FN grad) : Functional(input, std::make_shared<VT>(), activation::Linear::fun, activation::Linear::grad) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT>::Functional(shared_value_t input, shared_value_t output, FN act, FN grad) :
+nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, shared_value_t output, FN act, FN grad) :
 	_input_value(input),
 	_output_value(output),
 	_input_value_list(1, _input_value),
@@ -21,57 +21,57 @@ nerone::cell::Functional<VT>::Functional(shared_value_t input, shared_value_t ou
 {}
 
 template<typename VT, typename FN>
-FN nerone::cell::Functional<VT>::get_act_fn() {
+FN nerone::cell::Functional<VT,FN>::get_act_fn() {
 	return _act;
 }
 
 template<typename VT, typename FN>
-FN nerone::cell::Functional<VT>::get_grad_fn() {
+FN nerone::cell::Functional<VT,FN>::get_grad_fn() {
 	return _grad;
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_act_fn(FN fn) {
+void nerone::cell::Functional<VT,FN>::set_act_fn(FN fn) {
 	_act = fn;
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_grad_fn(FN fn) {
+void nerone::cell::Functional<VT,FN>::set_grad_fn(FN fn) {
 	_grad = fn;
 }
 
 template<typename VT, typename FN>
-const nerone::value_list_t& nerone::cell::Functional<VT>::get_inputs() {
+const nerone::value_list_t& nerone::cell::Functional<VT,FN>::get_inputs() {
 	return _input_value_list;
 }
 
 template<typename VT, typename FN>
-const nerone::value_list_t& nerone::cell::Functional<VT>::get_outputs() {
+const nerone::value_list_t& nerone::cell::Functional<VT,FN>::get_outputs() {
 	return _output_value_list;
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_inputs(value_list_t vals) {
+void nerone::cell::Functional<VT,FN>::set_inputs(value_list_t vals) {
 	set_input(vals[0]);
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_outputs(value_list_t vals) {
+void nerone::cell::Functional<VT,FN>::set_outputs(value_list_t vals) {
 	set_output(vals[0]);
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_input(shared_value_t value) {
+void nerone::cell::Functional<VT,FN>::set_input(shared_value_t value) {
 	_input_value = value;
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::set_output(shared_value_t value) {
+void nerone::cell::Functional<VT,FN>::set_output(shared_value_t value) {
 	_output_value = value;
 }
 
 template<typename VT, typename FN>
-void nerone::cell::Functional<VT>::clean() {
+void nerone::cell::Functional<VT,FN>::clean() {
 	this->cast_value(_input_value)->clean();
 	this->cast_value(_output_value)->clean();
 }

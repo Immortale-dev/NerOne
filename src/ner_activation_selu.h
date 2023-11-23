@@ -21,8 +21,8 @@ namespace nerone {
 				}
 
 			private:
-				static constexpr long double alpha = 1.6732632423543772848170429916717lld;
-				static constexpr long double lambda = 1.0507009873554804934193349852946lld;
+				static constexpr long double alpha = 1.6732632423543772848170429916717L;
+				static constexpr long double lambda = 1.0507009873554804934193349852946L;
 		};
 	}
 }

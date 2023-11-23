@@ -21,7 +21,8 @@ namespace nerone {
 		class Segment : public TCell<VT> {
 			public:
 				using value_type = VT;
-				using weight_list_t = TCell<VT>::weight_list_t;
+				using weight_list_t = typename TCell<VT>::weight_list_t;
+				using f_type = typename VT::f_type;
 				
 				Segment() = default;
 				Segment(value_list_t inputs, value_list_t outputs);

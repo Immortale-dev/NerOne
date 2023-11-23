@@ -13,11 +13,11 @@ namespace nerone {
 		 * Main purpose of this cell is to Apply activation function.
 		 */
 		template<typename VT>
-		class Activation : public Functional<VT, nerone::act_fn_t<VF::f_type>> {
+		class Activation : public Functional<VT, nerone::act_fn_t<typename VT::f_type>> {
 			public:
 				using value_type = VT;
 				
-				using Functional<VT, nerone::act_fn_t<VF::f_type>>::Functional;
+				using Functional<VT, nerone::act_fn_t<typename VT::f_type>>::Functional;
 				
 				void calc_value();
 				void calc_grad();

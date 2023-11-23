@@ -14,9 +14,9 @@ const nerone::value_list_t& nerone::cell::Layer<VT>::get_outputs() {
 template<typename VT>
 void nerone::cell::Layer<VT>::set_inputs(value_list_t vals) {
 	size_t begin = 0;
-	for(auto cell : _cells) {
+	for(auto cell : this->_cells) {
 		size_t end = std::min(vals.size(), begin + cell->get_inputs().size());
-		cell->set_inputs(value_list_t(vals.begin()+start, vals.begin()+end));
+		cell->set_inputs(value_list_t(vals.begin()+begin, vals.begin()+end));
 		if(end >= vals.size()) break;
 		begin = end;
 	}
@@ -26,9 +26,9 @@ void nerone::cell::Layer<VT>::set_inputs(value_list_t vals) {
 template<typename VT>
 void nerone::cell::Layer<VT>::set_outputs(value_list_t vals) {
 	size_t begin = 0;
-	for(auto cell : _cells) {
+	for(auto cell : this->_cells) {
 		size_t end = std::min(vals.size(), begin + cell->get_inputs().size());
-		cell->set_outputs(value_list_t(vals.begin()+start, vals.begin()+end));
+		cell->set_outputs(value_list_t(vals.begin()+begin, vals.begin()+end));
 		if(end >= vals.size()) break;
 		begin = end;
 	}
@@ -39,7 +39,7 @@ void nerone::cell::Layer<VT>::reassign_values() {
 	_input_value_list.resize(0);
 	_output_value_list.resize(0);
 	
-	for(auto cell : _cells) {
+	for(auto cell : this->_cells) {
 		for(auto val : cell->get_inputs()) {
 			_input_value_list.push_back(val);
 		}

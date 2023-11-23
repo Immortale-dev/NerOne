@@ -15,7 +15,7 @@ namespace nerone {
 		class Cluster : public TCell<VT> {
 			public:
 				using value_type = VT;
-				using weight_list_t = TCell<VT>::weight_list_t;
+				using weight_list_t = typename TCell<VT>::weight_list_t;
 				
 				Cluster() = default;
 				Cluster(cell_list_t cells);
@@ -26,7 +26,7 @@ namespace nerone {
 				void clean();
 				void start();
 				void finish();
-				void command(shared_command_cell_t com);
+				void command(shared_cell_command_t com);
 				
 				const weight_list_t& get_weights();
 				void set_weights(weight_list_t weights);

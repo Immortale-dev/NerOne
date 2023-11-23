@@ -16,7 +16,7 @@ namespace nerone {
 				
 			protected:
 				inline std::shared_ptr<VT> cast_value(shared_value_t val) {
-					return std::static_pointer_cast<VT>(value);
+					return std::static_pointer_cast<VT>(val);
 				}
 		};
 	}
