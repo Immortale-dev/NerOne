@@ -1,4 +1,4 @@
-#include "loss_cross_entropy.hpp"
+#include "ner_loss_cross_entropy.h"
 
 SCENARIO_START
 

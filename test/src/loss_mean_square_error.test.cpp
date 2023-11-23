@@ -1,4 +1,4 @@
-#include "loss_mean_square_error.hpp"
+#include "ner_loss_mean_square_error.h"
 
 SCENARIO_START
 
@@ -8,11 +8,11 @@ DESCRIBE("MeanSquareError", {
 	loss::MeanSquareError loss_fn;
 	
 	IT("should return `8` when `fun` is called with `5` and `1` parameters", {
-		EXPECT(loss_fn.fun(5,1)).toBe(8);
+		EXPECT(loss_fn.fun(5.0,1.0)).toBe(8);
 	});
 	
 	IT("should return `4` when `grad` is called with `5` and `1` parameters", {
-		EXPECT(loss_fn.grad(5,1)).toBe(4);
+		EXPECT(loss_fn.grad(5.0,1.0)).toBe(4);
 	});
 });
 
