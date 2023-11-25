@@ -2,7 +2,7 @@
 
 SCENARIO_START
 
-DESCRIBE("CrossEntropy", {
+DESCRIBE("loss::CrossEntropy", {
 	using namespace nerone;
 	
 	loss::CrossEntropy loss_fn;

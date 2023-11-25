@@ -15,13 +15,13 @@ namespace nerone {
 		 */
 		class CrossEntropy {
 			public:
-				template<typename value_t>
-				inline static value_t fun(value_t actual, value_t expected) {
-					return -(expected * std::log(actual) + ((value_t)1 - expected) * std::log((value_t)1 - actual));
+				template<typename FT>
+				inline static FT fun(FT actual, FT expected) {
+					return -(expected * std::log(actual) + ((FT)1 - expected) * std::log((FT)1 - actual));
 				}
-				template<typename value_t>
-				inline static value_t grad(value_t actual, value_t expected) {
-					return (actual - expected) / (actual * ((value_t)1 - actual));
+				template<typename FT>
+				inline static FT grad(FT actual, FT expected) {
+					return (actual - expected) / (actual * ((FT)1 - actual));
 				}
 		};
 	}

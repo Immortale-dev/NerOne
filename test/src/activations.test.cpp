@@ -42,7 +42,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(ReLUZ::fun(-2.0)).toBe(0);
 		});
 		IT("should return `0` when `fun(0)` is called", {
-			EXPECT(ReLUZ::fun(0f)).toBe(0);
+			EXPECT(ReLUZ::fun(0.0)).toBe(0);
 		});
 		
 		IT("should return `1` when `grad(15)` is called", {
@@ -55,7 +55,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(ReLUZ::grad(-2.0)).toBe(0);
 		});
 		IT("should return `1` when `grad(0)` is called", {
-			EXPECT(ReLUZ::grad(0f)).toBe(1);
+			EXPECT(ReLUZ::grad(0.0)).toBe(1);
 		});
 		
 		IT("should return `10` when `ReLU<ratio<1,10>>::fun(10)` is called", {
@@ -85,7 +85,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT((ELU<std::ratio<1,10>>::grad(0.5))).toBe(1);
 		});
 		IT("should return `1` when `ELU<ratio<1,10>>::grad(0)` is called", {
-			EXPECT((ELU<std::ratio<1,10>>::grad(0f))).toBe(1);
+			EXPECT((ELU<std::ratio<1,10>>::grad(0.0))).toBe(1);
 		});
 		IT("should return `` when `ELU<ratio<1,10>>::grad(-0.5)` is called", {
 			EXPECT((ELU<std::ratio<1,10>>::grad(-0.5))).toBeCloseTo(0.0606531, 0.00001);
@@ -100,7 +100,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(Swish::fun(15.0)).toBeCloseTo(15, 0.00001);
 		});
 		IT("should return `0` when `Swish::fun(0)` is called", {
-			EXPECT(Swish::fun(0f)).toBe(0);
+			EXPECT(Swish::fun(0.0)).toBe(0);
 		});
 		IT("should return `-0.268941` when `Swish::fun(-1)` is called", {
 			EXPECT(Swish::fun(-1.0)).toBeCloseTo(-0.268941, 0.00001);
@@ -116,7 +116,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(Swish::grad(15.0)).toBeCloseTo(1,0.00001);
 		});
 		IT("should return `0.5` when `Swish::grad(0)` is called", {
-			EXPECT(Swish::grad(0f)).toBeCloseTo(0.5,0.00001);
+			EXPECT(Swish::grad(0.0)).toBeCloseTo(0.5,0.00001);
 		});
 		IT("should return `0.0723295` when `Swish::grad(-1)` is called", {
 			EXPECT(Swish::grad(-1.0)).toBeCloseTo(0.0723295,0.00001);
@@ -134,7 +134,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(GELU::fun(5.0)).toBeCloseTo(5, 0.0001);
 		});
 		IT("should return `0` when `GELU::fun(0)` is called", {
-			EXPECT(GELU::fun(0f)).toBeCloseTo(0, 0.00001);
+			EXPECT(GELU::fun(0.0)).toBeCloseTo(0, 0.00001);
 		});
 		IT("should return `-0.158808` when `GELU::fun(-1)` is called", {
 			EXPECT(GELU::fun(-1.0)).toBeCloseTo(-0.158808, 0.00001);
@@ -150,7 +150,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(GELU::grad(5.0)).toBeCloseTo(1, 0.00001);
 		});
 		IT("should return `0.5` when `GELU::grad(0)` is called", {
-			EXPECT(GELU::grad(0f)).toBeCloseTo(0.5, 0.00001);
+			EXPECT(GELU::grad(0.0)).toBeCloseTo(0.5, 0.00001);
 		});
 		IT("should return `-0.0829639` when `GELU::grad(-1)` is called", {
 			EXPECT(GELU::grad(-1.0)).toBeCloseTo(-0.0829639, 0.00001);
@@ -168,7 +168,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(SELU::fun(15.0)).toBeCloseTo(15.760515, 0.00001);
 		});
 		IT("should return `0` when `GELU::fun(0)` is called", {
-			EXPECT(SELU::fun(0f)).toBeCloseTo(0, 0.00001);
+			EXPECT(SELU::fun(0.0)).toBeCloseTo(0, 0.00001);
 		});
 		IT("should return `-1.11133` when `GELU::fun(-1)` is called", {
 			EXPECT(SELU::fun(-1.0)).toBeCloseTo(-1.11133, 0.00001);
@@ -184,7 +184,7 @@ DESCRIBE("Activation Functions", {
 			EXPECT(SELU::grad(15.0)).toBeCloseTo(1.0507, 0.00001);
 		});
 		IT("should return `1.7581` when `GELU::fun(0)` is called", {
-			EXPECT(SELU::grad(0f)).toBeCloseTo(1.7581, 0.00001);
+			EXPECT(SELU::grad(0.0)).toBeCloseTo(1.7581, 0.00001);
 		});
 		IT("should return `0.646769` when `GELU::fun(-1)` is called", {
 			EXPECT(SELU::grad(-1.0)).toBeCloseTo(0.646769, 0.00001);

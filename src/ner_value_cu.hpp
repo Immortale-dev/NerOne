@@ -22,6 +22,7 @@ T nerone::value::Cumulative<T>::get_grad() {
 template<typename T>
 void nerone::value::Cumulative<T>::set_grad(T val) {
 	_grad = val;
+	pop();
 }
 
 template<typename T>

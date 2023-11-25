@@ -2,7 +2,7 @@
 
 SCENARIO_START
 
-DESCRIBE("MeanSquareError", {
+DESCRIBE("loss::MeanSquareError", {
 	using namespace nerone;
 	
 	loss::MeanSquareError loss_fn;

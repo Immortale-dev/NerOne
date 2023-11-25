@@ -8,6 +8,11 @@
 
 namespace nerone {
 	namespace value {
+		/**
+		 * Cumulative value keepr that saves all it's value in a stack
+		 * Each time `set_grad` method is called, the topmost value is
+		 * removed from the stack.
+		 */
 		template<typename T>
 		class Cumulative : public GValue<T> {
 			public:

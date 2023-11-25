@@ -26,7 +26,7 @@ namespace nerone {
 			public:
 				template<typename FT>
 				inline static FT fun(FT val) {
-					return std::max(val, val * rat);
+					return std::max(val, val * (FT)rat);
 				}
 				template<typename FT>
 				inline static FT grad(FT val) {

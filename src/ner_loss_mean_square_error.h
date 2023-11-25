@@ -12,12 +12,13 @@ namespace nerone {
 		 */
 		class MeanSquareError {
 			public:
-				template<typename value_t>
-				inline static value_t fun(value_t actual, value_t expected) {
-					return (value_t)0.5 * (actual - expected) * (actual - expected);
+				template<typename FT>
+				inline static FT fun(FT actual, FT expected) {
+					return (FT)0.5 * (actual - expected) * (actual - expected);
 				}
-				template<typename value_t>
-				inline static value_t grad(value_t actual, value_t expected) {
+				template<typename FT>
+				inline static FT grad(FT actual, FT expected) {
+					
 					return actual - expected;
 				}
 		};

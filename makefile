@@ -7,6 +7,7 @@ SRCPATH:=src/
 SRCS:=$(wildcard $(SRCPATH)*.cpp)
 OBJS:=$(SRCS:%.cpp=%.o)
 HDRS:=$(wildcard $(SRCPATH)*.h)
+HDPP:=$(wildcard $(SRCPATH)*.hpp)
 
 LIBS=$(wildcard inc/*)
 LIBS_A:=$(addsuffix /liboutput.a,$(LIBS))
@@ -33,7 +34,7 @@ clear:
 	$(foreach mod,$(LIBS),$(MAKE) -C $(mod) clear $(newline))
 	$(RM) src/*.o *.exe liboutput.a test/*.o test/src/*.o
 
-liboutput.a: $(LIBS_A) $(OBJS)
+liboutput.a: $(LIBS_A) $(OBJS) $(HDRS) $(HDPP)
 	$(RM) liboutput.a
 	ar -qcT liboutput.a $(LIBS_A) $(OBJS)
 	
