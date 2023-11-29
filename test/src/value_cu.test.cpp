@@ -78,7 +78,7 @@ DESCRIBE("value::Cumulative", {
 		});
 		IT("should return second value", {
 			val->set_grad(0.1);
-			val->clear();
+			val->clean();
 			
 			EXPECT(val->get()).toBe(2);
 			EXPECT(val->empty()).toBe(true);
@@ -86,7 +86,7 @@ DESCRIBE("value::Cumulative", {
 		});
 		IT("should still return second value", {
 			val->set_grad(0.1);
-			val->clear();
+			val->clean();
 			val->pop();
 			
 			EXPECT(val->get()).toBe(2);

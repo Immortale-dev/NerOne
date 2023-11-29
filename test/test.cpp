@@ -8,4 +8,7 @@
 
 #include "src/value_cu.test.cpp"
 
+#include "src/cell_act.test.cpp"
+#include "src/cell_loss.test.cpp"
+
 int main(){ return 0; }

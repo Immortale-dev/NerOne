@@ -36,7 +36,7 @@ void nerone::value::Cumulative<T>::pop() {
 }
 
 template<typename T>
-void nerone::value::Cumulative<T>::clear() {
+void nerone::value::Cumulative<T>::clean() {
 	while(!_stack.empty()) {
 		_stack.pop();
 	}

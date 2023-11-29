@@ -24,7 +24,7 @@ namespace nerone {
 				void set_grad(T val);
 				
 				void pop();
-				void clear();
+				void clean();
 				bool empty();
 				
 			private:

@@ -29,7 +29,7 @@ namespace nerone {
 				shared_value_t get_expected_value();
 				
 			protected:
-				shared_value_t _expected_value;
+				shared_value_t _expected_value = std::make_shared<VT>();
 		};
 	}
 }

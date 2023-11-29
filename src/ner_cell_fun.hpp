@@ -1,14 +1,14 @@
 template<typename VT, typename FN>
-nerone::cell::Functional<VT,FN>::Functional() : Functional(std::make_shared<VT>(), std::make_shared<VT>(), activation::Linear::fun, activation::Linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional() : Functional(std::make_shared<VT>(), std::make_shared<VT>(), activation::Linear::fun<typename VT::f_type>, activation::Linear::grad<typename VT::f_type>) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, shared_value_t output) : Functional(input, output, activation::Linear::fun, activation::Linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, shared_value_t output) : Functional(input, output, activation::Linear::fun<typename VT::f_type>, activation::Linear::grad<typename VT::f_type>) {}
 
 template<typename VT, typename FN>
 nerone::cell::Functional<VT,FN>::Functional(FN act, FN grad) : Functional(std::make_shared<VT>(), std::make_shared<VT>(), act, grad) {}
 
 template<typename VT, typename FN>
-nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, FN act, FN grad) : Functional(input, std::make_shared<VT>(), activation::Linear::fun, activation::Linear::grad) {}
+nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, FN act, FN grad) : Functional(input, std::make_shared<VT>(), activation::Linear::fun<typename VT::f_type>, activation::Linear::grad<typename VT::f_type>) {}
 
 template<typename VT, typename FN>
 nerone::cell::Functional<VT,FN>::Functional(shared_value_t input, shared_value_t output, FN act, FN grad) :
@@ -63,11 +63,13 @@ void nerone::cell::Functional<VT,FN>::set_outputs(value_list_t vals) {
 template<typename VT, typename FN>
 void nerone::cell::Functional<VT,FN>::set_input(shared_value_t value) {
 	_input_value = value;
+	_input_value_list[0] = _input_value;
 }
 
 template<typename VT, typename FN>
 void nerone::cell::Functional<VT,FN>::set_output(shared_value_t value) {
 	_output_value = value;
+	_output_value_list[0] = _output_value;
 }
 
 template<typename VT, typename FN>

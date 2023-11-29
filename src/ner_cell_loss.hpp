@@ -1,20 +1,20 @@
 template<typename VT>
 void nerone::cell::Loss<VT>::calc_value() {
 	this->cast_value(this->_output_value)->set(
-		_act(this->cast_value(this->_input_value)->get(), this->cast_value(_expected_value)->get())
+		this->_act(this->cast_value(this->_input_value)->get(), this->cast_value(_expected_value)->get())
 	);
 }
 
 template<typename VT>
 void nerone::cell::Loss<VT>::calc_value(typename value_type::f_type expected) {
-	this->cast_value(_expected_value).set(expected);
+	this->cast_value(_expected_value)->set(expected);
 	calc_value();
 }
 
 template<typename VT>
 void nerone::cell::Loss<VT>::calc_grad() {
 	this->cast_value(this->_input_value)->set_grad(
-		_grad(this->cast_value(this->_input_value)->get()) * this->cast_value(this->_output_value)->get_grad()
+		this->_grad(this->cast_value(this->_input_value)->get(), this->cast_value(_expected_value)->get())
 	);
 }
 
