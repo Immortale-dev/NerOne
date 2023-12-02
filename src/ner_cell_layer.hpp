@@ -1,5 +1,7 @@
 template<typename VT>
-nerone::cell::Layer<VT>::Layer(cell_list_t cells) : Cluster<VT>(cells) {}
+nerone::cell::Layer<VT>::Layer(cell_list_t cells) : Cluster<VT>(cells) {
+	reassign_values();
+}
 
 template<typename VT>
 const nerone::value_list_t& nerone::cell::Layer<VT>::get_inputs() {
