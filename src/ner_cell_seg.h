@@ -1,7 +1,6 @@
 #ifndef _NN_CELL_SEGMENT
 #define _NN_CELL_SEGMENT
 
-#include <stdexcept>
 #include <cstring>
 #include <algorithm>
 
@@ -32,8 +31,8 @@ namespace nerone {
 				void set_inputs(value_list_t vals);
 				void set_outputs(value_list_t vals);
 				
-				void calc_values();
-				void calc_grads();
+				void calc_value();
+				void calc_grad();
 				void clean();
 				
 				const weight_list_t& get_weights();

@@ -1,7 +1,6 @@
 template<typename VT>
 nerone::cell::Cluster<VT>::Cluster(cell_list_t cells) : _cells(cells) {
 	reassign_tcells();
-	reassign_values();
 }
 
 template<typename VT>
@@ -28,8 +27,8 @@ void nerone::cell::Cluster<VT>::calc_value() {
 
 template<typename VT>
 void nerone::cell::Cluster<VT>::calc_grad() {
-	for(size_t i=_cells.size()-1;i>=0;i--) {
-		std::static_pointer_cast<OCell<VT>>(_cells[i])->calc_grad();
+	for(size_t i=_cells.size();i>0;i--) {
+		std::static_pointer_cast<OCell<VT>>(_cells[i-1])->calc_grad();
 	}
 }
 

@@ -25,8 +25,10 @@ namespace nerone {
 				void set_inputs(value_list_t vals);
 				void set_outputs(value_list_t vals);
 				
+				void connect_cells();
+				
 			protected:
-				void reassign_values();
+				void reassign_values() override;
 		};
 	}
 }

@@ -26,33 +26,33 @@ void nerone::cell::Segment<VT>::set_outputs(value_list_t vals) {
 }
 
 template<typename VT>
-void nerone::cell::Segment<VT>::calc_values() {
+void nerone::cell::Segment<VT>::calc_value() {
 	for (size_t i=0;i<_output_values.size();i++) {
 		f_type res = 0;
 		for (size_t j=0;j<_input_values.size();j++) {
-			res += this->cast_value(_input_values[j]).get() * _weights[_input_values.size()*i+j];
+			res += this->cast_value(_input_values[j])->get() * _weights[_input_values.size()*i+j];
 		}
-		this->cast_value(_output_values[i]).set(res);
+		this->cast_value(_output_values[i])->set(res);
 	}
 }
 
 template<typename VT>
-void nerone::cell::Segment<VT>::calc_grads() {
+void nerone::cell::Segment<VT>::calc_grad() {
 	weight_list_t grads(_input_values.size());
 	for (size_t i=0;i<_input_values.size();i++) {
 		f_type res = 0;
 		for(size_t j=0;j<_output_values.size();j++) {
-			res += this->cast_value(_output_values[j]).get_grad() * _weights[_input_values.size()*j+i];
+			res += this->cast_value(_output_values[j])->get_grad() * _weights[_input_values.size()*j+i];
 		}
 		grads[i] = res;
 	}
 	for (size_t i=0;i<_input_values.size();i++) {
 		for(size_t j=0;j<_output_values.size();j++) {
-			_grads[_input_values.size()*j+i] += this->cast_value(_input_values[i]).get() * this->cast_value(_output_values[j]).get_grad();
+			_grads[_input_values.size()*j+i] += this->cast_value(_input_values[i])->get() * this->cast_value(_output_values[j])->get_grad();
 		}
 	}
 	for(size_t i=0;i<_input_values.size();i++) {
-		this->cast_value(_input_values[i]).set_grad(grads[i]);
+		this->cast_value(_input_values[i])->set_grad(grads[i]);
 	}
 }
 
@@ -69,6 +69,7 @@ void nerone::cell::Segment<VT>::update(shared_train_data_t data) {
 			_weights[_input_values.size()*j+i] += _grads[_input_values.size()*j+i] * rate;
 		}
 	}
+	clean();
 }
 
 template<typename VT>
