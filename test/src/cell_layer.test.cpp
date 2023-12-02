@@ -23,7 +23,7 @@ DESCRIBE("cell::Layer", {
 			cell = std::make_shared<cell::Layer<VT>>(nerone::cell_list_t{c1,c2,c3});
 		});
 		
-		IT_ONLY("should correctly return inputs and outputs", {
+		IT("should correctly return inputs and outputs", {
 			value_list_t combined_inputs{c1->get_inputs()[0], c2->get_inputs()[0], c2->get_inputs()[1], c3->get_inputs()[0], c3->get_inputs()[1]};
 			value_list_t combined_outputs{c1->get_outputs()[0], c1->get_outputs()[1], c2->get_outputs()[0], c2->get_outputs()[1], c3->get_outputs()[0]};
 			
@@ -82,6 +82,20 @@ DESCRIBE("cell::Layer", {
 				c22 = std::make_shared<TestOCell<VT, 2, 2>>();
 				
 				cell->set_cells(nerone::cell_list_t{c1,c22,c3});
+			});
+			
+			IT("should use new inputs and outputs", {
+				value_list_t combined_inputs{c1->get_inputs()[0], c22->get_inputs()[0], c22->get_inputs()[1], c3->get_inputs()[0], c3->get_inputs()[1]};
+				value_list_t combined_outputs{c1->get_outputs()[0], c1->get_outputs()[1], c22->get_outputs()[0], c22->get_outputs()[1], c3->get_outputs()[0]};
+				
+				EXPECT(cell->get_inputs().size()).toBe(5);
+				EXPECT(cell->get_outputs().size()).toBe(5);
+				for(size_t i=0;i<combined_inputs.size();i++) {
+					EXPECT(cell->get_inputs()[i]).toBe(combined_inputs[i]);
+				}
+				for(size_t i=0;i<combined_outputs.size();i++) {
+					EXPECT(cell->get_outputs()[i]).toBe(combined_outputs[i]);
+				}
 			});
 			
 			IT("should calculate values and grads correctly", {
