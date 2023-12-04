@@ -29,11 +29,12 @@ template<typename VT>
 void nerone::cell::Layer<VT>::set_outputs(value_list_t vals) {
 	size_t begin = 0;
 	for(auto cell : this->_cells) {
-		size_t end = std::min(vals.size(), begin + cell->get_inputs().size());
+		size_t end = std::min(vals.size(), begin + cell->get_outputs().size());
 		cell->set_outputs(value_list_t(vals.begin()+begin, vals.begin()+end));
 		if(end >= vals.size()) break;
 		begin = end;
 	}
+	reassign_values();
 }
 
 template<typename VT>

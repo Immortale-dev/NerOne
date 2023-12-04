@@ -1,5 +1,7 @@
 template<typename VT>
-nerone::cell::LossLayer<VT>::LossLayer(cell_list_t cells) : Layer<VT>(cells) {}
+nerone::cell::LossLayer<VT>::LossLayer(cell_list_t cells) : Layer<VT>(cells) {
+	reassign_expected_values();
+}
 
 template<typename VT>
 const nerone::value_list_t& nerone::cell::LossLayer<VT>::get_expected_inputs() {

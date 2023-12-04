@@ -128,6 +128,53 @@ DESCRIBE("cell::Layer", {
 				EXPECT(std::static_pointer_cast<VT>(c1->get_inputs()[0])->empty()).toBe(true);
 			});
 		});
+		
+		DESCRIBE("inputs are reassigned", {
+			value_list_t new_inputs, new_outputs;
+			
+			BEFORE_EACH({
+				for(int i=0;i<5;i++) {
+					new_inputs.push_back(std::make_shared<VT>());
+					new_outputs.push_back(std::make_shared<VT>());
+				}
+				cell->set_inputs(new_inputs);
+				cell->set_outputs(new_outputs);
+			});
+			
+			IT("should reassign values correctly", {
+				value_list_t combined_inputs{c1->get_inputs()[0], c2->get_inputs()[0], c2->get_inputs()[1], c3->get_inputs()[0], c3->get_inputs()[1]};
+				value_list_t combined_outputs{c1->get_outputs()[0], c1->get_outputs()[1], c2->get_outputs()[0], c2->get_outputs()[1], c3->get_outputs()[0]};
+				
+				for(size_t i=0;i<new_inputs.size();i++) {
+					EXPECT(cell->get_inputs()[i]).toBe(new_inputs[i]);
+					EXPECT(cell->get_outputs()[i]).toBe(new_outputs[i]);
+					// EXPECT(cell->get_inputs()[i]).toBe(combined_inputs[i]);
+					// EXPECT(cell->get_outputs()[i]).toBe(combined_outputs[i]);
+				}
+			});
+			
+			IT("should still work correctly", {
+				int i=0;
+				for(auto it : cell->get_inputs()) {
+					std::static_pointer_cast<VT>(it)->set(float(++i));
+				}
+				cell->calc_value();
+				i=1;
+				for(auto it : cell->get_outputs()) {
+					std::static_pointer_cast<VT>(it)->set_grad(float(++i));
+				}
+				cell->calc_grad();
+				
+				std::vector<float> outputs{1.0, 2.0, 5.0, 10.0, 9.0};
+				for(size_t i=0;i<outputs.size();i++) {
+					EXPECT(std::static_pointer_cast<VT>(cell->get_outputs()[i])->get()).toBeCloseTo(outputs[i], 0.001);
+				}
+				std::vector<float> grads{10.0, 18.0, 27.0, 12.0, 18.0};
+				for(size_t i=0;i<grads.size();i++) {
+					EXPECT(std::static_pointer_cast<VT>(cell->get_inputs()[i])->get_grad()).toBeCloseTo(grads[i], 0.001);
+				}
+			});
+		});
 	});
 });
 

@@ -15,5 +15,6 @@
 #include "src/cell_seq.test.cpp"
 #include "src/cell_seg.test.cpp"
 #include "src/cell_layer.test.cpp"
+#include "src/cell_loss_layer.test.cpp"
 
 int main(){ return 0; }
