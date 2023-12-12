@@ -20,6 +20,7 @@
 
 // Values
 #include "ner_value_cu.h"
+#include "ner_value_cu_bias.h"
 
 // Cells
 #include "ner_cell_act.h"
