@@ -148,8 +148,8 @@ DESCRIBE("cell::Layer", {
 				for(size_t i=0;i<new_inputs.size();i++) {
 					EXPECT(cell->get_inputs()[i]).toBe(new_inputs[i]);
 					EXPECT(cell->get_outputs()[i]).toBe(new_outputs[i]);
-					// EXPECT(cell->get_inputs()[i]).toBe(combined_inputs[i]);
-					// EXPECT(cell->get_outputs()[i]).toBe(combined_outputs[i]);
+					EXPECT(cell->get_inputs()[i]).toBe(combined_inputs[i]);
+					EXPECT(cell->get_outputs()[i]).toBe(combined_outputs[i]);
 				}
 			});
 			
