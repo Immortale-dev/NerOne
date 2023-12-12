@@ -9,6 +9,7 @@
 #include "src/loss_cross_entropy.test.cpp"
 
 #include "src/value_cu.test.cpp"
+#include "src/value_cu_bias.test.cpp"
 
 #include "src/cell_act.test.cpp"
 #include "src/cell_loss.test.cpp"
@@ -16,5 +17,7 @@
 #include "src/cell_seg.test.cpp"
 #include "src/cell_layer.test.cpp"
 #include "src/cell_loss_layer.test.cpp"
+
+#include "src/producer_gd.test.cpp"
 
 int main(){ return 0; }

@@ -1,10 +1,10 @@
 template<typename VT>
 void nerone::GDProducer<VT>::start_training() {
 	if (_training) {
-		throw new std::logic_error("training is in progress.");
+		throw std::logic_error("training is in progress.");
 	}
 	if (_executing) {
-		throw new std::logic_error("execution is in progress.");
+		throw std::logic_error("execution is in progress.");
 	}
 	_step = 0;
 	_training = true;
@@ -15,7 +15,7 @@ void nerone::GDProducer<VT>::start_training() {
 template<typename VT>
 void nerone::GDProducer<VT>::finish_training() {
 	if (!_training) {
-		throw new std::logic_error("training was not started");
+		throw std::logic_error("training was not started");
 	}
 	if (_step > 0) {
 		consume();
@@ -29,18 +29,21 @@ void nerone::GDProducer<VT>::finish_training() {
 template<typename VT>
 void nerone::GDProducer<VT>::start_executing() {
 	if (_training) {
-		throw new std::logic_error("training is in progress.");
+		throw std::logic_error("training is in progress.");
 	}
 	if (_executing) {
-		throw new std::logic_error("execution is in progress.");
+		throw std::logic_error("execution is in progress.");
 	}
 	_step = 0;
+	_executing = true;
+	this->_body->start();
+	this->_loss->start();
 }
 
 template<typename VT>
 void nerone::GDProducer<VT>::finish_executing() {
-	if (!_training) {
-		throw new std::logic_error("execution was not started");
+	if (!_executing) {
+		throw std::logic_error("execution was not started");
 	}
 	clean();
 	this->_body->finish();
@@ -61,6 +64,21 @@ void nerone::GDProducer<VT>::set_batch_size(size_t batch_size) {
 template<typename VT>
 void nerone::GDProducer<VT>::set_randomized(bool randomized) {
 	_randomized = randomized;
+}
+
+template<typename VT>
+float nerone::GDProducer<VT>::get_learning_rate() {
+	return _rate;
+}
+
+template<typename VT>
+size_t nerone::GDProducer<VT>::get_batch_size() {
+	return _batch_size;
+}
+
+template<typename VT>
+bool nerone::GDProducer<VT>::get_randomized() {
+	return _randomized;
 }
 
 template<typename VT>
@@ -165,28 +183,28 @@ typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::execute
 	// Set initial value.
 	size_t ind = 0;
 	for(auto val : this->_body->get_inputs()) {
-		val->set(cs.values[ind++]);
+		std::static_pointer_cast<VT>(val)->set(cs.values[ind++]);
 	}
 	// Calc body values.
-	this->_body->calc_values();
+	this->_body->calc_value();
 	// Collect values
 	std::vector<f_type> ret;
 	for(auto val : this->_body->get_outputs()) {
-		ret.push_back(val->get());
+		ret.push_back(std::static_pointer_cast<VT>(val)->get());
 	}
 	
 	std::vector<f_type> errs;
 	if (cs.expected.size()) {
 		// Set loss expected values.
 		ind = 0;
-		for(auto val : this->_loss->get_expected_values()) {
-			val->set(cs.expected[ind++]);
+		for(auto val : this->_loss->get_expected_inputs()) {
+			std::static_pointer_cast<VT>(val)->set(cs.expected[ind++]);
 		}
 		// Calc loss values.
-		this->_loss->calc_values();
+		this->_loss->calc_value();
 		// Get error values.
 		for(auto val : this->_loss->get_outputs()) {
-			errs.push_back(val->get());
+			errs.push_back(std::static_pointer_cast<VT>(val)->get());
 		}
 	}
 	return {ret, errs};

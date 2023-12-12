@@ -17,6 +17,8 @@ namespace nerone {
 	class GDProducer : public Producer<VT> {
 		using f_type = typename VT::f_type;
 		public:
+			using Producer<VT>::Producer;
+			
 			struct ExecutionCase {
 				using list_t = std::vector<f_type>;
 				list_t values;
@@ -51,6 +53,10 @@ namespace nerone {
 			void set_learning_rate(float rate);
 			void set_batch_size(size_t batch_size);
 			void set_randomized(bool randomized);
+			
+			float get_learning_rate();
+			size_t get_batch_size();
+			bool get_randomized();
 			
 			void apply_settings(GDSettings settings);
 			
