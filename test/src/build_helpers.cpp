@@ -216,7 +216,9 @@ class ConnectedLayerBuilder {
 		void create_connection(nerone::shared_cell_t left, nerone::shared_cell_t right) {
 			std::vector<nerone::shared_value_t> segInputs = left->get_outputs();
 			std::vector<nerone::shared_value_t> segOutputs = right->get_inputs();
-			segInputs.push_back(std::make_shared<BVT>());
+			if (_with_biases) {
+				segInputs.push_back(std::make_shared<BVT>());
+			}
 			
 			_segments.push_back(std::make_shared<nerone::cell::Segment<VT>>(segInputs, segOutputs));
 		}

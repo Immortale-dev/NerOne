@@ -83,7 +83,7 @@ bool nerone::GDProducer<VT>::get_randomized() {
 
 template<typename VT>
 void nerone::GDProducer<VT>::consume() {
-	this->_body->update(std::make_shared<GDTrainData>(_rate));
+	this->_body->update(std::make_shared<GDTrainData>(-_rate));
 }
 
 template<typename VT>
@@ -113,29 +113,35 @@ std::vector<typename nerone::GDProducer<VT>::ExecutionResult> nerone::GDProducer
 
 template<typename VT>
 typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::train_partial(ExecutionCase& cs) {
+	if (cs.values.size() != this->_body->get_inputs().size()) {
+		throw std::logic_error("values size is not equal to the cluster input size.");
+	}
+	if (cs.expected.size() != this->_body->get_outputs().size()) {
+		throw std::logic_error("expected size is not equal to the cluster output size");
+	}
 	// Set initial value.
 	size_t ind = 0;
 	for(auto val : this->_body->get_inputs()) {
-		val->set(cs.values[ind++]);
+		std::static_pointer_cast<VT>(val)->set(cs.values[ind++]);
 	}
 	// Calc body values.
-	this->_body->calc_values();
+	this->_body->calc_value();
 	// Get results
 	std::vector<f_type> ret;
 	for(auto val : this->_body->get_outputs()) {
-		ret.push_back(val->get());
+		ret.push_back(std::static_pointer_cast<VT>(val)->get());
 	}
 	// Set loss expected values.
 	ind = 0;
-	for(auto val : this->_loss->get_expected_values()) {
-		val->set(cs.expected[ind++]);
+	for(auto val : this->_loss->get_expected_inputs()) {
+		std::static_pointer_cast<VT>(val)->set(cs.expected[ind++]);
 	}
 	// Calc loss values.
-	this->_loss->calc_values();
+	this->_loss->calc_value();
 	// Get error values.
 	std::vector<f_type> errs;
 	for(auto val : this->_loss->get_outputs()) {
-		errs.push_back(val->get());
+		errs.push_back(std::static_pointer_cast<VT>(val)->get());
 	}
 	// Calculate loss gradient
 	this->_loss->calc_grad();
@@ -180,6 +186,12 @@ std::vector<typename nerone::GDProducer<VT>::ExecutionResult> nerone::GDProducer
 
 template<typename VT>
 typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::execute_partial(ExecutionCase& cs) {
+	if (cs.values.size() != this->_body->get_inputs().size()) {
+		throw std::logic_error("values size is not equal to the cluster input size.");
+	}
+	if (cs.expected.size() && cs.expected.size() != this->_body->get_outputs().size()) {
+		throw std::logic_error("expected size is not equal to the cluster output size");
+	}
 	// Set initial value.
 	size_t ind = 0;
 	for(auto val : this->_body->get_inputs()) {
