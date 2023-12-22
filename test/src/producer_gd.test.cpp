@@ -376,6 +376,67 @@ DESCRIBE("GDProducer", {
 				});
 			});
 		});
+		DESCRIBE("Batch size is set to 10, and learning rate to 0.01", {
+			BEFORE_EACH({
+				gd->set_batch_size(10);
+				gd->set_learning_rate(0.01);
+			});
+			
+			DESCRIBE("instance 3->2->2 with biases is created", {
+				BEFORE_EACH({
+					ConnectedLayerBuilder b(true);
+					b.add(3, nerone::activation::Linear::fun<float>, nerone::activation::Linear::grad<float>)
+					.add(2, nerone::activation::Sigmoid::fun<float>, nerone::activation::Sigmoid::grad<float>)
+					.add(2, nerone::activation::Sigmoid::fun<float>, nerone::activation::Sigmoid::grad<float>)
+					.withLoss(nerone::loss::MeanSquareError::fun<float>, nerone::loss::MeanSquareError::grad<float>)
+					.withWeights({
+						{
+							0.1, 0.3, 0.5, 0.5,
+							0.2, 0.4, 0.6, 0.5
+						},
+						{
+							0.7, 0.9, 0.5,
+							0.8, 0.1, 0.5
+						}
+					});
+					auto [body, loss] = b.build();
+					gd->set_body_cell(body);
+					gd->set_loss_cell(loss);
+				});
+			
+				IT("should reduce the error in at least 10 times", {
+					auto res = gd->execute({{
+						{1.0, 4.0, 5.0},
+						{0.1, 0.05}
+					}})[0];
+					float initial_error = 0;
+					for(float err : res.errors) {
+						initial_error += err;
+					}
+					gd->start_training();
+					for(int i=0;i<1000;i++) {
+						gd->train_partial({
+							{
+								{1.0, 4.0, 5.0},
+								{0.1, 0.05}
+							}
+						});
+					}
+					gd->finish_training();
+					res = gd->execute({{
+						{1.0, 4.0, 5.0},
+						{0.1, 0.05}
+					}})[0];
+					float final_error = 0;
+					for(float err : res.errors) {
+						final_error += err;
+					}
+					EXPECT(final_error).toBeLessThan(initial_error/10.0);
+					INFO_PRINT() << "Initial error: " << initial_error;
+					INFO_PRINT() << "Final error: " << final_error;
+				});
+			});
+		});
 	});
 });
 
