@@ -6,6 +6,12 @@ void nerone::GDProducer<VT>::start_training() {
 	if (_executing) {
 		throw std::logic_error("execution is in progress.");
 	}
+	if (!this->_body) {
+		throw std::logic_error("body cell must be set.");
+	}
+	if (!this->_loss) {
+		throw std::logic_error("loss cell must be set.");
+	}
 	_step = 0;
 	_training = true;
 	this->_body->start();
@@ -15,7 +21,7 @@ void nerone::GDProducer<VT>::start_training() {
 template<typename VT>
 void nerone::GDProducer<VT>::finish_training() {
 	if (!_training) {
-		throw std::logic_error("training was not started");
+		throw std::logic_error("training was not started.");
 	}
 	if (_step > 0) {
 		consume();
@@ -34,6 +40,12 @@ void nerone::GDProducer<VT>::start_executing() {
 	if (_executing) {
 		throw std::logic_error("execution is in progress.");
 	}
+	if (!this->_body) {
+		throw std::logic_error("body cell must be defined.");
+	}
+	if (!this->_loss) {
+		throw std::logic_error("loss cell must be set.");
+	}
 	_step = 0;
 	_executing = true;
 	this->_body->start();
@@ -43,7 +55,7 @@ void nerone::GDProducer<VT>::start_executing() {
 template<typename VT>
 void nerone::GDProducer<VT>::finish_executing() {
 	if (!_executing) {
-		throw std::logic_error("execution was not started");
+		throw std::logic_error("execution was not started.");
 	}
 	clean();
 	this->_body->finish();
@@ -101,6 +113,9 @@ void nerone::GDProducer<VT>::apply_settings(GDSettings settings) {
 
 template<typename VT>
 std::vector<typename nerone::GDProducer<VT>::ExecutionResult> nerone::GDProducer<VT>::train_partial(std::vector<ExecutionCase> list, GDSettings settings) {
+	if (!_training) {
+		throw std::logic_error("training was not started.");
+	}
 	apply_settings(settings);
 	return train_partial(list);
 }
@@ -117,7 +132,7 @@ typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::train_p
 		throw std::logic_error("values size is not equal to the cluster input size.");
 	}
 	if (cs.expected.size() != this->_body->get_outputs().size()) {
-		throw std::logic_error("expected size is not equal to the cluster output size");
+		throw std::logic_error("expected size is not equal to the cluster output size.");
 	}
 	// Set initial value.
 	size_t ind = 0;
@@ -160,6 +175,9 @@ typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::train_p
 
 template<typename VT>
 std::vector<typename nerone::GDProducer<VT>::ExecutionResult> nerone::GDProducer<VT>::train_partial(std::vector<ExecutionCase> list) {
+	if (!_training) {
+		throw std::logic_error("training was not started.");
+	}
 	std::vector<size_t> indexes(list.size());
 	for(size_t i=0;i<list.size();i++) {
 		indexes[i] = i;
@@ -190,7 +208,7 @@ typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::execute
 		throw std::logic_error("values size is not equal to the cluster input size.");
 	}
 	if (cs.expected.size() && cs.expected.size() != this->_body->get_outputs().size()) {
-		throw std::logic_error("expected size is not equal to the cluster output size");
+		throw std::logic_error("expected size is not equal to the cluster output size.");
 	}
 	// Set initial value.
 	size_t ind = 0;
@@ -224,6 +242,9 @@ typename nerone::GDProducer<VT>::ExecutionResult nerone::GDProducer<VT>::execute
 
 template<typename VT>
 std::vector<typename nerone::GDProducer<VT>::ExecutionResult> nerone::GDProducer<VT>::execute_partial(std::vector<ExecutionCase> list) {
+	if (!_executing) {
+		throw std::logic_error("execution was not started.");
+	}
 	std::vector<ExecutionResult> rets;
 	for(auto& cs : list) {
 		rets.push_back(execute_partial(cs));
