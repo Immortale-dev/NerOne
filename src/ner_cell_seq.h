@@ -9,7 +9,6 @@ namespace nerone {
 		/**
 		 * A cluster cell.
 		 * The porpose of this cell is to collect other operational cells, and apply them in a sequentional manner.
-		 * Note, outputs from previous cell will be automatically assigned to inputs of the next cell.
 		 */
 		template<typename VT>
 		class Sequence : public Cluster<VT> {

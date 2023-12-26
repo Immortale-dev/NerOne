@@ -31,9 +31,9 @@ namespace nerone {
 				const value_list_t& get_outputs();
 				void set_inputs(value_list_t vals);
 				void set_outputs(value_list_t vals);
-				void clean();
 				void set_input(shared_value_t value);
 				void set_output(shared_value_t value);
+				void clean();
 				
 			protected:
 				shared_value_t _input_value;

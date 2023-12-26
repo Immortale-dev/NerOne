@@ -7,7 +7,7 @@
 namespace nerone {
 	namespace cell {
 		/**
-		 * A cluster cell that connects keep cells to be executed in paralel,
+		 * A cluster cell that keeps cells that needs to be executed in paralel,
 		 * making its inputs to be all the inputs of all sent cells, and its
 		 * outputs to be all the outputs from all cells.
 		 */
