@@ -1,4 +1,6 @@
-![NerOne](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/logo.svg?raw=true)
+
+![NerOne](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/logo.svg?raw=true#gh-light-mode-only)
+![NerOne](https://github.com/Immortale-dev/nerone/blob/master/res/imgs/logo_dark.svg?raw=true#gh-dark-mode-only)
 
 ___
 Low level **C++** neural network engine. The engine provides a huge flexibility in creating neural networks.
@@ -6,7 +8,138 @@ Low level **C++** neural network engine. The engine provides a huge flexibility 
 Even more flexibility were provided in **v2** comparing to previous version!
 
 ## Table of Contest
-* [NerOne](#nerone)
+* [Table of Contest](#table-of-contest)
+* [Build](#build)
+* [Documentation](#documentation)
+	* [Definitions](#definitions)
+	* [Types and aliases](#types-and-aliases)
+	* [class nerone::value::Value](#class-neronevaluevalue)
+	* [class nerone::value::FValue<T>](#class-neronevaluefvaluet)
+		* [virtual T get() = 0](#virtual-t-get--0)
+		* [virtual void set(T value) = 0](#virtual-void-sett-value--0)
+	* [class nerone::value::GValue<T>](#class-neronevaluegvaluet)
+		* [virtual T get_grad() = 0](#virtual-t-get_grad--0)
+		* [virtual void set_grad(T value) = 0](#virtual-void-set_gradt-value--0)
+	* [class nerone::value::Cumulative<T>](#class-neronevaluecumulativet)
+		* [T get()](#t-get)
+		* [void set(T value)](#void-sett-value)
+		* [get_grad()](#get_grad)
+		* [set_grad(T value)](#set_gradt-value)
+		* [virtual void pop()](#virtual-void-pop)
+		* [virtual void clean()](#virtual-void-clean)
+		* [virtual bool empty()](#virtual-bool-empty)
+	* [nerone::cell::Cell](#neronecellcell)
+		* [virtual const value_list_t& get_inputs() = 0](#virtual-const-value_list_t-get_inputs--0)
+		* [virtual const value_list_t& get_outputs() = 0](#virtual-const-value_list_t-get_outputs--0)
+		* [virtual void set_inputs(value_list_t vals) = 0](#virtual-void-set_inputsvalue_list_t-vals--0)
+		* [virtual void set_outputs(value_list_t vals) = 0](#virtual-void-set_outputsvalue_list_t-vals--0)
+	* [nerone::cell::VCell<VT>](#neronecellvcellvt)
+	* [nerone::cell::OCell<VT>](#neronecellocellvt)
+		* [virtual void calc_value() = 0](#virtual-void-calc_value--0)
+		* [virtual void calc_grad() = 0](#virtual-void-calc_grad--0)
+		* [virtual void clean() = 0](#virtual-void-clean--0)
+		* [virtual void command(shared_cell_command_t command)](#virtual-void-commandshared_cell_command_t-command)
+		* [virtual void start()](#virtual-void-start)
+		* [void finish()](#void-finish)
+	* [nerone::cell::TCell<VT>](#neronecelltcellvt)
+		* [virtual const weight_list_t& get_weights() = 0](#virtual-const-weight_list_t-get_weights--0)
+		* [virtual void set_weights(weight_list_t weights) = 0](#virtual-void-set_weightsweight_list_t-weights--0)
+		* [virtual void update(shared_train_data_t data) = 0](#virtual-void-updateshared_train_data_t-data--0)
+	* [nerone::cell::Functional<VT, FN>](#neronecellfunctionalvt-fn)
+		* [Functional()](#functional)
+		* [Functional(shared_value_t input, shared_value_t output)](#functionalshared_value_t-input-shared_value_t-output)
+		* [Functional(FN act, FN grad)](#functionalfn-act-fn-grad)
+		* [Functional(shared_value_t input, shared_value_t output, FN act, FN grad)](#functionalshared_value_t-input-shared_value_t-output-fn-act-fn-grad)
+		* [Functional(shared_value_t input, FN act, FN grad)](#functionalshared_value_t-input-fn-act-fn-grad)
+		* [FN get_act_fn()](#fn-get_act_fn)
+		* [FN get_grad_fn()](#fn-get_grad_fn)
+		* [void set_act_fn(FN)](#void-set_act_fnfn)
+		* [void set_grad_fn(FN)](#void-set_grad_fnfn)
+		* [const value_list_t& get_inputs()](#const-value_list_t-get_inputs)
+		* [const value_list_t& get_outputs()](#const-value_list_t-get_outputs)
+		* [void set_inputs(value_list_t vals)](#void-set_inputsvalue_list_t-vals)
+		* [void set_outputs(value_list_t vals)](#void-set_outputsvalue_list_t-vals)
+		* [void set_input(shared_value_t value)](#void-set_inputshared_value_t-value)
+		* [void set_output(shared_value_t value)](#void-set_outputshared_value_t-value)
+		* [void clean()](#void-clean)
+	* [nerone::cell::Activation<VT>](#neronecellactivationvt)
+		* [void calc_value()](#void-calc_value)
+		* [void calc_grad()](#void-calc_grad)
+	* [nerone::cell::Loss](#neronecellloss)
+		* [void calc_value(typename value_type::f_type expected)](#void-calc_valuetypename-value_typef_type-expected)
+		* [void calc_value()](#void-calc_value-1)
+		* [void calc_grad()](#void-calc_grad-1)
+		* [void clean()](#void-clean-1)
+		* [void set_expected_value(shared_value_t val)](#void-set_expected_valueshared_value_t-val)
+		* [shared_value_t get_expected_value()](#shared_value_t-get_expected_value)
+	* [nerone::cell::Segment<VT>](#neronecellsegmentvt)
+		* [Segment(value_list_t inputs, value_list_t outputs)](#segmentvalue_list_t-inputs-value_list_t-outputs)
+		* [const value_list_t& get_inputs()](#const-value_list_t-get_inputs-1)
+		* [const value_list_t& get_outputs()](#const-value_list_t-get_outputs-1)
+		* [void set_inputs(value_list_t vals)](#void-set_inputsvalue_list_t-vals-1)
+		* [void set_outputs(value_list_t vals)](#void-set_outputsvalue_list_t-vals-1)
+		* [void calc_value()](#void-calc_value-2)
+		* [void calc_grad()](#void-calc_grad-2)
+		* [void clean()](#void-clean-2)
+		* [const weight_list_t& get_weights()](#const-weight_list_t-get_weights)
+		* [void set_weights(weight_list_t weights)](#void-set_weightsweight_list_t-weights)
+		* [void update(shared_train_data_t data)](#void-updateshared_train_data_t-data)
+	* [nerone::cell::Cluster<VT>](#neronecellclustervt)
+		* [Cluster(cell_list_t cells)](#clustercell_list_t-cells)
+		* [void update(shared_train_data_t data)](#void-updateshared_train_data_t-data-1)
+		* [void calc_value()](#void-calc_value-3)
+		* [void calc_grad()](#void-calc_grad-3)
+		* [void clean()](#void-clean-3)
+		* [void start()](#void-start)
+		* [void finish()](#void-finish-1)
+		* [void command(shared_cell_command_t com)](#void-commandshared_cell_command_t-com)
+		* [const weight_list_t& get_weights()](#const-weight_list_t-get_weights-1)
+		* [void set_weights(weight_list_t weights)](#void-set_weightsweight_list_t-weights-1)
+		* [virtual const cell_list_t& get_cells()](#virtual-const-cell_list_t-get_cells)
+		* [virtual void set_cells(cell_list_t cells)](#virtual-void-set_cellscell_list_t-cells)
+	* [nerone::cell::Layer<VT>](#neronecelllayervt)
+		* [Layer(cell_list_t cells)](#layercell_list_t-cells)
+		* [const value_list_t& get_inputs()](#const-value_list_t-get_inputs-2)
+		* [const value_list_t& get_outputs()](#const-value_list_t-get_outputs-2)
+		* [void set_inputs(value_list_t vals)](#void-set_inputsvalue_list_t-vals-2)
+		* [void set_outputs(value_list_t vals)](#void-set_outputsvalue_list_t-vals-2)
+	* [nerone::cell::Sequense<VT>](#neronecellsequensevt)
+		* [Sequence(cell_list_t cells)](#sequencecell_list_t-cells)
+		* [const value_list_t& get_inputs()](#const-value_list_t-get_inputs-3)
+		* [const value_list_t& get_outputs()](#const-value_list_t-get_outputs-3)
+		* [void set_inputs(value_list_t vals)](#void-set_inputsvalue_list_t-vals-3)
+		* [void set_outputs(value_list_t vals)](#void-set_outputsvalue_list_t-vals-3)
+		* [void connect_cells()](#void-connect_cells)
+	* [nerone::cell::LossLayer<VT>](#neronecelllosslayervt)
+		* [LossLayer(cell_list_t cells)](#losslayercell_list_t-cells)
+		* [const value_list_t& get_expected_inputs()](#const-value_list_t-get_expected_inputs)
+		* [void set_expected_inputs(value_list_t vals)](#void-set_expected_inputsvalue_list_t-vals)
+	* [nerone::Producer<VT>](#neroneproducervt)
+		* [Producer(body_cell_t body, loss_cell_t loss)](#producerbody_cell_t-body-loss_cell_t-loss)
+		* [virtual void set_body_cell(body_cell_t body)](#virtual-void-set_body_cellbody_cell_t-body)
+		* [virtual void set_loss_cell(loss_cell_t loss)](#virtual-void-set_loss_cellloss_cell_t-loss)
+		* [virtual body_cell_t get_body_cell()](#virtual-body_cell_t-get_body_cell)
+		* [virtual loss_cell_t get_loss_cell()](#virtual-loss_cell_t-get_loss_cell)
+	* [nerone::GDProducer](#neronegdproducer)
+	* [Activation functions](#activation-functions)
+	* [class nerone::activation::Sigmoid](#class-neroneactivationsigmoid)
+	* [class nerone::activation::ReLU<R>](#class-neroneactivationrelur)
+	* [class nerone::activation::TanH](#class-neroneactivationtanh)
+	* [class nerone::activation::ELU](#class-neroneactivationelu)
+	* [class nerone::activation::GELU](#class-neroneactivationgelu)
+	* [class nerone::activation::SELU](#class-neroneactivationselu)
+	* [class nerone::activation::Swish](#class-neroneactivationswish)
+	* [Loss functions](#loss-functions)
+	* [class nerone::loss::MeanSquareError](#class-neronelossmeansquareerror)
+	* [class nerone::loss::CrossEntropy](#class-neronelosscrossentropy)
+* [Usage example](#usage-example)
+* [Tests](#tests)
+	* [2 Zones problem (from the example in previous section)](#zones-problem-from-the-example-in-previous-section)
+	* [4 Zones problem](#zones-problem)
+	* [Circle problem](#circle-problem)
+	* [Spiral problem](#spiral-problem)
+* [Additional information](#additional-information)
+* [License](#license)
 
 ## Build
 Library was tested using **GNU G++** compiler with flag **-std=c++17**. So it is recommended to use C++ 17 or higher version of compiler. Compiling by other compilers may require code corrections.
@@ -536,13 +669,133 @@ Cross-entropy loss, or log loss, measures the performance of a classification mo
 
 ## Usage example
 
-There is a **nerone.hpp** file that includes all other *nerone* header files.
+There is a **ner_one.h** file that includes all other *nerone* header files.
 
 ```c++
-#include "nerone.hpp"
+#include <iostream>
+#include <memory>
+#include <cstdlib>
 
-TODO
+#include "ner_one.h"
+#include "src/build_helpers.cpp"
 
+using ExecutionCase = nerone::GDProducer<nerone::value::Cumulative<float>>::ExecutionCase;
+using ExecutionResult = nerone::GDProducer<nerone::value::Cumulative<float>>::ExecutionResult;
+
+const double PI = 3.1415;
+
+float rand_double() {
+	return (rand()%10000)/(float)10000;
+}
+
+// Structure defining point on a plane, and bool parameter defining
+// if the point belongs to red team or to blue team (true and false)
+struct Point {
+	double x;
+	double y;
+	bool red;
+};
+
+// Creates set of points devided for 2 sections, and puts red points
+// to the top-right area of the plane, and blue points to the
+// bottom-right are of the plane.
+std::vector<Point> create_labeled_inputs_zones_2() {
+	std::vector<Point> res;
+	
+	// top-right zone
+	for(int i=0;i<100;i++){
+		double len = rand_double() * 15;
+		double a = rand_double() * PI * 2;
+		res.push_back({len * std::sin(a) + 65, len * std::cos(a) + 35, true});
+	}
+	
+	// bottom-left zone
+	for(int i=0;i<100;i++){
+		double len = rand_double() * 15;
+		double a = rand_double() * PI * 2;
+		res.push_back({len * std::sin(a) + 35, len * std::cos(a) + 65, false});
+	}
+	
+	return res;
+}
+
+// Normalize the data
+float norm(float a) {
+	return a / 100 * 2 - 1;
+}
+
+void print_tests_result(std::vector<ExecutionCase> tests, std::vector<ExecutionResult> res) {
+	for(int i=0;i<(int)tests.size();i++) {
+		std::cout << tests[i].values[0] << " " << tests[i].values[1] << " " << res[i].values[0] << " " << res[i].values[1] << std::endl;
+	}
+}
+
+int main() {
+	srand(12345);
+
+	// Creates a producer.
+	auto *gd = new nerone::GDProducer<nerone::value::Cumulative<float>>();
+	
+	std::vector<int> layers{2, 6, 6, 2};
+	
+	// Prepares the weights matrix initial values.
+	std::vector<std::vector<float>> weights;
+	for(int i=1;i<(int)layers.size();i++) {
+		int cnt = (layers[i-1]+1) * layers[i];
+		std::vector<float> layer;
+		for(int j=0;j<cnt;j++) {
+			layer.push_back(rand_double());
+		}
+		weights.push_back(layer);
+	}
+	
+	// Builds the cluster.
+	ConnectedLayerBuilder b(true);
+	b.add(layers[0], nerone::activation::Linear::fun<float>, nerone::activation::Linear::grad<float>);
+	for(int i=1;i<(int)layers.size();i++) {
+		b.add(layers[i], nerone::activation::Sigmoid::fun<float>, nerone::activation::Sigmoid::grad<float>);
+	}
+	b.withLoss(nerone::loss::CrossEntropy::fun<float>, nerone::loss::CrossEntropy::grad<float>);
+	b.withWeights(weights);
+	auto [body, loss] = b.build();
+
+	// Assigns the cells.
+	gd->set_body_cell(body);
+	gd->set_loss_cell(loss);
+	
+	// Configure the producer.
+	gd->set_learning_rate(0.01);
+	gd->set_batch_size(1);
+	gd->set_randomized(true);
+	
+	auto points = create_labeled_inputs_zones_2();
+	std::vector<ExecutionCase> cases;
+	for(auto &p : points) {
+		cases.push_back({{norm(p.x), norm(p.y)}, {p.red ? 1.0f : 0.0f, p.red ? 0.0f : 1.0f}});
+	}
+
+	// Trains on labeld data.
+	for(int i=0;i<100;i++) {
+		gd->train(cases);
+	}
+	
+	std::vector<ExecutionCase> tests;
+	for(int i=0;i<100;i++) {
+		for(int j=0;j<100;j++) {
+			tests.push_back({
+				{norm(j), norm(i)},
+				{}
+			});
+		}
+	}
+	
+	// Executes test data.
+	auto res = gd->execute(tests);
+	
+	// print_tests_result(tests, res);
+	
+	return 0;
+}
 ```
 
 ## Tests
